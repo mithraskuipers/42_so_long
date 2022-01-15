@@ -14,5 +14,10 @@ void	ft_winsize(t_data *data, char **argv)
 {
 	int	fd;
 	fd = open(argv[1], O_RDONLY);
-	if ()
+	if (fd < 0)
+	{
+		exit(EXIT_FAILURE);
+	}
 }
+
+// waar komt EXIT_FAILURE vandaan?
