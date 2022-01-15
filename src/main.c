@@ -1,8 +1,18 @@
 #include "so_long.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	printf("%d", ft_atoi("123"));
-	//ft_printf("\nHey\n");
+	t_data	data;
+	ft_winsize(&data, argv);
+
 	return (0);
+}
+
+
+void	ft_winsize(t_data *data, char **argv)
+{
+	int	fd;
+	fd = open(argv[1], O_RDONLY);
+	if ()
 }
