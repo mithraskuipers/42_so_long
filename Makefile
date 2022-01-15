@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/14 19:33:33 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/01/15 17:46:41 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
 SRC =	main.c
-
 SRC_BONUS = main_bonus.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
