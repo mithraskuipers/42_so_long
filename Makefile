@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/15 17:46:41 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/01/15 18:24:41 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,13 +57,13 @@ $(NAME_BONUS): $(OBJ_BONUS_FULLPATH)
 all: $(NAME)
 
 clean:
-	make -C $(DIR_LIBFT) clean
-	make -C $(DIR_MLX) clean
+	#make -C $(DIR_LIBFT) clean
+	#make -C $(DIR_MLX) clean
 	$(RM) $(OBJ_FULLPATH) $(OBJ_BONUS_FULLPATH)
 
 fclean:
-	make -C $(DIR_LIBFT) fclean
-	make -C $(DIR_MLX) fclean
+	#make -C $(DIR_LIBFT) fclean
+	#make -C $(DIR_MLX) fclean
 	$(RM) $(NAME) $(NAME_BONUS)
 
 re: fclean all
