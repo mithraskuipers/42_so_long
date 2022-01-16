@@ -6,8 +6,8 @@ typedef	struct	s_data
 {
 	void	*mlx;
 	void	*win;
-	int		size_x;
-	int		size_y;
+	int		win_px_x;
+	int		win_px_y;
 	int		stepcount;
 	int		collcount;
 }				t_data;

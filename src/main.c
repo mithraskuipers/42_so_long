@@ -4,8 +4,57 @@
 
 
 #define EXIT_FAIL 1
+#define IMG_WIDTH 32
+#define IMG_HEIGHT 32
 
-void	ft_winsize(t_data *data, char **argv)
+
+int	ft_strlen_fd(int fd)
+{
+	char	buff[1];
+	int		len;
+	int		nbytes;
+
+	buff[0] = '\0';
+	nbytes = 1;
+	len = 0;
+	while(nbytes)
+	{
+		nbytes = read(fd, buff, 1);
+		if (buff[0] != '\n')
+		{
+			len++;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return (len);
+}
+
+
+int	ft_countlines_fd(int fd)
+{
+	char	buff[1];
+	int		count;
+	int		nbytes;
+
+	buff[0] = '\0';
+	nbytes = 1;
+	count = 0;
+	while(nbytes)
+	{
+		nbytes = read(fd, buff, 1);
+		if(ft_strchr(buff, '\n') || ft_strchr(buff, '\0'))
+		{
+			count++;
+		}
+	}
+	return (count);
+}
+
+
+void	ft_windim(t_data *data, char **argv)
 {
 	int	fd;
 
@@ -13,11 +62,16 @@ void	ft_winsize(t_data *data, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
-		printf("hey");
-		//exit(EXIT_FAIL);
+		printf("nothing read from map");
+		exit(EXIT_FAIL);
 	}
-	data->size_x = 2;
-	data->size_y = 2;
+	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
+	{
+		printf("mapname not correct");
+		exit(EXIT_FAIL);
+	}
+	data->win_px_x = (ft_strlen_fd(fd) * IMG_WIDTH);
+	data->win_px_y = (ft_countlines_fd(fd) * IMG_HEIGHT);
 }
 
 
@@ -29,12 +83,12 @@ int	main(int argc, char **argv)
 
 	if (argc < 2)
 	{
+		printf("MAIN->EXITING\n");
 		exit(EXIT_FAIL);
 	}
-
-	printf("%d", ft_atoi("123"));
-	ft_winsize(&data, argv);
-	printf("%d", data.size_x);
+	printf("MAIN->PROCEEDING\n");
+	ft_windim(&data, argv);
+	//printf("%d", data.size_x);
 	return (0);
 }
 
