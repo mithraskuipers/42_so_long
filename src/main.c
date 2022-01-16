@@ -8,50 +8,9 @@
 #define IMG_HEIGHT 32
 
 
-int	ft_strlen_fd(int fd)
-{
-	char	buff[1];
-	int		len;
-	int		nbytes;
-
-	buff[0] = '\0';
-	nbytes = 1;
-	len = 0;
-	while(nbytes)
-	{
-		nbytes = read(fd, buff, 1);
-		if (buff[0] != '\n')
-		{
-			len++;
-		}
-		else
-		{
-			break;
-		}
-	}
-	return (len);
-}
 
 
-int	ft_countlines_fd(int fd)
-{
-	char	buff[1];
-	int		count;
-	int		nbytes;
 
-	buff[0] = '\0';
-	nbytes = 1;
-	count = 0;
-	while(nbytes)
-	{
-		nbytes = read(fd, buff, 1);
-		if(ft_strchr(buff, '\n') || ft_strchr(buff, '\0'))
-		{
-			count++;
-		}
-	}
-	return (count);
-}
 
 
 void	ft_windim(t_data *data, char **argv)
@@ -72,6 +31,7 @@ void	ft_windim(t_data *data, char **argv)
 	}
 	data->win_px_x = (ft_strlen_fd(fd) * IMG_WIDTH);
 	data->win_px_y = (ft_countlines_fd(fd) * IMG_HEIGHT);
+
 }
 
 
@@ -88,6 +48,7 @@ int	main(int argc, char **argv)
 	}
 	printf("MAIN->PROCEEDING\n");
 	ft_windim(&data, argv);
+	//printf("%d", data.win_px_y);
 	//printf("%d", data.size_x);
 	return (0);
 }
