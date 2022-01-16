@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/15 18:24:41 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/01/16 13:14:31 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,14 +43,14 @@ OBJ_BONUS_FULLPATH = $(SRC_BONUS_FULLMATH:.c=.o)
 	$(CC) $(CFLAGS) -I $(DIR_INC) -o $@ -c $?
 
 $(NAME): $(OBJ_FULLPATH)
-	make -C $(DIR_LIBFT)
+	make -C $(DIR_LIBFT) plusplus
 	make -C $(DIR_MLX)
 	$(CC) -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 
 bonus: $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS_FULLPATH)
-	make -C $(DIR_LIBFT)
+	make -C $(DIR_LIBFT) plusplus
 	make -C $(DIR_MLX)
 	$(CC) -o $(NAME_BONUS) $(OBJ_BONUS_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 

@@ -1,22 +1,12 @@
 #include "so_long.h"
 
-
-
-
 #define EXIT_FAIL 1
 #define IMG_WIDTH 32
 #define IMG_HEIGHT 32
 
-
-
-
-
-
-
 void	ft_windim(t_data *data, char **argv)
 {
 	int	fd;
-
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
@@ -34,9 +24,6 @@ void	ft_windim(t_data *data, char **argv)
 
 }
 
-
-
-
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -48,9 +35,10 @@ int	main(int argc, char **argv)
 	}
 	printf("MAIN->PROCEEDING\n");
 	ft_windim(&data, argv);
-	//printf("%d", data.win_px_y);
-	//printf("%d", data.size_x);
+	printf("x width %d\n", data.win_px_x);
+	printf("y height %d\n", data.win_px_y);
 	return (0);
+
 }
 
 // waar komt EXIT_FAILURE vandaan?
