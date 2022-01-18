@@ -9,7 +9,7 @@ typedef struct	s_img
 	void	*bg;
 } 				t_img;
 
-typedef	struct	s_data
+typedef	struct	s_game
 {
 	void	*mlx;
 	void	*win;
@@ -18,5 +18,5 @@ typedef	struct	s_data
 	int		stepcount;
 	int		collcount;
 	t_img	img;
-}				t_data;
+}				t_game;
 

@@ -30,11 +30,31 @@ int		check_input(int argc, char **argv)
 	return (0);
 }
 
-int		main(int argc, char **argv)
+void	map_parser(t_map *map)
 {
 
-	check_input(argc, argv);
+	int	fd;
+	int	i;
+	i = 0;
+	map->n_rows = ft_nlines_fd(???);
 
+
+}
+
+
+int		main(int argc, char **argv)
+{
+	t_map	*map;
+	t_game	*game;
+
+	game = malloc(sizeof(t_game));
+	if (!(game))
+	{
+		exit (EXIT_FAIL);
+		return (EXIT_FAIL);
+	}
+	check_input(argc, argv);
+	parse_map(&map);
 
 
 
