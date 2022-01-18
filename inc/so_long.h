@@ -22,5 +22,8 @@ typedef	struct	s_game
 
 typedef struct	s_map
 {
-
-}				t_map
+	//int	n_rows;
+	char	*filepath;
+	int		width;
+	int		height;
+}				t_map;
