@@ -1,44 +1,42 @@
 #include "so_long.h"
+#include "../mlx/mlx.h"
 
 #define EXIT_FAIL 1
-#define IMG_WIDTH 32
-#define IMG_HEIGHT 32
+#define IMG_WIDTH 64
+#define IMG_HEIGHT 64
 
-void	ft_windim(t_data *data, char **argv)
+int		check_input(int argc, char **argv)
 {
 	int	fd;
-
+	if (argc < 2)
+	{
+		ft_putstr_fd("Please provide a map. Exiting.", 1);
+		exit(EXIT_FAIL);
+		return (EXIT_FAIL); // todo error please input map
+	}
+	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))) // werkt dit?
+	{
+		ft_putstr_fd("Please provide a map with .ber extension. Exiting.", 1);
+		exit(EXIT_FAIL);
+		return (EXIT_FAIL); // todo error not valid mapname
+	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
-		printf("nothing read from map");
+		ft_putstr_fd("Please provide a valid map. Exiting.", 1);
 		exit(EXIT_FAIL);
+		return (EXIT_FAIL); // todo error nothing read
 	}
-	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
-	{
-		printf("mapname not correct");
-		exit(EXIT_FAIL);
-	}
-	data->win_px_x = (ft_strlen_fd(fd) * IMG_WIDTH);
-	data->win_px_y = (ft_countlines_fd(fd) * IMG_HEIGHT);
-
-}
-
-int	main(int argc, char **argv)
-{
-	t_data	data;
-
-	if (argc < 2)
-	{
-		printf("MAIN->EXITING\n");
-		exit(EXIT_FAIL);
-	}
-	printf("MAIN->PROCEEDING\n");
-	ft_windim(&data, argv);
-	printf("x width %d\n", data.win_px_x);
-	printf("y height %d\n", data.win_px_y);
 	return (0);
-
 }
 
-// waar komt EXIT_FAILURE vandaan?
+int		main(int argc, char **argv)
+{
+
+	check_input(argc, argv);
+
+
+
+
+	return (0);
+}
