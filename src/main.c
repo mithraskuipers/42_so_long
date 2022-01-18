@@ -4,6 +4,7 @@
 #define EXIT_FAIL 1
 #define IMG_WIDTH 64
 #define IMG_HEIGHT 64
+#define TILE_WIDTH 32
 
 void	ft_exit_failure(char *s)
 {
@@ -89,8 +90,62 @@ int		map_width(int fd)
 	return (len);
 }
 
+/*
+int	ft_count_lines(int fd, int x, int img_w)
+//returns how many lines the file of fd contains
+{
+	char	buffer[1];
+	int		linecount;
+	int		bytes;
+	int		i;
+
+	i = 0;
+	buffer[0] = '\0';
+	linecount = 1;
+	bytes = 1;
+	while (bytes == 1)
+	{
+		bytes = read(fd, buffer, 1);
+		if (bytes != 1 && i != (x / img_w))
+			exit_error();
+		if (i == (x / img_w))
+		{
+			linecount++;
+			i = 0;
+		}
+		else
+			i++;
+	}
+	return (linecount);
+}
+*/
 
 
+int		map_height(int fd, int map_width)
+{
+	char	buff[1];
+	int		count;
+	int		nbytes;
+	int		i;
+
+	count = 1;
+	nbytes = 1;
+	i = 0;
+	buff[0] = '\0';
+
+	while (nbytes)
+	{
+		nbytes = read(fd, buff, 1);
+		if (i == ((map_width * TILE_WIDTH) / TILE_WIDTH))
+		{
+			count++;
+			i = 0;
+		}
+		else
+			i++;
+	}
+	return (count);
+}
 
 void	map_parser(t_map *map, char *filepath)
 {
@@ -105,8 +160,9 @@ void	map_parser(t_map *map, char *filepath)
 	map->filepath = filepath;
 	//ft_putstr_fd(filepath, 1);
 	map->width = map_width(fd);
-	map->height = map_height(fd);
+	map->height = map_height(fd, map->width);
 	ft_putstr_fd(ft_itoa(map->width), 1);
+	ft_putstr_fd(ft_itoa(map->height), 1);
 }
 
 
