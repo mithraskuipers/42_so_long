@@ -30,6 +30,12 @@ int		check_input(int argc, char **argv)
 	return (0);
 }
 
+
+int	ft_nlines_fd(???)
+{
+
+}
+
 void	map_parser(t_map *map)
 {
 
@@ -48,6 +54,7 @@ int		main(int argc, char **argv)
 	t_game	*game;
 
 	game = malloc(sizeof(t_game));
+	map = malloc(sizeof(t_map));
 	if (!(game))
 	{
 		exit (EXIT_FAIL);

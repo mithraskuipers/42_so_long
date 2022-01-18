@@ -20,3 +20,7 @@ typedef	struct	s_game
 	t_img	img;
 }				t_game;
 
+typedef struct	s_map
+{
+
+}				t_map
