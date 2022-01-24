@@ -96,10 +96,9 @@ void	map_parser(t_map *map, char *filepath)
 	//ft_putstr_fd(filepath, 1);
 	map->width = map_width(fd);
 	map->height = map_height(fd, map->width);
-	ft_putstr_fd(ft_itoa(map->width), 1);
-	ft_putstr_fd(ft_itoa(map->height), 1);
+	//ft_putstr_fd(ft_itoa(map->width), 1);
+	//ft_putstr_fd(ft_itoa(map->height), 1);
 }
-
 
 int		main(int argc, char **argv)
 {
@@ -112,9 +111,9 @@ int		main(int argc, char **argv)
 		ft_exit_failure("Memory allocation issue.");
 	check_input(argc, argv);
 	map_parser(map, argv[1]);
-	mlx_init();
-	//printf("%d", map->width);
-	//printf("%s", ft_strchr(argv[1], 1));
+	//mlx_init();
+	printf("width: %d\n", map->width);
+	printf("height: %d", map->height);
 
 
 
