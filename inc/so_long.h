@@ -2,6 +2,8 @@
 #include <fcntl.h>
 #include "../libftplusplus/libft.h"
 #include "../mlx/mlx.h"
+#include "get_next_line.h"
+
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 32
@@ -21,6 +23,8 @@ typedef struct	s_img
 typedef struct	s_map
 {
 	char	*filepath;
+	char	**map;
+	int		fd;
 	int		n_xtiles;
 	int		n_ytiles;
 

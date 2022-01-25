@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/16 13:14:31 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/01/25 22:33:19 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,9 @@ LIBFT_NAME = libft.a
 INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-SRC =	main.c
+SRC =	main.c \
+		get_next_line.c \
+		get_next_line_utils.c
 SRC_BONUS = main_bonus.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
