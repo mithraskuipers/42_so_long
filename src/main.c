@@ -7,53 +7,6 @@ int		ft_exit_failure(char *s)
 	exit (EXIT_FAIL);
 }
 
-
-
-/*
-int	open_file(char *filepath)
-{
-	int	fd;
-
-	fd = open(filepath, O_RDONLY);
-	if (fd < 0)
-		ft_exit_failure("Failed to open the map.");
-	return (fd);
-}
-
-
-
-
-void	read_texture_paths(t_game *game)
-{
-	game->img[0].path = "./assets/env0.xpm";
-	game->img[1].path = "./assets/env1.xpm";
-	game->img[2].path = "./assets/env2.xpm";
-}
-
-void	get_map_dim(t_game *game, char *filepath)
-{
-	int	fd;
-
-	fd = open_file(filepath);
-	game->map.filepath = filepath;
-	game->map.width = map_width(fd);
-	game->map.height = map_height(fd, game->map.width);
-	game->win_px_x = game->map.width * TILE_WIDTH;
-	game->win_px_y = game->map.height * TILE_WIDTH;
-}
-
-
-static void	check_input_validity(t_game *game)
-{
-
-}
-*/
-
-
-
-
-
-
 int		check_input_validity(int argc, char **argv)
 {
 	int	fd;
@@ -97,39 +50,16 @@ static void	get_map_height(t_game *game)
 	int i;
 
 	fd = open(game->map.filepath, O_RDONLY);
-	// IF FD FAILS.....vergeet ook geen close
-	i = 0;
+	if (fd < 0)
+	{
+		close(fd);
+		ft_exit_failure("File could not be opened.");
+	}
+	i = 1;
 	while (get_next_line(game->map.fd))
 		i++;
-
 	game->map.n_ytiles = i;
-
-
-
-	/*
-	char	buff[1];
-	int		count;
-	int		nbytes;
-	int		i;
-
-	count = 1;
-	nbytes = 1;
-	i = 0;
-	buff[0] = '\0';
-
-	while (nbytes)
-	{
-		nbytes = read(game->map.fd, buff, 1);
-		if (i == ((game->map.n_xtiles * TILE_WIDTH) / TILE_WIDTH))
-		{
-			count++;
-			i = 0;
-		}
-		else
-			i++;
-	}
-	game->map.n_ytiles = count;
-	*/
+	close(fd);
 }
 
 static void	check_map_rectangular(t_game *game)
@@ -205,11 +135,6 @@ static void init(char **argv, t_game *game)
 	game->map.n_ytiles = 0;
 }
 
-// ALS FD == -1, voeg dan ook ft error toe!
-
-// GEBRUIK GET NEXT LINE VOOR INLEZEN VAN DE KAART!
-
-
 int			main(int argc, char **argv)
 {
 	t_game	*game;
@@ -219,33 +144,9 @@ int			main(int argc, char **argv)
 		ft_exit_failure("Memory allocation issue.");
 	init(argv, game);
 	validity(argc, argv, game);
-	printf("%s", game->map.map[0]);
-
-
-	//printf("%d", game->map.n_xtiles);
-	//printf("%d", game->map.n_ytiles);
-
-
-
-
-	//printf("%s", game->map.filepath);
-	//printf("\n");
-	//printf("%d", game->map.fd);
-
-
-
-	/*
-	get_map_dim(game, argv[1]);
-	game->mlx.init = mlx_init();
-	if (!(game->mlx.init))
-		ft_exit_failure("MLX initialization failed.");
-	read_texture_paths(game);
-	create_images(game);
-	game->mlx.win = mlx_new_window(game->mlx.init, game->win_px_x, game->win_px_y, "so_long window");
-	if (!(game->mlx.win))
-		return (ft_exit_failure("MLX window creation fail."));
-	draw_bg(game);
-	mlx_loop(game->mlx.init);
-	*/
+	printf("%s", game->map.map[1]);
 	return (0);
 }
+
+// ALS FD == -1, voeg dan ook ft error toe!
+// GEBRUIK GET NEXT LINE VOOR INLEZEN VAN DE KAART!
