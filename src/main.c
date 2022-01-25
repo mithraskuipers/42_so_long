@@ -1,6 +1,7 @@
 #include "so_long.h"
 #include "../mlx/mlx.h"
 
+/*
 int		ft_exit_failure(char *s)
 {
 	ft_putstr_fd("Error.\n", 2);
@@ -96,14 +97,42 @@ void	get_map_dim(t_game *game, char *filepath)
 	game->win_px_y = game->map.height * TILE_WIDTH;
 }
 
-int		main(int argc, char **argv)
+
+static void	check_input_validity(t_game *game)
+{
+
+}
+
+static void	check_map_validity(t_game *game)
+{
+
+}
+
+static void	parser(char **argv, t_game *game)
+{
+	//check_input(argc, argv);
+	check_input_validity(game);
+	parse_map_validity(game);
+}
+*/
+
+static void init(t_game *init)
+{
+	game->map.n_xtiles = 0;
+	game->map.n_ytiles = 0;
+}
+
+int			main(int argc, char **argv)
 {
 	t_game	*game;
 
 	game = malloc(sizeof(t_game));
 	if (!(game))
 		ft_exit_failure("Memory allocation issue.");
-	check_input(argc, argv);
+	init(game);
+	//parser(argv, game);
+
+	/*
 	get_map_dim(game, argv[1]);
 	game->mlx.init = mlx_init();
 	if (!(game->mlx.init))
@@ -115,6 +144,6 @@ int		main(int argc, char **argv)
 		return (ft_exit_failure("MLX window creation fail."));
 	draw_bg(game);
 	mlx_loop(game->mlx.init);
-
+	*/
 	return (0);
 }
