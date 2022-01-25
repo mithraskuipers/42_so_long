@@ -93,6 +93,20 @@ static void	get_map_width(t_game *game)
 
 static void	get_map_height(t_game *game)
 {
+	int fd;
+	int i;
+
+	fd = open(game->map.filepath, O_RDONLY);
+	// IF FD FAILS.....vergeet ook geen close
+	i = 0;
+	while (get_next_line(game->map.fd))
+		i++;
+
+	game->map.n_ytiles = i;
+
+
+
+	/*
 	char	buff[1];
 	int		count;
 	int		nbytes;
@@ -115,6 +129,7 @@ static void	get_map_height(t_game *game)
 			i++;
 	}
 	game->map.n_ytiles = count;
+	*/
 }
 
 static void	check_map_rectangular(t_game *game)
