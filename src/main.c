@@ -1,8 +1,6 @@
 #include "so_long.h"
 #include "../mlx/mlx.h"
 
-
-
 int		ft_exit_failure(char *s)
 {
 	ft_putstr_fd("Error.\n", 2);
@@ -98,62 +96,6 @@ void	get_map_dim(t_game *game, char *filepath)
 	game->win_px_y = game->map.height * TILE_WIDTH;
 }
 
-
-
-void		new_sprite(void *mlx, t_img *img)
-{
-	img->img = mlx_xpm_file_to_image(mlx, img->path, &img->x, &img->y);
-	img->pixels = mlx_get_data_addr(img->img, &img->bpp, &img->line_size, &img->endian);
-}
-
-static void	create_images(t_game *game)
-{
-	int	i;
-	int	fd;
-
-	i = 0;
-	while (i < N_IMAGES)
-	{
-		fd = open(game->img[i].path, O_RDONLY);
-		if (fd >= 0)
-		{
-			new_sprite(game->mlx.init, &game->img[i]);
-			if (game->img[i].img == NULL)
-				ft_exit_failure("Error creating xpm");
-			game->img[i].is_valid = 1;
-		}
-		else
-		{
-			game->img[i].is_valid = 0;
-			printf("%s is not a valid path.\n", game->img[i].path);
-		}
-		i++;
-		close(fd);
-	}
-}
-
-
-static void	draw_bg(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (data->map.data[i])
-	{
-		j = 0;
-		while (data->map.data[i][j])
-		{
-			put_image(data, grass_flower, \
-				TEXTURE_WIDTH * j, TEXTURE_HEIGHT * i);
-			j++;
-		}
-		i++;
-	}
-}
-
-
-
 int		main(int argc, char **argv)
 {
 	t_game	*game;
@@ -171,13 +113,8 @@ int		main(int argc, char **argv)
 	game->mlx.win = mlx_new_window(game->mlx.init, game->win_px_x, game->win_px_y, "so_long window");
 	if (!(game->mlx.win))
 		return (ft_exit_failure("MLX window creation fail."));
-
 	draw_bg(game);
 	mlx_loop(game->mlx.init);
 
-	/*
-
-	//printf("%s", game->img[0].path);
-	*/
 	return (0);
 }

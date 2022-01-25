@@ -14,20 +14,12 @@ typedef struct s_mlx
 	void	*win;
 }				t_mlx;
 
-
-
-
 typedef struct	s_img
 {
 	void	*img;
 	char	*path;
 	int		x;
 	int		y;
-	int		is_valid;
-	int		bpp;
-	int		line_size;
-	int		endian;
-	char	*pixels;
 } 				t_img;
 
 typedef struct	s_map
@@ -35,6 +27,8 @@ typedef struct	s_map
 	char	*filepath;
 	int		width;
 	int		height;
+	char	**data;
+
 }				t_map;
 
 typedef	struct	s_game
