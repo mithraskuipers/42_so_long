@@ -116,7 +116,7 @@ static void	parser(char **argv, t_game *game)
 }
 */
 
-static void init(t_game *init)
+static void init(t_game *game)
 {
 	game->map.n_xtiles = 0;
 	game->map.n_ytiles = 0;

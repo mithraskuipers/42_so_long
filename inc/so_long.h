@@ -2,7 +2,6 @@
 #include <fcntl.h>
 #include "../libftplusplus/libft.h"
 #include "../mlx/mlx.h"
-//#include <mlx.h>
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 32
@@ -16,18 +15,14 @@ typedef struct s_mlx
 
 typedef struct	s_img
 {
-	void	*img;
-	char	*path;
-	int		x;
-	int		y;
+
 } 				t_img;
 
 typedef struct	s_map
 {
 	char	*filepath;
-	int		width;
-	int		height;
-	char	**data;
+	int		n_xtiles;
+	int		n_ytiles;
 
 }				t_map;
 
@@ -36,6 +31,6 @@ typedef	struct	s_game
 	t_mlx	mlx;
 	t_map	map;
 	t_img	img[N_IMAGES];
-	int		win_px_x;
-	int		win_px_y;
+	int		px_x;
+	int		px_y;
 }				t_game;
