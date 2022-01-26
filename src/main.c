@@ -111,30 +111,29 @@ static void	check_map_contents(t_game *game)
 static void	check_map_borders(t_game *game)
 {
 	int	i;
-	int	k;
+	int	j;
 
 	i = 0;
 	while (i < game->map.ntiles_y)
 	{
-		k = 0;
+		j = 0;
 		if ((i == 0) || (i == (game->map.ntiles_y) - 1))
 		{
-			while (k < game->map.ntiles_x)
+			while (j < game->map.ntiles_x)
 			{
-				if (game->map.map[i][k] != '1')
+				if (game->map.map[i][j] != '1')
 					ft_map_failure(game, "BORDERS WRONG!");
-				k++;
+				j++;
 			}
 		}
 		else
 		{
 			if ((game->map.map[i][0] != '1') || (game->map.map[i][game->map.ntiles_x - 1] != '1'))
 				ft_map_failure(game, "BORDERS WRONG!");
-			k++;
+			j++;
 		}
 		i++;
 	}
-		ft_map_failure(game, "OKIDIEDELODIE");
 }
 
 static void	read_map_into_memory(t_game *game)
