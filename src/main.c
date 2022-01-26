@@ -1,10 +1,24 @@
 #include "so_long.h"
 
-int		ft_exit_failure(char *s)
+static void	ft_exit_failure(char *s)
 {
 	ft_putstr_fd("Error\n", 2); // Don't touch this. Subject wants this.
 	ft_putstr_fd(s, 2);
 	exit (EXIT_FAIL);
+}
+
+static void	ft_map_failure(t_game *game, char *s)
+{
+	int	i;
+
+	i = 0;
+	while (game->map.map[i])
+	{
+		free (game->map.map[i]);
+		i++;
+	}
+	free (game->map.map);
+	ft_exit_failure(s);
 }
 
 int		check_input_validity(int argc, char **argv)
@@ -12,7 +26,7 @@ int		check_input_validity(int argc, char **argv)
 	int	fd;
 	if (argc < 2)
 		ft_exit_failure("Please provide a map.");
-	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1])))) // werkt dit?
+	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
 		ft_exit_failure("Please provide a map with .ber extension.");
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
@@ -65,7 +79,7 @@ static void	get_map_height(t_game *game)
 static void	check_map_rectangular(t_game *game)
 {
 	if (game->map.ntiles_x != game->map.ntiles_y)
-		ft_exit_failure("Map is not rectangular.");
+		ft_map_failure(game, "Map is not rectangular.");
 }
 
 static void	check_map_contents(t_game *game)
@@ -91,6 +105,36 @@ static void	check_map_contents(t_game *game)
 		}
 		i++;
 	}
+}
+
+
+static void	check_map_borders(t_game *game)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	while (i < game->map.ntiles_y)
+	{
+		k = 0;
+		if ((i == 0) || (i == (game->map.ntiles_y) - 1))
+		{
+			while (k < game->map.ntiles_x)
+			{
+				if (game->map.map[i][k] != '1')
+					ft_map_failure(game, "BORDERS WRONG!");
+				k++;
+			}
+		}
+		else
+		{
+			if ((game->map.map[i][0] != '1') || (game->map.map[i][game->map.ntiles_x - 1] != '1'))
+				ft_map_failure(game, "BORDERS WRONG!");
+			k++;
+		}
+		i++;
+	}
+		ft_map_failure(game, "OKIDIEDELODIE");
 }
 
 static void	read_map_into_memory(t_game *game)
@@ -125,6 +169,7 @@ static void	parse_map(t_game *game)
 	game->px_y = game->map.ntiles_y * TILE_WIDTH;
 	read_map_into_memory(game);
 	check_map_contents(game);
+	check_map_borders(game);
 }
 
 
