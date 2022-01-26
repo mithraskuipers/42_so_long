@@ -26,17 +26,24 @@ typedef struct	s_content
 typedef struct	s_map
 {
 	t_content	content;
-	char		*filepath;
+	char		*path;
 	char		**map;
 	int			fd;
 	int			ntiles_x;
 	int			ntiles_y;
 }				t_map;
 
+typedef struct	s_img
+{
+	char	*path;
+	void	*mlx_img;
+}				t_img;
+
 typedef	struct	s_game
 {
 	t_mlx		mlx;
 	t_map		map;
+	t_img		img;
 	int			px_x;
 	int			px_y;
 }				t_game;
