@@ -11,30 +11,32 @@
 
 typedef struct s_mlx
 {
-	void	*init;
-	void	*win;
+	void		*init;
+	void		*win;
 }				t_mlx;
 
-typedef struct	s_img
+typedef struct	s_content
 {
-
-} 				t_img;
+	int			players;
+	int			collectables;
+	int			exits;
+	int			invalids;
+}				t_content;
 
 typedef struct	s_map
 {
-	char	*filepath;
-	char	**map;
-	int		fd;
-	int		n_xtiles;
-	int		n_ytiles;
-
+	t_content	content;
+	char		*filepath;
+	char		**map;
+	int			fd;
+	int			ntiles_x;
+	int			ntiles_y;
 }				t_map;
 
 typedef	struct	s_game
 {
-	t_mlx	mlx;
-	t_map	map;
-	t_img	img[N_IMAGES];
-	int		px_x;
-	int		px_y;
+	t_mlx		mlx;
+	t_map		map;
+	int			px_x;
+	int			px_y;
 }				t_game;
