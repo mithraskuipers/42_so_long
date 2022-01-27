@@ -16,7 +16,7 @@ static void	ft_map_failure(t_game *game, char *s)
 	int	i;
 
 	i = 0;
-	while (game->map.map[i])
+	while ((i < game->map.ntiles_y) && (game->map.map[i]))
 	{
 		free (game->map.map[i]);
 		i++;
@@ -36,7 +36,7 @@ int		check_input_validity(int argc, char **argv)
 	if (fd < 0)
 	{
 		close(fd);
-		ft_exit_failure("Please provide a valid map.");
+		ft_exit_failure("Error while reading the map. fd < 0");
 	}
 	close(fd);
 	return (0);
@@ -86,7 +86,7 @@ static void	check_map_rectangular(t_game *game)
 		ft_map_failure(game, "Map is not rectangular.");
 }
 
-static void	check_map_contents(t_game *game)
+static void	check_map_contents1(t_game *game)
 {
 	int	i;
 	int	j;
@@ -110,6 +110,14 @@ static void	check_map_contents(t_game *game)
 		}
 		i++;
 	}
+}
+
+static void	check_map_contents2(t_game *game)
+{
+	if (game->map.content.players > 1)
+		ft_map_failure(game, "You map has more than 1 player spawnpoint.");
+	if (game->map.content.players < 1)
+		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
 }
 
 static void	check_map_borders(t_game *game)
@@ -147,7 +155,7 @@ static void	read_map_into_memory(t_game *game)
 	if (game->map.fd < 0)
 	{
 		close(game->map.fd);
-		ft_exit_failure("Please provide a valid map.");
+		ft_exit_failure("Failing to read the map.");
 	}
 	int i;
 
@@ -172,7 +180,8 @@ static void	parse_map(t_game *game)
 	game->px_x = game->map.ntiles_x * TILE_WIDTH;
 	game->px_y = game->map.ntiles_y * TILE_WIDTH;
 	read_map_into_memory(game);
-	check_map_contents(game);
+	check_map_contents1(game);
+	check_map_contents2(game);
 	check_map_borders(game);
 }
 
@@ -184,46 +193,54 @@ static void map_contents_init(t_game *game)
 	game->map.content.invalids = 0;
 }
 
-/*
-static void	draw_map(t_game *game)
+static void xpm_init(t_game *game)
 {
-	int i = 32;
-	int j = 32;
+	game->img[BG].path = "./assets/bg.xpm";
+	game->img[WALL].path = "./assets/wall.xpm";
+	game->img[PLAYER].path = "./assets/player.xpm";
+}
 
-	int width;
-	width = 32;
+static void	xpm_loader(t_game *game)
+{
+	int k; // hoe werkt dit?
+	int l; // hoe werkt dit??
 
-	game->img.path = "./assets/bg.xpm";
-	game->img.mlx_img = mlx_xpm_file_to_image(game->mlx.init, game->img.path, &i, &j); //i en j zijn width en height
-	//mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img.mlx_img, width, width); // pixel position
+	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[BG].path, &k, &l);
+	game->img[WALL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL].path, &k, &l);
+	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[PLAYER].path, &k, &l);
+}
 
-	int k = 0;
-	int l = 0;
-	while (k < game->map.ntiles_y)
+static void	draw_bg(t_game *game)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < game->px_y)
 	{
-		l = 0;
-		while (l < game->map.ntiles_x)
+		j = 0;
+		while (j < game->px_x)
 		{
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img.mlx_img, k * width, l * width);
-			l++;
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, \
+			game->img[BG].mlx_img, i, j);
+			j = j + TILE_WIDTH;
 		}
-		k++;
+		i = i + TILE_WIDTH;
 	}
 }
-*/
 
-static void	draw_tile(t_game game, int i, int j, char *path)
+static void	superimpose_tile(t_game *game, int i, int j)
 {
-	// xpm to image
-	// image to window
-}
-
-static void	interpret_tile(t_game *game, int i, int j)
-{
+	int k = i * TILE_WIDTH;
+	int l = j * TILE_WIDTH;
 	if (game->map.map[i][j] == '1')
-	{
-		// TEKEN MUUR. NODIG: de coordinaten. heeft functie nodig die vraagt naar game (want mlx) + coordinaten + imagefile path
-	}
+		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL].mlx_img, l, k);	
+	else if (game->map.map[i][j] == 'P')
+		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[PLAYER].mlx_img, l, k);	
 }
 
 static void	draw_map(t_game *game)
@@ -232,20 +249,20 @@ static void	draw_map(t_game *game)
 	int	j;
 
 	i = 0;
-	j = 0;
-	while (i < game->map.ntiles_y)
+	draw_bg(game);
+	while (i < (game->map.ntiles_y))
 	{
 		j = 0;
-		while (j < game->map.ntiles_x)
+		while (j < (game->map.ntiles_x))
 		{
-			interpret_tile(game, i, j);
-			j++;
+			superimpose_tile(game, i, j);
+			j = j + 1;
 		}
-		i++;
+		i = i + 1;
 	}
 }
 
-int			main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_game	*game;
 
@@ -258,10 +275,9 @@ int			main(int argc, char **argv)
 	parse_map(game);
 	game->mlx.init = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.init, game->px_x, game->px_y, "MITHRAS");
-	
+	xpm_init(game);
+	xpm_loader(game);
 	draw_map(game);
-	
-	
 	mlx_loop(game->mlx.init);
 	return (0);
 }

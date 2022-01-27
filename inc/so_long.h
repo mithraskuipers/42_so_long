@@ -9,6 +9,10 @@
 #define TILE_WIDTH 32
 #define N_IMAGES 3
 
+#define BG 0
+#define WALL 1
+#define PLAYER 2 
+
 typedef struct s_mlx
 {
 	void		*init;
@@ -43,7 +47,7 @@ typedef	struct	s_game
 {
 	t_mlx		mlx;
 	t_map		map;
-	t_img		img;
+	t_img		img[N_IMAGES];
 	int			px_x;
 	int			px_y;
 }				t_game;

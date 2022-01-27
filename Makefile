@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/25 22:33:19 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/01/27 17:18:52 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME		= so_long
 NAME_BONUS	= so_long_bonus
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+#CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall
 RM			= rm -f
 
 DIR_INC		= ./inc/
