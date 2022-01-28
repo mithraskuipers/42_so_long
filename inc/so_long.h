@@ -7,11 +7,15 @@
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 32
-#define N_IMAGES 3
+#define N_IMAGES 7
 
 #define BG 0
 #define WALL 1
-#define PLAYER 2 
+#define PLAYER 2
+#define WALL_UL 3
+#define WALL_UR 4
+#define WALL_LL 5
+#define WALL_LR 6
 
 typedef struct s_mlx
 {

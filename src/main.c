@@ -198,6 +198,10 @@ static void xpm_init(t_game *game)
 	game->img[BG].path = "./assets/bg.xpm";
 	game->img[WALL].path = "./assets/wall.xpm";
 	game->img[PLAYER].path = "./assets/player.xpm";
+	game->img[WALL_UL].path = "./assets/wall_ul.xpm";
+	game->img[WALL_UR].path = "./assets/wall_ur.xpm";
+	game->img[WALL_LL].path = "./assets/wall_ll.xpm";
+	game->img[WALL_LR].path = "./assets/wall_lr.xpm";
 }
 
 static void	xpm_loader(t_game *game)
@@ -211,54 +215,72 @@ static void	xpm_loader(t_game *game)
 	game->img[WALL].path, &k, &l);
 	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
 	game->img[PLAYER].path, &k, &l);
+	game->img[WALL_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_UL].path, &k, &l);
+	game->img[WALL_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_UR].path, &k, &l);
+	game->img[WALL_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_LL].path, &k, &l);
+	game->img[WALL_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_LR].path, &k, &l);
 }
 
 static void	draw_bg(t_game *game)
 {
-	int i;
-	int j;
+	int x;
+	int y;
 
-	i = 0;
-	j = 0;
-	while (i < game->px_y)
+	x = 0;
+	y = 0;
+	while (y < game->px_y)
 	{
-		j = 0;
-		while (j < game->px_x)
+		x = 0;
+		while (x < game->px_x)
 		{
 			mlx_put_image_to_window(game->mlx.init, game->mlx.win, \
-			game->img[BG].mlx_img, i, j);
-			j = j + TILE_WIDTH;
+			game->img[BG].mlx_img, x, y);
+			x = x + TILE_WIDTH;
 		}
-		i = i + TILE_WIDTH;
+		y = y + TILE_WIDTH;
 	}
 }
 
-static void	superimpose_tile(t_game *game, int i, int j)
+static void	superimpose_tile(t_game *game, int x, int y)
 {
-	int k = i * TILE_WIDTH;
-	int l = j * TILE_WIDTH;
-	if (game->map.map[i][j] == '1')
-		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL].mlx_img, l, k);	
-	else if (game->map.map[i][j] == 'P')
-		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[PLAYER].mlx_img, l, k);	
+	int k = x * TILE_WIDTH;
+	int l = y * TILE_WIDTH;
+	if (game->map.map[x][y] == '1')
+	{
+		if ((x == 0) && (y == 0))
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UL].mlx_img, l, k);
+		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UR].mlx_img, l, k);
+		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LL].mlx_img, l, k);
+		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LR].mlx_img, l, k);
+	}	
+	else if (game->map.map[x][y] == 'P')
+		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[PLAYER].mlx_img, l, k);
 }
+
 
 static void	draw_map(t_game *game)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
+	y = 0;
 	draw_bg(game);
-	while (i < (game->map.ntiles_y))
+	while (y < (game->map.ntiles_y))
 	{
-		j = 0;
-		while (j < (game->map.ntiles_x))
+		x = 0;
+		while (x < (game->map.ntiles_x))
 		{
-			superimpose_tile(game, i, j);
-			j = j + 1;
+			superimpose_tile(game, x, y);
+			x = x + 1;
 		}
-		i = i + 1;
+		y = y + 1;
 	}
 }
 
