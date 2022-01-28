@@ -9,6 +9,12 @@
 #define TILE_WIDTH 64
 #define N_IMAGES 12
 
+#define W_KEY 13
+#define A_KEY 0
+#define S_KEY 1
+#define D_KEY 2
+#define ESC_KEY 53
+
 #define BG 0
 #define PLAYER 1
 #define COLLECTIBLE 2

@@ -253,7 +253,7 @@ static void	draw_bg(t_game *game)
 	}
 }
 
-static void	draw_wall(t_game *game)
+static void	draw_walls(t_game *game)
 {
 	int x;
 	int y;
@@ -306,7 +306,7 @@ static void	draw_map(t_game *game)
 
 	y = 0;
 	draw_bg(game);
-	draw_wall(game);
+	draw_walls(game);
 	while (y < (game->map.ntiles_y))
 	{
 		x = 0;
@@ -317,6 +317,17 @@ static void	draw_map(t_game *game)
 		}
 		y = y + 1;
 	}
+}
+
+
+static void	capture_key(int key, t_game *game)
+{
+	if (key == A_KEY)
+		left(game);
+	else
+		return (1);
+	draw_map(mlx);
+	//ft_putnbr(PRINT DE WALK COUNT);
 }
 
 int	main(int argc, char **argv)
@@ -332,9 +343,17 @@ int	main(int argc, char **argv)
 	parse_map(game);
 	game->mlx.init = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.init, game->px_x, game->px_y, "MITHRAS");
+	if (!(game->mlx.win))
+		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
 	draw_map(game);
+	mlx_hook(game->mlx.win, 2, (1L << 0), capture_key, game);
 	mlx_loop(game->mlx.init);
 	return (0);
 }
+
+/*
+prototype mlx_hook
+int	mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct)(), void *param);
+*/
