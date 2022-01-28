@@ -196,12 +196,15 @@ static void map_contents_init(t_game *game)
 static void xpm_init(t_game *game)
 {
 	game->img[BG].path = "./assets/bg.xpm";
-	game->img[WALL].path = "./assets/wall.xpm";
+	game->img[WALL_L].path = "./assets/wall_l.xpm";
+	game->img[WALL_R].path = "./assets/wall_r.xpm";
+	game->img[WALL_D].path = "./assets/wall_d.xpm";
+	game->img[WALL_U].path = "./assets/wall_u.xpm";
 	game->img[PLAYER].path = "./assets/player.xpm";
-	game->img[WALL_UL].path = "./assets/wall_ul.xpm";
-	game->img[WALL_UR].path = "./assets/wall_ur.xpm";
-	game->img[WALL_LL].path = "./assets/wall_ll.xpm";
-	game->img[WALL_LR].path = "./assets/wall_lr.xpm";
+	game->img[CORNER_UL].path = "./assets/corner_ul.xpm";
+	game->img[CORNER_UR].path = "./assets/corner_ur.xpm";
+	game->img[CORNER_LL].path = "./assets/corner_ll.xpm";
+	game->img[CORNER_LR].path = "./assets/corner_lr.xpm";
 }
 
 static void	xpm_loader(t_game *game)
@@ -211,18 +214,24 @@ static void	xpm_loader(t_game *game)
 
 	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
 	game->img[BG].path, &k, &l);
-	game->img[WALL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
-	game->img[WALL].path, &k, &l);
+	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_L].path, &k, &l);
+	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_R].path, &k, &l);
+	game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_U].path, &k, &l);
+	game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_D].path, &k, &l);
 	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
 	game->img[PLAYER].path, &k, &l);
-	game->img[WALL_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
-	game->img[WALL_UL].path, &k, &l);
-	game->img[WALL_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
-	game->img[WALL_UR].path, &k, &l);
-	game->img[WALL_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
-	game->img[WALL_LL].path, &k, &l);
-	game->img[WALL_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
-	game->img[WALL_LR].path, &k, &l);
+	game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_UL].path, &k, &l);
+	game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_UR].path, &k, &l);
+	game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_LL].path, &k, &l);
+	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_LR].path, &k, &l);
 }
 
 static void	draw_bg(t_game *game)
@@ -237,8 +246,33 @@ static void	draw_bg(t_game *game)
 		x = 0;
 		while (x < game->px_x)
 		{
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, \
-			game->img[BG].mlx_img, x, y);
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[BG].mlx_img, x, y);
+			x = x + TILE_WIDTH;
+		}
+		y = y + TILE_WIDTH;
+	}
+}
+
+static void	draw_wall(t_game *game)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	while (y < game->px_y)
+	{
+		x = 0;
+		while (x < game->px_x)
+		{
+			if (x == 0)
+				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
+			else if (x == (TILE_WIDTH * (game->map.ntiles_x - 1)))
+				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
+			else if (y == 0)
+				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
+			else if (y == (TILE_WIDTH * (game->map.ntiles_y - 1)))
+				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
 			x = x + TILE_WIDTH;
 		}
 		y = y + TILE_WIDTH;
@@ -252,13 +286,13 @@ static void	superimpose_tile(t_game *game, int x, int y)
 	if (game->map.map[x][y] == '1')
 	{
 		if ((x == 0) && (y == 0))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UL].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
 		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UR].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
 		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LL].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
 		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LR].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
 	}	
 	else if (game->map.map[x][y] == 'P')
 		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[PLAYER].mlx_img, l, k);
@@ -272,6 +306,7 @@ static void	draw_map(t_game *game)
 
 	y = 0;
 	draw_bg(game);
+	draw_wall(game);
 	while (y < (game->map.ntiles_y))
 	{
 		x = 0;

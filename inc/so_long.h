@@ -6,16 +6,21 @@
 
 
 #define EXIT_FAIL 1
-#define TILE_WIDTH 32
-#define N_IMAGES 7
+#define TILE_WIDTH 64
+#define N_IMAGES 12
 
 #define BG 0
-#define WALL 1
-#define PLAYER 2
-#define WALL_UL 3
-#define WALL_UR 4
-#define WALL_LL 5
-#define WALL_LR 6
+#define PLAYER 1
+#define COLLECTIBLE 2
+#define EXIT 3
+#define WALL_U 4
+#define WALL_D 5
+#define WALL_L 6
+#define WALL_R 7
+#define CORNER_UL 8
+#define CORNER_UR 9
+#define CORNER_LL 10
+#define CORNER_LR 11
 
 typedef struct s_mlx
 {
