@@ -255,7 +255,7 @@ static void	superimpose_tile(t_game *game, int x, int y)
 			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UL].mlx_img, l, k);
 		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
 			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_UR].mlx_img, l, k);
-		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
+		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
 			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LL].mlx_img, l, k);
 		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
 			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_LR].mlx_img, l, k);
