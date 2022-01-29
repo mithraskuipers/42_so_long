@@ -320,25 +320,6 @@ static void	draw_map(t_game *game)
 }
 
 
-static void cell_checker(t_game *game, void (*f)())
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (y < game->map.ntiles_x)
-	{
-		x = 0;
-		while (x < game->map.ntiles_y)
-		{
-			f(game, x, y);
-			x++;
-		}
-		y++;
-	}
-}
-
 
 /*
 static void	capture_key(int key, t_game *game)
@@ -352,10 +333,39 @@ static void	capture_key(int key, t_game *game)
 }
 */
 
+static void cell_checker(t_game *game, void (*f)())
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < game->map.ntiles_x)
+	{
+		x = 0;
+		while (x < game->map.ntiles_y)
+		{
+			f(game, (x * TILE_WIDTH), (y * TILE_WIDTH));
+			x++;
+		}
+		y++;
+	}
+}
+
+static void bg_painter(t_game *game, int x, int y)
+{
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, x, y);
+}
+
+/*
 static void tester(t_game *game, int x, int y)
 {
 	game->map.map[x][y] = '1';
 }
+*/
+
+
+
 
 
 
@@ -376,6 +386,7 @@ int	main(int argc, char **argv)
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
+	cell_checker(game, );
 
 
 	/* OUD
