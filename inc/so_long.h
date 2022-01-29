@@ -30,7 +30,7 @@
 
 typedef struct s_mlx
 {
-	void		*init;
+	void		*instance;
 	void		*win;
 }				t_mlx;
 
@@ -41,6 +41,12 @@ typedef struct	s_content
 	int			exits;
 	int			invalids;
 }				t_content;
+
+typedef struct	s_pos
+{
+	int	x;
+	int	y;
+}				t_pos;
 
 typedef struct	s_map
 {
@@ -63,6 +69,7 @@ typedef	struct	s_game
 	t_mlx		mlx;
 	t_map		map;
 	t_img		img[N_IMAGES];
+	t_pos		p_pos; // player position
 	int			px_x;
 	int			px_y;
 }				t_game;

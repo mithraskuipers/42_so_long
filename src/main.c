@@ -212,25 +212,25 @@ static void	xpm_loader(t_game *game)
 	int k; // hoe werkt dit?
 	int l; // hoe werkt dit??
 
-	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[BG].path, &k, &l);
-	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[WALL_L].path, &k, &l);
-	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[WALL_R].path, &k, &l);
-	game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[WALL_U].path, &k, &l);
-	game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[WALL_D].path, &k, &l);
-	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[PLAYER].path, &k, &l);
-	game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[CORNER_UL].path, &k, &l);
-	game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[CORNER_UR].path, &k, &l);
-	game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[CORNER_LL].path, &k, &l);
-	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.init, \
+	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[CORNER_LR].path, &k, &l);
 }
 
@@ -246,7 +246,7 @@ static void	draw_bg(t_game *game)
 		x = 0;
 		while (x < game->px_x)
 		{
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[BG].mlx_img, x, y);
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, x, y);
 			x = x + TILE_WIDTH;
 		}
 		y = y + TILE_WIDTH;
@@ -266,13 +266,13 @@ static void	draw_walls(t_game *game)
 		while (x < game->px_x)
 		{
 			if (x == 0)
-				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
 			else if (x == (TILE_WIDTH * (game->map.ntiles_x - 1)))
-				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
 			else if (y == 0)
-				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
 			else if (y == (TILE_WIDTH * (game->map.ntiles_y - 1)))
-				mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
 			x = x + TILE_WIDTH;
 		}
 		y = y + TILE_WIDTH;
@@ -286,16 +286,16 @@ static void	superimpose_tile(t_game *game, int x, int y)
 	if (game->map.map[x][y] == '1')
 	{
 		if ((x == 0) && (y == 0))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
 		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
 		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
 		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
 	}	
 	else if (game->map.map[x][y] == 'P')
-		mlx_put_image_to_window(game->mlx.init, game->mlx.win, game->img[PLAYER].mlx_img, l, k);
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, l, k);
 }
 
 
@@ -305,8 +305,8 @@ static void	draw_map(t_game *game)
 	int	y;
 
 	y = 0;
-	draw_bg(game);
-	draw_walls(game);
+	//draw_bg(game);
+	//draw_walls(game);
 	while (y < (game->map.ntiles_y))
 	{
 		x = 0;
@@ -320,6 +320,27 @@ static void	draw_map(t_game *game)
 }
 
 
+static void cell_checker(t_game *game, void (*f)())
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < game->map.ntiles_x)
+	{
+		x = 0;
+		while (x < game->map.ntiles_y)
+		{
+			f(game, x, y);
+			x++;
+		}
+		y++;
+	}
+}
+
+
+/*
 static void	capture_key(int key, t_game *game)
 {
 	if (key == A_KEY)
@@ -329,6 +350,14 @@ static void	capture_key(int key, t_game *game)
 	draw_map(mlx);
 	//ft_putnbr(PRINT DE WALK COUNT);
 }
+*/
+
+static void tester(t_game *game, int x, int y)
+{
+	game->map.map[x][y] = '1';
+}
+
+
 
 int	main(int argc, char **argv)
 {
@@ -341,17 +370,54 @@ int	main(int argc, char **argv)
 	map_contents_init(game);
 	check_input_validity(argc, argv);
 	parse_map(game);
-	game->mlx.init = mlx_init();
-	game->mlx.win = mlx_new_window(game->mlx.init, game->px_x, game->px_y, "MITHRAS");
+	game->mlx.instance = mlx_init();
+	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_x, game->px_y, "MITHRAS");
 	if (!(game->mlx.win))
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
-	draw_map(game);
-	mlx_hook(game->mlx.win, 2, (1L << 0), capture_key, game);
-	mlx_loop(game->mlx.init);
+
+
+	/* OUD
+	//draw_map(game);
+	//cell_checker(game, &tester);
+	//mlx_clear_window(game->mlx.instance, game->mlx.win);
+	//draw_map(game);
+	//printf("%s", game->map.map[3]);
+	//mlx_hook(game->mlx.win, 2, (1L << 0), capture_key, game);
+	*/
+	mlx_loop(game->mlx.instance);
 	return (0);
 }
+
+
+/*
+void	ft_cell2func(char c, void (*f)())
+{
+	size_t	i;
+
+	i = 0;
+	if ((!(s)) || (!(f)))
+		return ;
+	f(i, (s + i));
+}
+*/
+
+
+
+
+/*
+static void update_map(t_game *game, int x, int y)
+{
+	game->p_pos.x = ??;
+	game->p_pos.y = ??;
+	game->map.map[i][j]
+}
+*/
+
+// Update map
+// Clean mapß
+// Redraw dan de map!
 
 /*
 prototype mlx_hook
