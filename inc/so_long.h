@@ -46,6 +46,7 @@ typedef struct	s_pos
 {
 	int	row;
 	int	col;
+	int	dir; // viewing direction
 }				t_pos;
 
 typedef struct	s_map
@@ -55,8 +56,8 @@ typedef struct	s_map
 	char		**map;
 	int			fd;
 	t_pos		p_pos;
-	int			ntiles_x;
-	int			ntiles_y;
+	int			ntiles_cols;
+	int			ntiles_rows;
 }				t_map;
 
 typedef struct	s_img
@@ -70,6 +71,6 @@ typedef	struct	s_game
 	t_mlx		mlx;
 	t_map		map;
 	t_img		img[N_IMAGES];
-	int			px_x;
-	int			px_y;
+	int			px_row;
+	int			px_col;
 }				t_game;
