@@ -336,8 +336,6 @@ static void find_player_pos(t_game *game, int row, int col)
 	}
 }
 
-
-
 static void cell_checker_main(t_game *game)
 {
 	cell_checker(game, bg_painter);
