@@ -255,6 +255,9 @@ static void	draw_map(t_game *game)
 }
 */
 
+// Het gaat goed zodra ik 2 coordinaten heb.
+// 1e is dan x
+// 2e is dan y
 
 static void cell_checker(t_game *game, void (*f)())
 {
@@ -268,7 +271,7 @@ static void cell_checker(t_game *game, void (*f)())
 		x = 0;
 		while (x < game->map.ntiles_x)
 		{
-			f(game, x, y);
+			f(game, x, y); // x<-->y verandert niets
 			x++;
 		}
 		y++;
@@ -337,6 +340,8 @@ static void find_player_pos(t_game *game, int x, int y)
 	}
 }
 
+/*
+// ARCHIVE
 static void transpose_map(t_game *game)
 {
 	int i;
@@ -357,6 +362,7 @@ static void transpose_map(t_game *game)
 		i++;
 	}
 }
+*/
 
 static void cell_checker_main(t_game *game)
 {
@@ -366,6 +372,19 @@ static void cell_checker_main(t_game *game)
 	cell_checker(game, find_player_pos);
 	cell_checker(game, player_painter);
 }
+
+static void map_printer(t_game *game)
+{
+	int i;
+
+	i = 0;
+	while (i < game->map.ntiles_y)
+	{
+		ft_putstr_fd(game->map.map[i], 1);
+		i++;
+	}
+}
+
 
 int	main(int argc, char **argv)
 { 
@@ -384,14 +403,17 @@ int	main(int argc, char **argv)
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
-	transpose_map(game);
 	cell_checker(game, find_player_pos);
-	cell_checker_main(game);
+	//cell_checker_main(game);
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, game->map.p_pos.x* TILE_WIDTH, game->map.p_pos.y * TILE_WIDTH);
-	mlx_loop(game->mlx.instance);
-	//printf("%c", game->map.map[8][1]); // print P
+	//map_printer(game);
+	//mlx_loop(game->mlx.instance);
+	printf("%c", game->map.map[1][8]); // print P
 	return (0);
 }
+
+
+
 
 // Update map
 // Clean mapß
