@@ -151,22 +151,21 @@ static void	check_map_borders(t_game *game)
 
 static void	read_map_into_memory(t_game *game)
 {
+	int y;
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
 		close(game->map.fd);
 		ft_exit_failure("Failing to read the map.");
 	}
-	int i;
-
-	i = 0;
+	y = 0;
 	game->map.map = (char **)malloc(sizeof(char *) * (game->map.ntiles_y + 1));
 	if (!(game->map.map))
 		ft_exit_failure("Malloc error.");
-	while (i < game->map.ntiles_y)
+	while (y < game->map.ntiles_y)
 	{
-		game->map.map[i] = get_next_line(game->map.fd);
-		i++;
+		game->map.map[y] = get_next_line(game->map.fd); // eigenlijk zet die m op x
+		y++;
 	}
 	close(game->map.fd);
 }
@@ -234,71 +233,7 @@ static void	xpm_loader(t_game *game)
 	game->img[CORNER_LR].path, &k, &l);
 }
 
-static void	draw_bg(t_game *game)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while (y < game->px_y)
-	{
-		x = 0;
-		while (x < game->px_x)
-		{
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, x, y);
-			x = x + TILE_WIDTH;
-		}
-		y = y + TILE_WIDTH;
-	}
-}
-
-static void	draw_walls(t_game *game)
-{
-	int x;
-	int y;
-
-	x = 0;
-	y = 0;
-	while (y < game->px_y)
-	{
-		x = 0;
-		while (x < game->px_x)
-		{
-			if (x == 0)
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
-			else if (x == (TILE_WIDTH * (game->map.ntiles_x - 1)))
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
-			else if (y == 0)
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
-			else if (y == (TILE_WIDTH * (game->map.ntiles_y - 1)))
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
-			x = x + TILE_WIDTH;
-		}
-		y = y + TILE_WIDTH;
-	}
-}
-
-static void	superimpose_tile(t_game *game, int x, int y)
-{
-	int k = x * TILE_WIDTH;
-	int l = y * TILE_WIDTH;
-	if (game->map.map[x][y] == '1')
-	{
-		if ((x == 0) && (y == 0))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
-		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
-		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
-		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
-	}	
-	else if (game->map.map[x][y] == 'P')
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, l, k);
-}
-
-
+/*
 static void	draw_map(t_game *game)
 {
 	int	x;
@@ -318,20 +253,8 @@ static void	draw_map(t_game *game)
 		y = y + 1;
 	}
 }
-
-
-
-/*
-static void	capture_key(int key, t_game *game)
-{
-	if (key == A_KEY)
-		left(game);
-	else
-		return (1);
-	draw_map(mlx);
-	//ft_putnbr(PRINT DE WALK COUNT);
-}
 */
+
 
 static void cell_checker(t_game *game, void (*f)())
 {
@@ -340,12 +263,12 @@ static void cell_checker(t_game *game, void (*f)())
 
 	x = 0;
 	y = 0;
-	while (y < game->map.ntiles_x)
+	while (y < game->map.ntiles_y)
 	{
 		x = 0;
-		while (x < game->map.ntiles_y)
+		while (x < game->map.ntiles_x)
 		{
-			f(game, (x * TILE_WIDTH), (y * TILE_WIDTH));
+			f(game, x, y);
 			x++;
 		}
 		y++;
@@ -354,23 +277,98 @@ static void cell_checker(t_game *game, void (*f)())
 
 static void bg_painter(t_game *game, int x, int y)
 {
-	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, x, y);
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (x * TILE_WIDTH), (y * TILE_WIDTH));
 }
 
-/*
-static void tester(t_game *game, int x, int y)
+static void corner_painter(t_game *game, int x, int y)
 {
-	game->map.map[x][y] = '1';
+	int k = x * TILE_WIDTH;
+	int l = y * TILE_WIDTH;
+	if (game->map.map[x][y] == '1')
+	{
+		if ((x == 0) && (y == 0))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
+		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
+		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
+		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
+	}
 }
-*/
 
+static void player_painter(t_game *game, int x, int y)
+{
+	int k = x * TILE_WIDTH;
+	int l = y * TILE_WIDTH;
+	if (game->map.map[x][y] == 'P')
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, k, l);
+}
 
+static void wall_painter(t_game *game, int x, int y)
+{
+	x = (x * TILE_WIDTH);
+	y = (y * TILE_WIDTH);
+	while (y < game->px_y)
+	{
+		x = 0;
+		while (x < game->px_x)
+		{
+			if (x == 0)
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
+			else if (x == (TILE_WIDTH * (game->map.ntiles_x - 1)))
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
+			else if (y == 0)
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
+			else if (y == (TILE_WIDTH * (game->map.ntiles_y - 1)))
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
+			x = x + TILE_WIDTH;
+		}
+		y = y + TILE_WIDTH;
+	}
+}
 
+static void find_player_pos(t_game *game, int x, int y)
+{
+	if (game->map.map[x][y] == 'P')
+	{
+		game->map.p_pos.x = x;
+		game->map.p_pos.y = y;
+	}
+}
 
+static void transpose_map(t_game *game)
+{
+	int i;
+	int j;
+	int tmp;
 
+	i = 0;
+	while (i < game->map.ntiles_x)
+	{
+		j = 0;
+		while (j < i)
+		{
+			tmp = game->map.map[i][j];
+			game->map.map[i][j] = game->map.map[j][i];
+			game->map.map[j][i] = tmp;
+			j++;
+		}
+		i++;
+	}
+}
+
+static void cell_checker_main(t_game *game)
+{
+	cell_checker(game, bg_painter);
+	cell_checker(game, wall_painter);
+	cell_checker(game, corner_painter);
+	cell_checker(game, find_player_pos);
+	cell_checker(game, player_painter);
+}
 
 int	main(int argc, char **argv)
-{
+{ 
 	t_game	*game;
 
 	game = malloc(sizeof(t_game));
@@ -386,45 +384,14 @@ int	main(int argc, char **argv)
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
-	cell_checker(game, );
-
-
-	/* OUD
-	//draw_map(game);
-	//cell_checker(game, &tester);
-	//mlx_clear_window(game->mlx.instance, game->mlx.win);
-	//draw_map(game);
-	//printf("%s", game->map.map[3]);
-	//mlx_hook(game->mlx.win, 2, (1L << 0), capture_key, game);
-	*/
+	transpose_map(game);
+	cell_checker(game, find_player_pos);
+	cell_checker_main(game);
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, game->map.p_pos.x* TILE_WIDTH, game->map.p_pos.y * TILE_WIDTH);
 	mlx_loop(game->mlx.instance);
+	//printf("%c", game->map.map[8][1]); // print P
 	return (0);
 }
-
-
-/*
-void	ft_cell2func(char c, void (*f)())
-{
-	size_t	i;
-
-	i = 0;
-	if ((!(s)) || (!(f)))
-		return ;
-	f(i, (s + i));
-}
-*/
-
-
-
-
-/*
-static void update_map(t_game *game, int x, int y)
-{
-	game->p_pos.x = ??;
-	game->p_pos.y = ??;
-	game->map.map[i][j]
-}
-*/
 
 // Update map
 // Clean mapß

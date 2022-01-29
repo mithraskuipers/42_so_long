@@ -54,6 +54,7 @@ typedef struct	s_map
 	char		*path;
 	char		**map;
 	int			fd;
+	t_pos		p_pos;
 	int			ntiles_x;
 	int			ntiles_y;
 }				t_map;
@@ -69,7 +70,6 @@ typedef	struct	s_game
 	t_mlx		mlx;
 	t_map		map;
 	t_img		img[N_IMAGES];
-	t_pos		p_pos; // player position
 	int			px_x;
 	int			px_y;
 }				t_game;
