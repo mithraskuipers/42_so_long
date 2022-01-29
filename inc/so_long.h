@@ -44,8 +44,8 @@ typedef struct	s_content
 
 typedef struct	s_pos
 {
-	int	x;
-	int	y;
+	int	row;
+	int	col;
 }				t_pos;
 
 typedef struct	s_map

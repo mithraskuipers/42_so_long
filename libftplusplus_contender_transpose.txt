@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   libftplusplus_contender_transpose.txt              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/01/29 18:49:40 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/01/29 18:50:38 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+static void transpose_map(t_game *game)
+{
+	int i;
+	int j;
+	int tmp;
+
+	i = 0;
+	while (i < game->map.ntiles_x)
+	{
+		j = 0;
+		while (j < i)
+		{
+			tmp = game->map.map[i][j];
+			game->map.map[i][j] = game->map.map[j][i];
+			game->map.map[j][i] = tmp;
+			j++;
+		}
+		i++;
+	}
+}
+*/

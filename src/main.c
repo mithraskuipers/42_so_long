@@ -151,21 +151,21 @@ static void	check_map_borders(t_game *game)
 
 static void	read_map_into_memory(t_game *game)
 {
-	int y;
+	int row;
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
 		close(game->map.fd);
 		ft_exit_failure("Failing to read the map.");
 	}
-	y = 0;
+	row = 0;
 	game->map.map = (char **)malloc(sizeof(char *) * (game->map.ntiles_y + 1));
 	if (!(game->map.map))
 		ft_exit_failure("Malloc error.");
-	while (y < game->map.ntiles_y)
+	while (row < game->map.ntiles_y)
 	{
-		game->map.map[y] = get_next_line(game->map.fd); // eigenlijk zet die m op x
-		y++;
+		game->map.map[row] = get_next_line(game->map.fd); // eigenlijk zet die m op x
+		row++;
 	}
 	close(game->map.fd);
 }
@@ -208,29 +208,29 @@ static void xpm_init(t_game *game)
 
 static void	xpm_loader(t_game *game)
 {
-	int k; // hoe werkt dit?
-	int l; // hoe werkt dit??
+	int row; // hoe werrowt dit?
+	int col; // hoe werrowt dit??
 
 	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[BG].path, &k, &l);
+	game->img[BG].path, &row, &col);
 	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_L].path, &k, &l);
+	game->img[WALL_L].path, &row, &col);
 	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_R].path, &k, &l);
+	game->img[WALL_R].path, &row, &col);
 	game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_U].path, &k, &l);
+	game->img[WALL_U].path, &row, &col);
 	game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_D].path, &k, &l);
+	game->img[WALL_D].path, &row, &col);
 	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER].path, &k, &l);
+	game->img[PLAYER].path, &row, &col);
 	game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_UL].path, &k, &l);
+	game->img[CORNER_UL].path, &row, &col);
 	game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_UR].path, &k, &l);
+	game->img[CORNER_UR].path, &row, &col);
 	game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_LL].path, &k, &l);
+	game->img[CORNER_LL].path, &row, &col);
 	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_LR].path, &k, &l);
+	game->img[CORNER_LR].path, &row, &col);
 }
 
 /*
@@ -261,20 +261,20 @@ static void	draw_map(t_game *game)
 
 static void cell_checker(t_game *game, void (*f)())
 {
-	int	x;
-	int	y;
+	int	row;
+	int	col;
 
-	x = 0;
-	y = 0;
-	while (y < game->map.ntiles_y)
+	row = 0;
+	col = 0;
+	while (col < game->map.ntiles_y)
 	{
-		x = 0;
-		while (x < game->map.ntiles_x)
+		row = 0;
+		while (row < game->map.ntiles_x)
 		{
-			f(game, x, y); // x<-->y verandert niets
-			x++;
+			f(game, row, col); // row<-->col verandert niets
+			row++;
 		}
-		y++;
+		col++;
 	}
 }
 
@@ -283,86 +283,60 @@ static void bg_painter(t_game *game, int x, int y)
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (x * TILE_WIDTH), (y * TILE_WIDTH));
 }
 
-static void corner_painter(t_game *game, int x, int y)
+static void corner_painter(t_game *game, int row, int col)
 {
-	int k = x * TILE_WIDTH;
-	int l = y * TILE_WIDTH;
-	if (game->map.map[x][y] == '1')
+	if (game->map.map[row][col] == '1')
 	{
-		if ((x == 0) && (y == 0))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UL].mlx_img, l, k);
-		else if ((x == 0) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UR].mlx_img, l, k);
-		else if ((x == (game->map.ntiles_x - 1)) && (y == 0))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LL].mlx_img, l, k);
-		else if ((x == (game->map.ntiles_x - 1)) && (y == (game->map.ntiles_y - 1)))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LR].mlx_img, l, k);
+		if ((col == 0) && (row == 0))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UL].mlx_img, (row * TILE_WIDTH), (col * TILE_WIDTH));
+		else if ((col == 0) && (row == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_UR].mlx_img, (row * TILE_WIDTH), (col * TILE_WIDTH));
+		else if ((col == (game->map.ntiles_x - 1)) && (row == 0))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LL].mlx_img, (row * TILE_WIDTH), (col * TILE_WIDTH));
+		else if ((col == (game->map.ntiles_x - 1)) && (row == (game->map.ntiles_y - 1)))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[CORNER_LR].mlx_img, (row * TILE_WIDTH), (col * TILE_WIDTH));
 	}
 }
 
-static void player_painter(t_game *game, int x, int y)
+static void player_painter(t_game *game, int row, int col)
 {
-	int k = x * TILE_WIDTH;
-	int l = y * TILE_WIDTH;
-	if (game->map.map[x][y] == 'P')
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, k, l);
+	if (game->map.map[row][col] == 'P')
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (row * TILE_WIDTH), (col * TILE_WIDTH));
 }
 
-static void wall_painter(t_game *game, int x, int y)
+static void wall_painter(t_game *game, int row, int y)
 {
-	x = (x * TILE_WIDTH);
+	row = (row * TILE_WIDTH);
 	y = (y * TILE_WIDTH);
 	while (y < game->px_y)
 	{
-		x = 0;
-		while (x < game->px_x)
+		row = 0;
+		while (row < game->px_x)
 		{
-			if (x == 0)
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_L].mlx_img, x, y);
-			else if (x == (TILE_WIDTH * (game->map.ntiles_x - 1)))
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_R].mlx_img, x, y);
+			if (row == 0)
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_L].mlx_img, row, y);
+			else if (row == (TILE_WIDTH * (game->map.ntiles_x - 1)))
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_R].mlx_img, row, y);
 			else if (y == 0)
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_U].mlx_img, x, y);
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_U].mlx_img, row, y);
 			else if (y == (TILE_WIDTH * (game->map.ntiles_y - 1)))
-				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_D].mlx_img, x, y);
-			x = x + TILE_WIDTH;
+				mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[WALL_D].mlx_img, row, y);
+			row = row + TILE_WIDTH;
 		}
 		y = y + TILE_WIDTH;
 	}
 }
 
-static void find_player_pos(t_game *game, int x, int y)
+static void find_player_pos(t_game *game, int row, int col)
 {
-	if (game->map.map[x][y] == 'P')
+	if (game->map.map[row][col] == 'P')
 	{
-		game->map.p_pos.x = x;
-		game->map.p_pos.y = y;
+		game->map.p_pos.row = row;
+		game->map.p_pos.col = col;
 	}
 }
 
-/*
-// ARCHIVE
-static void transpose_map(t_game *game)
-{
-	int i;
-	int j;
-	int tmp;
 
-	i = 0;
-	while (i < game->map.ntiles_x)
-	{
-		j = 0;
-		while (j < i)
-		{
-			tmp = game->map.map[i][j];
-			game->map.map[i][j] = game->map.map[j][i];
-			game->map.map[j][i] = tmp;
-			j++;
-		}
-		i++;
-	}
-}
-*/
 
 static void cell_checker_main(t_game *game)
 {
@@ -375,13 +349,13 @@ static void cell_checker_main(t_game *game)
 
 static void map_printer(t_game *game)
 {
-	int i;
+	int row;
 
-	i = 0;
-	while (i < game->map.ntiles_y)
+	row = 0;
+	while (row < game->map.ntiles_y)
 	{
-		ft_putstr_fd(game->map.map[i], 1);
-		i++;
+		ft_putstr_fd(game->map.map[row], 1);
+		row++;
 	}
 }
 
@@ -404,10 +378,10 @@ int	main(int argc, char **argv)
 	xpm_init(game);
 	xpm_loader(game);
 	cell_checker(game, find_player_pos);
-	//cell_checker_main(game);
-	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, game->map.p_pos.x* TILE_WIDTH, game->map.p_pos.y * TILE_WIDTH);
+	cell_checker_main(game);
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, game->map.p_pos.col* TILE_WIDTH, game->map.p_pos.row * TILE_WIDTH);
 	//map_printer(game);
-	//mlx_loop(game->mlx.instance);
+	mlx_loop(game->mlx.instance);
 	printf("%c", game->map.map[1][8]); // print P
 	return (0);
 }
