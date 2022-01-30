@@ -372,20 +372,14 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-
-
-
 // Update map
-// Clean mapß
+// Clean map
 // Redraw dan de map!
 
 /*
 prototype mlx_hook
 int	mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct)(), void *param);
 */
-
-
-
 
 /*
 static void	draw_map(t_game *game)
