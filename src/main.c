@@ -36,10 +36,8 @@ static void paint_walls(t_game *game, int row, int col);
 static void find_player_pos(t_game *game, int row, int col);
 static void print_map(t_game *game);
 static void print_player_pos(t_game *game);
-static void cell_checker(t_game *game, void (*f)());
+static void cell_checker_painter(t_game *game, void (*f)());
 static void cell_checker_loop(t_game *game, void (*f)());
-
-
 
 int	main(int argc, char **argv)
 { 
@@ -62,9 +60,6 @@ int	main(int argc, char **argv)
 	//printf("%c", game->map.map[8][1]); // print P [row][col]
 	return (0);
 }
-
-
-
 
 static void	ft_exit_failure(char *s)
 {
@@ -188,17 +183,6 @@ static void	map_count(t_game *game, int i, int j)
 }
 
 
-/*
-static void	check_map_contents2(t_game *game)
-{
-	if (game->map.content.players > 1)
-		ft_map_failure(game, "You map has more than 1 player spawnpoint.");
-	if (game->map.content.players < 1)
-		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
-}
-*/
-
-
 static void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
@@ -306,8 +290,6 @@ static void	xpm_loader(t_game *game)
 	game->img[CORNER_LR].path, &row, &col);
 }
 
-
-
 static void paint_bg(t_game *game, int row, int col)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
@@ -357,7 +339,6 @@ static void find_player_pos(t_game *game, int row, int col)
 	}
 }
 
-
 static void print_map(t_game *game)
 {
 	int row;
@@ -377,7 +358,7 @@ static void print_player_pos(t_game *game)
 	printf("col: %d\n", game->map.p_pos.col);
 }
 
-static void cell_checker(t_game *game, void (*f)())
+static void cell_checker_painter(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;
@@ -398,9 +379,6 @@ static void cell_checker(t_game *game, void (*f)())
 		row++;
 	}
 }
-
-
-
 
 static void cell_checker_loop(t_game *game, void (*f)())
 {
