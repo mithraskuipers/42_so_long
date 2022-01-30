@@ -4,6 +4,68 @@
 clear && make re && clear && ./so_long map1_5x5.ber
 */
 
+/*
+Als het gaat om de [][] coordinaten van een kaart hanteer je:
+[row][col]
+
+Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
+dan werk je met X en Y logica. Hierbij X = col; Y = row.
+col, row
+*/
+
+/* Prototypes */
+static void	ft_exit_failure(char *s);
+static void	ft_map_failure(t_game *game, char *s);
+static void check_input_validity(int argc, char **argv);
+static void	get_map_width(t_game *game);
+static void	get_map_height(t_game *game);
+static void	check_map_rectangular(t_game *game);
+static void	check_map_contents1(t_game *game);
+static void	map_count(t_game *game, int i, int j);
+static void map_count_check(t_game *game);
+static void	map_borders(t_game *game, int i, int j);
+static void	read_map_into_memory(t_game *game);
+static void	parse_map(t_game *game);
+static void map_contents_init(t_game *game);
+static void xpm_init(t_game *game);
+static void	xpm_loader(t_game *game);
+static void paint_bg(t_game *game, int row, int col);
+static void paint_corners(t_game *game, int row, int col);
+static void paint_player(t_game *game, int row, int col);
+static void paint_walls(t_game *game, int row, int col);
+static void find_player_pos(t_game *game, int row, int col);
+static void print_map(t_game *game);
+static void print_player_pos(t_game *game);
+static void cell_checker(t_game *game, void (*f)());
+static void cell_checker_loop(t_game *game, void (*f)());
+
+
+
+int	main(int argc, char **argv)
+{ 
+	t_game	*game;
+
+	game = malloc(sizeof(t_game));
+	if (!(game))
+		ft_exit_failure("Memory allocation issue.");
+	game->map.path = argv[1];
+	map_contents_init(game);
+	check_input_validity(argc, argv);
+	parse_map(game);
+	game->mlx.instance = mlx_init();
+	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_row, game->px_col, "MITHRAS");
+	if (!(game->mlx.win))
+		ft_exit_failure("Could not create window");
+	xpm_init(game);
+	xpm_loader(game);
+	mlx_loop(game->mlx.instance);
+	//printf("%c", game->map.map[8][1]); // print P [row][col]
+	return (0);
+}
+
+
+
+
 static void	ft_exit_failure(char *s)
 {
 	ft_putstr_fd("Error\n", 2); // Don't touch this. Subject wants this.
@@ -25,7 +87,7 @@ static void	ft_map_failure(t_game *game, char *s)
 	ft_exit_failure(s);
 }
 
-int		check_input_validity(int argc, char **argv)
+static void	check_input_validity(int argc, char **argv)
 {
 	int	fd;
 	if (argc < 2)
@@ -39,7 +101,6 @@ int		check_input_validity(int argc, char **argv)
 		ft_exit_failure("Error while reading the map. fd < 0");
 	}
 	close(fd);
-	return (0);
 }
 
 static void	get_map_width(t_game *game)
@@ -112,6 +173,22 @@ static void	check_map_contents1(t_game *game)
 	}
 }
 
+static void	map_count(t_game *game, int i, int j)
+{
+
+	if (game->map.map[i][j] == 'P')
+		(game->map.content.players)++;
+	else if (game->map.map[i][j] == 'C')
+		(game->map.content.collectables)++;
+	else if (game->map.map[i][j] == 'E')
+		(game->map.content.exits)++;
+	else if ((!(game->map.map[i][j] != '0')) && \
+	(!(game->map.map[i][j] != '1')))
+		(game->map.content.invalids)++;
+}
+
+
+/*
 static void	check_map_contents2(t_game *game)
 {
 	if (game->map.content.players > 1)
@@ -119,33 +196,29 @@ static void	check_map_contents2(t_game *game)
 	if (game->map.content.players < 1)
 		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
 }
+*/
 
-static void	check_map_borders(t_game *game)
+
+static void map_count_check(t_game *game)
 {
-	int	i;
-	int	j;
+	if (game->map.content.players > 1)
+		ft_map_failure(game, "You map has more than 1 player spawnpoint.");
+	if (game->map.content.players < 1)
+		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
+}
 
-	i = 0;
-	while (i < game->map.ntiles_rows)
+static void	map_borders(t_game *game, int i, int j)
+{
+	if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
 	{
-		j = 0;
-		if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
-		{
-			while (j < game->map.ntiles_cols)
-			{
-				if (game->map.map[i][j] != '1')
-					ft_map_failure(game, "Your map is not enclosed in borders");
-				j++;
-			}
-		}
-		else
-		{
-			if ((game->map.map[i][0] != '1') || \
-			(game->map.map[i][game->map.ntiles_cols - 1] != '1'))
-					ft_map_failure(game, "Your map is not enclosed in borders");
-			j++;
-		}
-		i++;
+		if (game->map.map[i][j] != '1')
+			ft_map_failure(game, "Your map is not enclosed in borders");
+	}
+	else
+	{
+		if ((game->map.map[i][0] != '1') || \
+		(game->map.map[i][game->map.ntiles_cols - 1] != '1'))
+				ft_map_failure(game, "Your map is not enclosed in borders");
 	}
 }
 
@@ -179,9 +252,9 @@ static void	parse_map(t_game *game)
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_memory(game);
-	check_map_contents1(game);
-	check_map_contents2(game);
-	check_map_borders(game);
+	cell_checker_loop(game, map_count);
+	cell_checker_loop(game, map_count_check);
+	cell_checker_loop(game, map_borders);
 }
 
 static void map_contents_init(t_game *game)
@@ -261,15 +334,6 @@ static void paint_player(t_game *game, int row, int col)
 		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 }
 
-/*
-Als het gaat om de [][] coordinaten van een kaart hanteer je:
-[row][col]
-
-Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
-dan werk je met X en Y logica. Hierbij X = col; Y = row.
-col, row
-*/
-
 static void paint_walls(t_game *game, int row, int col)
 {
 	row = (row * TILE_WIDTH);
@@ -293,15 +357,6 @@ static void find_player_pos(t_game *game, int row, int col)
 	}
 }
 
-/*
-static void cell_checker_main(t_game *game)
-{
-	cell_checker(game, paint_bg);
-	cell_checker(game, paint_walls);
-	cell_checker(game, paint_corners);
-	cell_checker(game, paint_player);
-}
-*/
 
 static void print_map(t_game *game)
 {
@@ -344,65 +399,23 @@ static void cell_checker(t_game *game, void (*f)())
 	}
 }
 
-int	main(int argc, char **argv)
-{ 
-	t_game	*game;
 
-	game = malloc(sizeof(t_game));
-	if (!(game))
-		ft_exit_failure("Memory allocation issue.");
-	game->map.path = argv[1];
-	map_contents_init(game);
-	check_input_validity(argc, argv);
-	parse_map(game);
-	game->mlx.instance = mlx_init();
-	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_row, game->px_col, "MITHRAS");
-	if (!(game->mlx.win))
-		ft_exit_failure("Could not create window");
-	xpm_init(game);
-	xpm_loader(game);
-	cell_checker(game, find_player_pos);
-	//cell_checker_main(game);
-	//cell_checker(game, find_player_pos);
-	//mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, //game->map.p_pos.col* TILE_WIDTH, game->map.p_pos.row * TILE_WIDTH);
-	//print_map(game);
-	//print_player_pos(game);
-	mlx_loop(game->mlx.instance);
-	//printf("%c", game->map.map[8][1]); // print P [row][col]
-	return (0);
-}
 
-// Update map
-// Clean map
-// Redraw dan de map!
 
-/*
-prototype mlx_hook
-int	mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct)(), void *param);
-*/
-
-/*
-static void	draw_map(t_game *game)
+static void cell_checker_loop(t_game *game, void (*f)())
 {
-	int	x;
-	int	y;
+	int	row;
+	int	col;
 
-	y = 0;
-	//draw_bg(game);
-	//draw_walls(game);
-	while (y < (game->map.ntiles_rows))
+	row = 0;
+	while (row < game->map.ntiles_rows)
 	{
-		x = 0;
-		while (x < (game->map.ntiles_cols))
+		col = 0;
+		while (col < game->map.ntiles_cols)
 		{
-			superimpose_tile(game, x, y);
-			x = x + 1;
+			f(game, row, col);
+			col++;
 		}
-		y = y + 1;
+		row++;
 	}
 }
-*/
-
-// Het gaat goed zodra ik 2 coordinaten heb.
-// 1e is dan x
-// 2e is dan y

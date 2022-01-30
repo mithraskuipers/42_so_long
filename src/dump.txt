@@ -1,0 +1,78 @@
+
+/*
+static void cell_checker_main(t_game *game)
+{
+	cell_checker(game, paint_bg);
+	cell_checker(game, paint_walls);
+	cell_checker(game, paint_corners);
+	cell_checker(game, paint_player);
+}
+*/
+
+
+// Update map
+// Clean map
+// Redraw dan de map!
+
+/*
+prototype mlx_hook
+int	mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct)(), void *param);
+*/
+
+/*
+static void	draw_map(t_game *game)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	//draw_bg(game);
+	//draw_walls(game);
+	while (y < (game->map.ntiles_rows))
+	{
+		x = 0;
+		while (x < (game->map.ntiles_cols))
+		{
+			superimpose_tile(game, x, y);
+			x = x + 1;
+		}
+		y = y + 1;
+	}
+}
+*/
+
+// Het gaat goed zodra ik 2 coordinaten heb.
+// 1e is dan x
+// 2e is dan y
+
+
+/*
+static void	check_map_borders(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->map.ntiles_rows)
+	{
+		j = 0;
+		if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
+		{
+			while (j < game->map.ntiles_cols)
+			{
+				if (game->map.map[i][j] != '1')
+					ft_map_failure(game, "Your map is not enclosed in borders");
+				j++;
+			}
+		}
+		else
+		{
+			if ((game->map.map[i][0] != '1') || \
+			(game->map.map[i][game->map.ntiles_cols - 1] != '1'))
+					ft_map_failure(game, "Your map is not enclosed in borders");
+			j++;
+		}
+		i++;
+	}
+}
+*/
