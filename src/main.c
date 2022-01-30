@@ -51,7 +51,7 @@ static void player_to_up(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if ((game->map.map[posrow-1][poscol] != '0') && (game->map.map[posrow-1][poscol] != 'C')
+	if (game->map.map[posrow-1][poscol] != '0')
 		return ;
 	game->map.map[posrow-1][poscol] = 'P';
 	game->map.map[posrow][poscol] = '0';
@@ -66,7 +66,7 @@ static void player_to_down(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if ((game->map.map[posrow+1][poscol] != '0') && (game->map.map[posrow+1][poscol] != 'C')
+	if (game->map.map[posrow+1][poscol] != '0')
 		return ;
 	game->map.map[posrow+1][poscol] = 'P';
 	game->map.map[posrow][poscol] = '0';
@@ -82,7 +82,7 @@ static void player_to_left(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if ((game->map.map[posrow][poscol+-1] != '0') && (game->map.map[posrow][poscol+-1] != 'C')
+	if (game->map.map[posrow][poscol+-1] != '0')
 		return ;
 	game->map.map[posrow][poscol+-1] = 'P';
 	game->map.map[posrow][poscol] = '0';
@@ -97,7 +97,7 @@ static void player_to_right(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if ((game->map.map[posrow][poscol+1] != '0') && (game->map.map[posrow][poscol+1] != 'C')
+	if (game->map.map[posrow][poscol+1] != '0')
 		return ;
 	game->map.map[posrow][poscol+1] = 'P';
 	game->map.map[posrow][poscol] = '0';
