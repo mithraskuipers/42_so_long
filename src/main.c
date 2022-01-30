@@ -1,44 +1,5 @@
 #include "so_long.h"
 
-/*
-clear && make re && clear && ./so_long map1_5x5.ber
-*/
-
-/*
-Als het gaat om de [][] coordinaten van een kaart hanteer je:
-[row][col]
-
-Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
-dan werk je met X en Y logica. Hierbij X = col; Y = row.
-col, row
-*/
-
-/* Prototypes */
-static void	ft_exit_failure(char *s);
-static void	ft_map_failure(t_game *game, char *s);
-static void check_input_validity(int argc, char **argv);
-static void	get_map_width(t_game *game);
-static void	get_map_height(t_game *game);
-static void	check_map_rectangular(t_game *game);
-static void	check_map_contents1(t_game *game);
-static void	map_count(t_game *game, int i, int j);
-static void map_count_check(t_game *game);
-static void	map_borders(t_game *game, int i, int j);
-static void	read_map_into_memory(t_game *game);
-static void	parse_map(t_game *game);
-static void map_contents_init(t_game *game);
-static void xpm_init(t_game *game);
-static void	xpm_loader(t_game *game);
-static void paint_bg(t_game *game, int row, int col);
-static void paint_corners(t_game *game, int row, int col);
-static void paint_player(t_game *game, int row, int col);
-static void paint_walls(t_game *game, int row, int col);
-static void find_player_pos(t_game *game, int row, int col);
-static void print_map(t_game *game);
-static void print_player_pos(t_game *game);
-static void cell_checker_painter(t_game *game, void (*f)());
-static void cell_checker_loop(t_game *game, void (*f)());
-
 int	main(int argc, char **argv)
 { 
 	t_game	*game;
@@ -50,15 +11,156 @@ int	main(int argc, char **argv)
 	map_contents_init(game);
 	check_input_validity(argc, argv);
 	parse_map(game);
+	cell_looper_ptr(game, map_count);
+	cell_looper_ptr(game, map_count_check);
+	cell_looper_ptr(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_row, game->px_col, "MITHRAS");
 	if (!(game->mlx.win))
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
-	mlx_loop(game->mlx.instance);
-	//printf("%c", game->map.map[8][1]); // print P [row][col]
+	cell_looper(game);
+	paint_player(game);
+	player_state_update(game);
+	/*
+	printf("player row: %d\n", game->map.player_state.pos_row);
+	printf("player col: %d\n", game->map.player_state.pos_col);
+	printf("player up: %d\n", game->map.player_state.tile_up);
+	printf("player down: %d\n", game->map.player_state.tile_down);
+	printf("player left: %d\n", game->map.player_state.tile_left);
+	printf("player right: %d\n", game->map.player_state.tile_right);
+	*/
+	//mlx_key_hook(game->mlx.win, controller, game);
+	//mlx_hook(game->mlx.win, 2, (1L << 0), controller, &game);
+	print_map(game);
+	player_to_down(game);
+	print_map(game);
+	player_to_down(game);
+	print_map(game);
+	//mlx_loop(game->mlx.instance);
+	//mlx_hook(game->mlx.win, 2, 0, input, (void *)&game);
+	//mlx_loop_hook(game->mlx.instance, update, (void *)&game);
 	return (0);
+}
+
+static void player_to_up(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow-1][poscol] != '0')
+		return ;
+	game->map.map[posrow-1][poscol] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row -1;
+	game->map.player_state.pos_col = game->map.player_state.pos_col;
+}
+
+static void player_to_down(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow+1][poscol] != '0')
+		return ;
+	game->map.map[posrow+1][poscol] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row +1;
+	game->map.player_state.pos_col = game->map.player_state.pos_col;
+}
+
+
+static void player_to_left(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow][poscol+-1] != '0')
+		return ;
+	game->map.map[posrow][poscol+-1] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
+	game->map.player_state.pos_col = game->map.player_state.pos_col + - 1;
+}
+
+static void player_to_right(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow][poscol+1] != '0')
+		return ;
+	game->map.map[posrow][poscol+1] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
+	game->map.player_state.pos_col = game->map.player_state.pos_col + 1;
+}
+
+// Functie leest ook werkelijk de inhoud van de kaart uit!
+// Dus kan worden gebruikt om de betekenis te parsen. 
+// Leest dus niet enkel de coordinaten uit van up/down/left/right, heb je ook niets aan!
+static void player_state_update(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+
+	game->map.player_state.tile_up = game->map.map[posrow-1][poscol];
+	game->map.player_state.tile_down = game->map.map[posrow+1][poscol];
+	game->map.player_state.tile_left = game->map.map[posrow][poscol-1];
+	game->map.player_state.tile_right = game->map.map[posrow][poscol+1];
+}
+
+// TODO: UPDATE MAP //
+
+
+
+/*
+int controller(int key, t_game *game)
+{
+	if (key == KEY_W)
+		return (move_player_pos(game, 0, -1));
+}
+*/
+/*
+int move_player_pos(t_game *game, int x, int y)
+{
+	game->map.player_state.pos_row = game->map.player_state.pos_row + y;
+	game->map.player_state.pos_col = game->map.player_state.pos_col + x;
+	print_player_pos(game);
+}
+*/
+
+static void cell_looper(t_game *game)
+{
+	int	row;
+	int	col;
+
+	row = 0;
+	while (row < game->map.ntiles_rows)
+	{
+		col = 0;
+		while (col < game->map.ntiles_cols)
+		{
+			paint_bg(game, row, col);
+			paint_walls(game, row, col); // tekent de muren ook op de hoeken
+			paint_corners(game, row, col); // superimposed de hoeken
+			find_player(game, row, col);
+			col++;
+		}
+		row++;
+	}
 }
 
 static void	ft_exit_failure(char *s)
@@ -182,7 +284,6 @@ static void	map_count(t_game *game, int i, int j)
 		(game->map.content.invalids)++;
 }
 
-
 static void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
@@ -191,7 +292,7 @@ static void map_count_check(t_game *game)
 		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
 }
 
-static void	map_borders(t_game *game, int i, int j)
+static void	map_presence_borders(t_game *game, int i, int j)
 {
 	if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
 	{
@@ -236,9 +337,6 @@ static void	parse_map(t_game *game)
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_memory(game);
-	cell_checker_loop(game, map_count);
-	cell_checker_loop(game, map_count_check);
-	cell_checker_loop(game, map_borders);
 }
 
 static void map_contents_init(t_game *game)
@@ -290,6 +388,15 @@ static void	xpm_loader(t_game *game)
 	game->img[CORNER_LR].path, &row, &col);
 }
 
+static void find_player(t_game *game, int row, int col)
+{
+	if (game->map.map[row][col] == 'P')
+	{
+		game->map.player_state.pos_col = col;
+		game->map.player_state.pos_row = row;
+	}
+}
+
 static void paint_bg(t_game *game, int row, int col)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
@@ -310,10 +417,14 @@ static void paint_corners(t_game *game, int row, int col)
 	}
 }
 
-static void paint_player(t_game *game, int row, int col)
+static void paint_player(t_game *game) // requires knowing player position via find_player()
 {
-	if (game->map.map[row][col] == 'P')
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+	int y;
+	int x;
+
+	y = game->map.player_state.pos_row;
+	x = game->map.player_state.pos_col;
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (x * TILE_WIDTH), (y * TILE_WIDTH));
 }
 
 static void paint_walls(t_game *game, int row, int col)
@@ -334,8 +445,8 @@ static void find_player_pos(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 	{
-		game->map.p_pos.row = row;
-		game->map.p_pos.col = col;
+		game->map.player_state.pos_row = row;
+		game->map.player_state.pos_col = col;
 	}
 }
 
@@ -349,38 +460,19 @@ static void print_map(t_game *game)
 		ft_putstr_fd(game->map.map[row], 1);
 		row++;
 	}
+	ft_putstr_fd("\n", 1);
 }
 
+/*
 static void print_player_pos(t_game *game)
 {
 	printf("Player position:\n");
-	printf("row: %d\n", game->map.p_pos.row);
-	printf("col: %d\n", game->map.p_pos.col);
+	printf("row: %d\n", game->map.player_state.pos_row);
+	printf("col: %d\n", game->map.player_state.pos_col);
 }
+*/
 
-static void cell_checker_painter(t_game *game, void (*f)())
-{
-	int	row;
-	int	col;
-
-	row = 0;
-	while (row < game->map.ntiles_rows)
-	{
-		col = 0;
-		while (col < game->map.ntiles_cols)
-		{
-			//f(game, row, col);
-			paint_bg(game, row, col);
-			paint_walls(game, row, col); // tekent de muren ook op de hoeken
-			paint_corners(game, row, col); // superimposed de hoeken
-			paint_player(game, row, col);
-			col++;
-		}
-		row++;
-	}
-}
-
-static void cell_checker_loop(t_game *game, void (*f)())
+static void cell_looper_ptr(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;
