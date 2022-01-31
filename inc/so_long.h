@@ -48,10 +48,9 @@ typedef struct	s_state
 	int	pos_col;
 	int tile_up;
 	int tile_down;
-	int tile_left;
-	int tile_right;
-
-	int	dir; // viewing direction
+	//int tile_left;
+	//int tile_right;
+	//int	dir; // viewing direction
 }				t_state;
 
 typedef struct	s_map
@@ -101,29 +100,28 @@ static void xpm_init(t_game *game);
 static void	xpm_loader(t_game *game);
 static void paint_bg(t_game *game, int row, int col);
 static void paint_corners(t_game *game, int row, int col);
-static void paint_player(t_game *game);
+static void paint_player(t_game *game, int x, int y);
 static void paint_walls(t_game *game, int row, int col);
-static void player_to_up(t_game *game);
-static void player_to_down(t_game *game);
-static void player_to_left(t_game *game);
-static void player_to_right(t_game *game);
 
 
+static void move_left(t_game *game);
+static void move_right(t_game *game);
+static void move_up(t_game *game);
+static void move_down(t_game *game);
+
+static void get_player_state_standalone(t_game *game); // WIP. Obtain status player
+static void get_player_pos(t_game *game, int row, int col);
+static void print_player_pos(t_game *game);
+static void print_player_state(t_game *game);
 
 static void print_map(t_game *game);
-
 static void find_player(t_game *game, int row, int col);
 //static void find_player_pos(t_game *game, int row, int col);
-//static void print_player_pos(t_game *game);
-
-
-
 static void cell_looper(t_game *game);
 static void cell_looper_ptr(t_game *game, void (*f)());
 
 
 //int controller(int key, t_game *game);
-static void player_state_update(t_game *game); // WIP. Obtain status player
 //static void player_pos_update(t_game *game, int x, int y); // TODO
 //int move_player_pos(t_game *game, int x, int y);
 
@@ -144,21 +142,6 @@ col, row
 #ifndef KEYS_H
 # define KEYS_H
 
-/*
- *  Summary:
- *    Virtual keycodes
- *  
- *  Discussion:
- *    These constants are the virtual keycodes defined originally in
- *    Inside Mac Volume V, pg. V-191. They identify physical keys on a
- *    keyboard. Those constants with "ANSI" in the name are labeled
- *    according to the key position on an ANSI-standard US keyboard.
- *    For example, KEY_A indicates the virtual keycode for the key
- *    with the letter 'A' in the US keyboard layout. Other keyboard
- *    layouts may have the 'A' key label on a different physical key;
- *    in this case, pressing 'A' will generate a different virtual
- *    keycode.
- */
 enum
 {
 	KEY_A = 0x00,

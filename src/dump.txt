@@ -84,3 +84,85 @@ static void	check_map_contents2(t_game *game)
 		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
 }
 */
+
+
+/*
+static void player_to_up(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow - 1][poscol] != '0')
+		return ;
+	game->map.map[posrow - 1][poscol] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row - 1;
+	game->map.player_state.pos_col = game->map.player_state.pos_col;
+}
+
+static void player_to_down(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow + 1][poscol] != '0')
+		return ;
+	game->map.map[posrow + 1][poscol] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row + 1;
+	game->map.player_state.pos_col = game->map.player_state.pos_col;
+}
+
+static void player_to_left(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow][poscol - 1] != '0')
+		return ;
+	game->map.map[posrow][poscol - 1] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
+	game->map.player_state.pos_col = game->map.player_state.pos_col - 1;
+}
+
+static void player_to_right(t_game *game)
+{
+	int posrow;
+	int poscol;
+
+	posrow = game->map.player_state.pos_row;
+	poscol = game->map.player_state.pos_col;
+	if (game->map.map[posrow][poscol + 1] != '0')
+		return ;
+	game->map.map[posrow][poscol + 1] = 'P';
+	game->map.map[posrow][poscol] = '0';
+	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
+	game->map.player_state.pos_col = game->map.player_state.pos_col + 1;
+}
+*/
+
+
+// TODO: UPDATE MAP //
+
+/*
+int controller(int key, t_game *game)
+{
+	if (key == KEY_W)
+		return (move_player_pos(game, 0, -1));
+}
+*/
+/*
+int move_player_pos(t_game *game, int x, int y)
+{
+	game->map.player_state.pos_row = game->map.player_state.pos_row + y;
+	game->map.player_state.pos_col = game->map.player_state.pos_col + x;
+	print_player_pos(game);
+}
+*/
