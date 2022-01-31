@@ -1,5 +1,39 @@
 #include "so_long.h"
 
+
+/* All valid input keys */
+enum e_keycode
+{
+	KEY_UP = 13,
+	KEY_DOWN = 1,
+	KEY_LEFT = 0,
+	KEY_RIGHT = 2,
+	RESET = 15,
+	ESC = 53
+};
+
+int	input(int key, t_game *game)
+{
+	if (key == KEY_LEFT)
+		ft_exit_failure("YOU PRESSED LEFT");
+	/*
+	if (key == KEY_LEFT)
+		player_to_left(game);
+	*/
+}
+
+
+static void update(t_game *game)
+{
+	cell_looper(game);
+	paint_player(game);
+}
+
+
+// MAAK 1 SUPER BEELD PRINTER FUNCTIE.
+// DIE ROEP JE 1x aan EN HIJ PARSED HEEL DE KAART EN TEKENT DE SPRITES
+
+
 int	main(int argc, char **argv)
 { 
 	t_game	*game;
@@ -23,24 +57,9 @@ int	main(int argc, char **argv)
 	cell_looper(game);
 	paint_player(game);
 	player_state_update(game);
-	/*
-	printf("player row: %d\n", game->map.player_state.pos_row);
-	printf("player col: %d\n", game->map.player_state.pos_col);
-	printf("player up: %d\n", game->map.player_state.tile_up);
-	printf("player down: %d\n", game->map.player_state.tile_down);
-	printf("player left: %d\n", game->map.player_state.tile_left);
-	printf("player right: %d\n", game->map.player_state.tile_right);
-	*/
-	//mlx_key_hook(game->mlx.win, controller, game);
-	//mlx_hook(game->mlx.win, 2, (1L << 0), controller, &game);
-	print_map(game);
-	player_to_down(game);
-	print_map(game);
-	player_to_down(game);
-	print_map(game);
-	//mlx_loop(game->mlx.instance);
-	//mlx_hook(game->mlx.win, 2, 0, input, (void *)&game);
-	//mlx_loop_hook(game->mlx.instance, update, (void *)&game);
+	mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game); // 2 = key down, (1L<<0) KeyPressMask
+	mlx_loop_hook(game->mlx.instance, update, game); // for each new frame it runs update()
+	mlx_loop(game->mlx.instance);
 	return (0);
 }
 
@@ -51,9 +70,9 @@ static void player_to_up(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if (game->map.map[posrow-1][poscol] != '0')
+	if (game->map.map[posrow - 1][poscol] != '0')
 		return ;
-	game->map.map[posrow-1][poscol] = 'P';
+	game->map.map[posrow - 1][poscol] = 'P';
 	game->map.map[posrow][poscol] = '0';
 	game->map.player_state.pos_row = game->map.player_state.pos_row - 1;
 	game->map.player_state.pos_col = game->map.player_state.pos_col;
@@ -66,9 +85,9 @@ static void player_to_down(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if (game->map.map[posrow+1][poscol] != '0')
+	if (game->map.map[posrow + 1][poscol] != '0')
 		return ;
-	game->map.map[posrow+1][poscol] = 'P';
+	game->map.map[posrow + 1][poscol] = 'P';
 	game->map.map[posrow][poscol] = '0';
 	game->map.player_state.pos_row = game->map.player_state.pos_row + 1;
 	game->map.player_state.pos_col = game->map.player_state.pos_col;
@@ -81,9 +100,9 @@ static void player_to_left(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if (game->map.map[posrow][poscol+-1] != '0')
+	if (game->map.map[posrow][poscol - 1] != '0')
 		return ;
-	game->map.map[posrow][poscol+-1] = 'P';
+	game->map.map[posrow][poscol - 1] = 'P';
 	game->map.map[posrow][poscol] = '0';
 	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
 	game->map.player_state.pos_col = game->map.player_state.pos_col - 1;
@@ -96,9 +115,9 @@ static void player_to_right(t_game *game)
 
 	posrow = game->map.player_state.pos_row;
 	poscol = game->map.player_state.pos_col;
-	if (game->map.map[posrow][poscol+1] != '0')
+	if (game->map.map[posrow][poscol + 1] != '0')
 		return ;
-	game->map.map[posrow][poscol+1] = 'P';
+	game->map.map[posrow][poscol + 1] = 'P';
 	game->map.map[posrow][poscol] = '0';
 	game->map.player_state.pos_row = game->map.player_state.pos_row + 0;
 	game->map.player_state.pos_col = game->map.player_state.pos_col + 1;
@@ -452,6 +471,7 @@ static void print_map(t_game *game)
 	int row;
 
 	row = 0;
+	printf("\r");
 	while (row < game->map.ntiles_rows)
 	{
 		ft_putstr_fd(game->map.map[row], 1);
