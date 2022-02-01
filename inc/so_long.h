@@ -6,7 +6,7 @@
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 64
-#define N_IMAGES 12
+#define N_IMAGES 16
 
 #define W_KEY 13
 #define A_KEY 0
@@ -16,16 +16,20 @@
 
 #define BG 0
 #define PLAYER 1
-#define COLLECTIBLE 2
-#define EXIT 3
-#define WALL_U 4
-#define WALL_D 5
-#define WALL_L 6
-#define WALL_R 7
-#define CORNER_UL 8
-#define CORNER_UR 9
-#define CORNER_LL 10
-#define CORNER_LR 11
+#define PLAYER_L 2
+#define PLAYER_R 3
+#define PLAYER_U 4
+#define PLAYER_D 5
+#define COLLECTIBLE 6
+#define EXIT 7
+#define WALL_U 8
+#define WALL_D 9
+#define WALL_L 10
+#define WALL_R 11
+#define CORNER_UL 12
+#define CORNER_UR 13
+#define CORNER_LL 14
+#define CORNER_LR 15
 
 
 typedef struct s_mlx
@@ -50,6 +54,7 @@ typedef struct	s_state
 	int down;
 	int left;
 	int right;
+	int dir;
 }				t_state;
 
 typedef struct	s_map
@@ -93,6 +98,7 @@ static	void	parse_map(t_game *game);
 static	void	map_contents_init(t_game *game);
 static	void	xpm_init(t_game *game);
 static	void	xpm_loader(t_game *game);
+static	void	xpm_load_player(t_game *game);
 
 /* cell functions */
 static	void	cell_looper(t_game *game, void (*f)());
@@ -106,15 +112,26 @@ static	void	cell_player_data(t_game *game, int row, int col);
 static	void	cell_player_pos(t_game *game, int row, int col);
 static	void	cell_count_chars(t_game *game, int row, int col);
 
+/* standalone */
+static void draw_player(t_game *game);
+static void update_cross(t_game *game);
+static void update_tiles(t_game *game, int x, int y, char c);
+
 /* printer functions */
-static	void	print_player_pos(t_game *game);
-static	void	print_player_state(t_game *game);
+static	void	print_player_cross(t_game *game);
+//static	void	print_player_pos(t_game *game);
+//static	void	print_player_state(t_game *game);
 static	void	print_map(t_game *game);
 
 /* controller */
 int				input(int key, t_game *game);
 static void		move_up(t_game *game);
+static void		move_down(t_game *game);
+static void		move_left(t_game *game);
+static void		move_right(t_game *game);
 
+
+static void cell_draw_collectible(t_game *game, int row, int col);
 
 /*
 clear && make re && clear && ./so_long map1_5x5.ber

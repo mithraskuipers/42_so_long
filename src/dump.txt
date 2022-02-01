@@ -205,3 +205,12 @@ static void move_up(t_game *game)
 		printf("MOVEMENT NOT ALLOWED\n");
 	}
 }
+
+/*
+static void print_player_pos(t_game *game)
+{
+	printf("Player position:\n");
+	printf("row: %d\n", game->map.player.y);
+	printf("col: %d\n", game->map.player.x);
+}
+*/
