@@ -166,3 +166,42 @@ int move_player_pos(t_game *game, int x, int y)
 	print_player_pos(game);
 }
 */
+
+	//cell_looper(game);
+	//cell_looper_ptr(game, cell_player);
+	//mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game); // 2 = key down, (1L<<0) KeyPressMask
+	//mlx_loop(game->mlx.instance);
+	//get_player_state_standalone(game);
+	//printf("\nrow %d\n", game->map.player_state.pos_row);
+	//printf("\ncol %d\n", game->map.player_state.pos_col);
+	//printf("%d", game->map.player_state.tile_up);
+	//printf("%d", game->map.player_state.tile_down);
+	//cell_playerinfo(game);
+	//print_player_state(game);
+	//print_player_pos(game);
+	//cell_player(game);
+	//mlx_loop_hook(game->mlx.instance, update, game); // for each new frame it runs update()
+	//mlx_loop(game->mlx.instance);
+
+static void get_player_state_standalone(t_game *game)
+{
+	game->map.player.up = game->map.map[game->map.player.y-1][game->map.player.x];
+	game->map.player.down = game->map.map[game->map.player.y+1][game->map.player.x];
+	game->map.player.left = game->map.map[game->map.player.y][game->map.player.x - 1];
+	game->map.player.right = game->map.map[game->map.player.y][game->map.player.x + 1];
+}
+
+static void move_up(t_game *game)
+{
+	if (game->map.player.up == 0)
+	{
+		game->map.player.y = game->map.player.y - 1;
+		game->map.player.x = game->map.player.x;
+		get_player_state_standalone(game);
+		print_player_state(game);
+	}
+	else
+	{
+		printf("MOVEMENT NOT ALLOWED\n");
+	}
+}

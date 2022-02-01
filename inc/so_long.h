@@ -44,13 +44,12 @@ typedef struct	s_content
 
 typedef struct	s_state
 {
-	int	pos_row;
-	int	pos_col;
-	int tile_up;
-	int tile_down;
-	int tile_left;
-	int tile_right;
-	//int	dir; // viewing direction
+	int	x;
+	int	y;
+	int up;
+	int down;
+	int left;
+	int right;
 }				t_state;
 
 typedef struct	s_map
@@ -59,7 +58,7 @@ typedef struct	s_map
 	char		*path;
 	char		**map;
 	int			fd;
-	t_state		player_state;
+	t_state		player;
 	int			ntiles_cols;
 	int			ntiles_rows;
 }				t_map;
@@ -79,54 +78,42 @@ typedef	struct	s_game
 	int			px_col;
 }				t_game;
 
-
-
-
 /* Prototypes */
-static void	ft_exit_failure(char *s);
-static void	ft_map_failure(t_game *game, char *s);
-static void check_input_validity(int argc, char **argv);
-static void	get_map_width(t_game *game);
-static void	get_map_height(t_game *game);
-static void	check_map_rectangular(t_game *game);
-static void	check_map_contents1(t_game *game);
-static void	map_count(t_game *game, int i, int j);
-static void map_count_check(t_game *game);
-static void	map_presence_borders(t_game *game, int i, int j);
-static void	read_map_into_memory(t_game *game);
-static void	parse_map(t_game *game);
-static void map_contents_init(t_game *game);
-static void xpm_init(t_game *game);
-static void	xpm_loader(t_game *game);
-static void paint_bg(t_game *game, int row, int col);
-static void paint_corners(t_game *game, int row, int col);
-static void paint_player(t_game *game, int x, int y);
-static void paint_walls(t_game *game, int row, int col);
-static void count_chars_sub(t_game *game, int row, int col);
-static void move_left(t_game *game);
-static void move_right(t_game *game);
-static void move_up(t_game *game);
-static void move_down(t_game *game);
+/* generic */
+static	void	ft_exit_failure(char *s);
+static	void	ft_map_failure(t_game *game, char *s);
+static	void	check_input_validity(int argc, char **argv);
+static	void	get_map_width(t_game *game);
+static	void	get_map_height(t_game *game);
+static	void	check_map_rectangular(t_game *game);
+static	void	map_count_check(t_game *game);
+static	void	map_presence_borders(t_game *game, int i, int j);
+static	void	read_map_into_memory(t_game *game);
+static	void	parse_map(t_game *game);
+static	void	map_contents_init(t_game *game);
+static	void	xpm_init(t_game *game);
+static	void	xpm_loader(t_game *game);
 
-int	input(int key, t_game *game);
+/* cell functions */
+static	void	cell_looper(t_game *game, void (*f)());
+static	void	draw_map_megaloop(t_game *game);
 
+static	void	cell_draw_bg(t_game *game, int row, int col);
+static	void	cell_draw_corners(t_game *game, int row, int col);
+static	void	cell_draw_walls(t_game *game, int row, int col);
+static	void	cell_draw_player(t_game *game, int x, int y);
+static	void	 cell_player_data(t_game *game, int row, int col);
+static	void	 cell_player_pos(t_game *game, int row, int col);
+static	void	cell_count_chars(t_game *game, int row, int col);
 
-static void get_player_state_standalone(t_game *game); // WIP. Obtain status player
-static void get_player_pos_ptr(t_game *game, int row, int col);
-static void print_player_pos(t_game *game);
-static void print_player_state(t_game *game);
+/* printer functions */
+static	void	print_player_pos(t_game *game);
+static	void	print_player_state(t_game *game);
+static	void	print_map(t_game *game);
 
-static void print_map(t_game *game);
-static void find_player(t_game *game, int row, int col);
-//static void find_player_pos(t_game *game, int row, int col);
-static void cell_looper(t_game *game);
-static void cell_looper_ptr(t_game *game, void (*f)());
-
-static void draw_map(t_game *game);
-
-//int controller(int key, t_game *game);
-//static void player_pos_update(t_game *game, int x, int y); // TODO
-//int move_player_pos(t_game *game, int x, int y);
+/* controller */
+int				input(int key, t_game *game);
+static void		move_up(t_game *game);
 
 
 /*
@@ -141,6 +128,19 @@ Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
 dan werk je met X en Y logica. Hierbij X = col; Y = row.
 col, row
 */
+
+
+/* All valid input keys */
+enum e_keycode
+{
+	KEY_UP = 13,
+	KEY_DOWN = 1,
+	KEY_LEFT = 0,
+	KEY_RIGHT = 2,
+	RESET = 15,
+	ESC = 53
+};
+
 
 #ifndef KEYS_H
 # define KEYS_H
