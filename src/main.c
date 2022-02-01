@@ -52,6 +52,7 @@ static void draw_map_megaloop(t_game *game)
 	int	col;
 
 	row = 0;
+	cell_looper(game, player_pos);
 	while (row < game->map.ntiles_rows)
 	{
 		col = 0;
