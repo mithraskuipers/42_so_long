@@ -27,10 +27,7 @@ int	main(int argc, char **argv)
 	xpm_loader(game);
 	xpm_load_player(game);
 	draw_map_megaloop(game);
-	print_map(game);
-	//printf("%d", game->map.player.down);
-	//print_player_pos(game);
-	//print_player_data(game);
+	//print_map(game);
 	mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game->mlx); // 2 = key down, (1L<<0) KeyPressMask
 	mlx_loop(game->mlx.instance);
 	return (0);
@@ -41,86 +38,48 @@ int	input(int key, t_game *game)
 	if (key == KEY_W)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_U].mlx_img;
-		move_up(game);
+		mover(game, game->map.player.up, 0, -1);
 	}
 	else if (key == KEY_S)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_D].mlx_img;
-		move_down(game);
+		mover(game, game->map.player.down, 0, 1);
 	}
 	else if (key == KEY_A)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_L].mlx_img;
-		move_left(game);
+		mover(game, game->map.player.left, -1, 0);
 	}
 	else if (key == KEY_D)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_R].mlx_img;
-		move_right(game);
+		mover(game, game->map.player.right, 1, 0);
 	}
 	mlx_clear_window(game->mlx.instance, game->mlx.win);
 	draw_map_megaloop(game);
 	return (0);
 }
 
-static void move_up(t_game *game)
+static void mover(t_game *game, int dirtile, int x, int y)
 {
-	if (game->map.player.up == '0')
-	{
-		update_tiles(game, game->map.player.x, game->map.player.y, '0');
-		update_tiles(game, game->map.player.x, game->map.player.y - 1, 'P');
-		game->map.player.y = game->map.player.y - 1;
-		game->map.player.x = game->map.player.x;
-		update_cross(game);
-		print_map(game);
-	}
-	return ;
-}
-
-static void move_down(t_game *game)
-{
-	if (game->map.player.down == '0')
-	{
-		update_tiles(game, game->map.player.x, game->map.player.y, '0');
-		update_tiles(game, game->map.player.x, game->map.player.y + 1, 'P');
-		game->map.player.y = game->map.player.y + 1;
-		game->map.player.x = game->map.player.x;
-		update_cross(game);
-		print_map(game);
-	}
-	return ;
-}
-
-static void move_left(t_game *game)
-{
-	if (game->map.player.left == '0')
-	{
-		update_tiles(game, game->map.player.x, game->map.player.y, '0');
-		update_tiles(game, game->map.player.x - 1, game->map.player.y, 'P');
-		game->map.player.y = game->map.player.y;
-		game->map.player.x = game->map.player.x - 1;
-		update_cross(game);
-		print_map(game);
-	}
-	return ;
-}
-
-static void move_right(t_game *game)
-{
-	if (game->map.player.right == '0')
-	{
-		update_tiles(game, game->map.player.x, game->map.player.y, '0');
-		update_tiles(game, game->map.player.x + 1, game->map.player.y, 'P');
-		game->map.player.y = game->map.player.y;
-		game->map.player.x = game->map.player.x + 1;
-		update_cross(game);
-		print_map(game);
-	}
-	return ;
+	if ((dirtile != '0') && (dirtile != 'C'))
+		return ;
+	game->map.content.nsteps++;
+	printf("You moved %d times.\n", game->map.content.nsteps);
+	update_tiles(game, game->map.player.x, game->map.player.y, '0');
+	update_tiles(game, (game->map.player.x + x), (game->map.player.y + y), 'P');
+	game->map.player.y = game->map.player.y + y;
+	game->map.player.x = game->map.player.x + x;
+	update_cross(game);
+	//print_map(game);
 }
 
 static void update_tiles(t_game *game, int x, int y, char c)
 {
+	if (game->map.map[y][x] == 'C')
+	{
+		game->map.content.collectables++;
+	}
 	game->map.map[y][x] = c;
 }
 
@@ -164,7 +123,7 @@ static void draw_map_megaloop(t_game *game)
 			cell_draw_bg(game, row, col);
 			cell_draw_walls(game, row, col);
 			cell_draw_corners(game, row, col);
-			cell_draw_collectible(game, row, col);
+			cell_draw_collectable(game, row, col);
 			col++;
 		}
 		row++;
@@ -342,6 +301,7 @@ static void map_contents_init(t_game *game)
 	game->map.content.collectables = 0;
 	game->map.content.exits = 0;
 	game->map.content.invalids = 0;
+	game->map.content.nsteps = 0;
 }
 
 /* init functions */
@@ -362,16 +322,16 @@ static void xpm_init(t_game *game)
 	game->img[CORNER_UR].path = "./assets/corner_ur.xpm";
 	game->img[CORNER_LL].path = "./assets/corner_ll.xpm";
 	game->img[CORNER_LR].path = "./assets/corner_lr.xpm";
-	game->img[COLLECTIBLE].path = "./assets/collectible.xpm";
+	game->img[COLLECTABLE].path = "./assets/collectable.xpm";
 }
 
 static void	xpm_loader(t_game *game)
 {
-	int row; // hoe werrowt dit?
-	int col; // hoe werrowt dit??
+	int row; // hoe werkt dit?
+	int col; // hoe werkt dit??
 
 	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[BG].path, &row, &col);
+	game->img[BG].path, (&row), &col);
 	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[WALL_L].path, &row, &col);
 	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
@@ -388,14 +348,14 @@ static void	xpm_loader(t_game *game)
 	game->img[CORNER_LL].path, &row, &col);
 	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[CORNER_LR].path, &row, &col);
-	game->img[COLLECTIBLE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
-	game->img[COLLECTIBLE].path, &row, &col);
+	game->img[COLLECTABLE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
+	game->img[COLLECTABLE].path, &row, &col);
 }
 
 static void	xpm_load_player(t_game *game)
 {
-	int row; // hoe werrowt dit?
-	int col; // hoe werrowt dit??
+	int row; // hoe werkt dit?
+	int col; // hoe werkt dit??
 
 	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[PLAYER].path, &row, &col);
@@ -452,13 +412,13 @@ static void cell_draw_walls(t_game *game, int row, int col)
 	}
 }
 
-static void cell_draw_collectible(t_game *game, int row, int col)
+static void cell_draw_collectable(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'C')
 	{
 		row = (row * TILE_WIDTH);
 		col = (col * TILE_WIDTH);
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[COLLECTIBLE].mlx_img, col, row);
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[COLLECTABLE].mlx_img, col, row);
 	}
 }
 

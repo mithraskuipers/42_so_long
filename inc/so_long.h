@@ -14,13 +14,19 @@
 #define D_KEY 2
 #define ESC_KEY 53
 
+
+#define UP 1
+#define DOWN 2
+#define LEFT 3
+#define RIGHT 4
+
 #define BG 0
 #define PLAYER 1
 #define PLAYER_L 2
 #define PLAYER_R 3
 #define PLAYER_U 4
 #define PLAYER_D 5
-#define COLLECTIBLE 6
+#define COLLECTABLE 6
 #define EXIT 7
 #define WALL_U 8
 #define WALL_D 9
@@ -40,10 +46,11 @@ typedef struct s_mlx
 
 typedef struct	s_content
 {
-	int			players;
-	int			collectables;
-	int			exits;
-	int			invalids;
+	int	players;
+	int	collectables;
+	int	exits;
+	int	invalids;
+	int	nsteps;
 }				t_content;
 
 typedef struct	s_state
@@ -125,13 +132,10 @@ static	void	print_map(t_game *game);
 
 /* controller */
 int				input(int key, t_game *game);
-static void		move_up(t_game *game);
-static void		move_down(t_game *game);
-static void		move_left(t_game *game);
-static void		move_right(t_game *game);
+static void		mover(t_game *game, int dirtile, int x, int y);
+static void print_status(char *s, int n);
 
-
-static void cell_draw_collectible(t_game *game, int row, int col);
+static void cell_draw_collectable(t_game *game, int row, int col);
 
 /*
 clear && make re && clear && ./so_long map1_5x5.ber
