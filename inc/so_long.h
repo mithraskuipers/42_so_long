@@ -48,8 +48,8 @@ typedef struct	s_state
 	int	pos_col;
 	int tile_up;
 	int tile_down;
-	//int tile_left;
-	//int tile_right;
+	int tile_left;
+	int tile_right;
 	//int	dir; // viewing direction
 }				t_state;
 
@@ -102,15 +102,17 @@ static void paint_bg(t_game *game, int row, int col);
 static void paint_corners(t_game *game, int row, int col);
 static void paint_player(t_game *game, int x, int y);
 static void paint_walls(t_game *game, int row, int col);
-
-
+static void count_chars_sub(t_game *game, int row, int col);
 static void move_left(t_game *game);
 static void move_right(t_game *game);
 static void move_up(t_game *game);
 static void move_down(t_game *game);
 
+int	input(int key, t_game *game);
+
+
 static void get_player_state_standalone(t_game *game); // WIP. Obtain status player
-static void get_player_pos(t_game *game, int row, int col);
+static void get_player_pos_ptr(t_game *game, int row, int col);
 static void print_player_pos(t_game *game);
 static void print_player_state(t_game *game);
 
@@ -120,6 +122,7 @@ static void find_player(t_game *game, int row, int col);
 static void cell_looper(t_game *game);
 static void cell_looper_ptr(t_game *game, void (*f)());
 
+static void draw_map(t_game *game);
 
 //int controller(int key, t_game *game);
 //static void player_pos_update(t_game *game, int x, int y); // TODO

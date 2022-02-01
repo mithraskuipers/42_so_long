@@ -15,26 +15,50 @@ int	main(int argc, char **argv)
 	cell_looper_ptr(game, map_count);
 	cell_looper_ptr(game, map_count_check);
 	cell_looper_ptr(game, map_presence_borders);
+	cell_looper_ptr(game, count_chars_sub);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_row, game->px_col, "MITHRAS");
 	if (!(game->mlx.win))
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
 	xpm_loader(game);
-	cell_looper(game); // also obtain player coordinates
+	draw_map(game);
+
+
+
+	//cell_looper(game);
+	//cell_looper_ptr(game, paint_player);
+	//mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game); // 2 = key down, (1L<<0) KeyPressMask
+	//mlx_loop(game->mlx.instance);
+	//get_player_state_standalone(game);
 	//printf("\nrow %d\n", game->map.player_state.pos_row);
 	//printf("\ncol %d\n", game->map.player_state.pos_col);
-	get_player_state_standalone(game);
-	printf("%d", game->map.player_state.tile_up);
-	printf("%d", game->map.player_state.tile_down);
-	//get_player_pos(game);
+	//printf("%d", game->map.player_state.tile_up);
+	//printf("%d", game->map.player_state.tile_down);
+	//get_player_pos_ptr(game);
 	//print_player_state(game);
 	//print_player_pos(game);
 	//paint_player(game);
-	//mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game); // 2 = key down, (1L<<0) KeyPressMask
 	//mlx_loop_hook(game->mlx.instance, update, game); // for each new frame it runs update()
 	//mlx_loop(game->mlx.instance);
 	return (0);
+}
+
+static void draw_map(t_game *game)
+{
+	cell_looper_ptr(game, paint_bg);
+	cell_looper_ptr(game, paint_walls);
+	cell_looper_ptr(game, paint_corners);
+	cell_looper_ptr(game, paint_player);
+	mlx_loop(game->mlx.instance);
+}
+
+static void paint_player(t_game *game, int x, int y)
+{
+	if (game->map.map[y][x] == 'P')
+	{
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (x * TILE_WIDTH), (y * TILE_WIDTH));
+	}
 }
 
 /* All valid input keys */
@@ -59,13 +83,12 @@ static void print_player_state(t_game *game)
 {
 	printf("Player state:\n");
 	printf("up: %d\n", game->map.player_state.tile_up);
-	//printf("down: %d\n", game->map.player_state.tile_down);
-	//printf("left: %d\n", game->map.player_state.tile_left);
-	//printf("right: %d\n", game->map.player_state.tile_right);
+	printf("down: %d\n", game->map.player_state.tile_down);
+	printf("left: %d\n", game->map.player_state.tile_left);
+	printf("right: %d\n", game->map.player_state.tile_right);
 }
 
-
-static void get_player_pos(t_game *game, int row, int col)
+static void get_player_pos_ptr(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 	{
@@ -78,63 +101,38 @@ static void get_player_state_standalone(t_game *game)
 {
 	game->map.player_state.tile_up = game->map.map[game->map.player_state.pos_row-1][game->map.player_state.pos_col];
 	game->map.player_state.tile_down = game->map.map[game->map.player_state.pos_row+1][game->map.player_state.pos_col];
-	//game->map.player_state.tile_left = game->map.map[posrow][poscol - 1];
-	//game->map.player_state.tile_right = game->map.map[posrow][poscol + 1];
+	game->map.player_state.tile_left = game->map.map[game->map.player_state.pos_row][game->map.player_state.pos_col - 1];
+	game->map.player_state.tile_right = game->map.map[game->map.player_state.pos_row][game->map.player_state.pos_col + 1];
 }
 
 static void move_up(t_game *game)
 {
 	if (game->map.player_state.tile_up == '0')
 	{
-		game->map.player_state.pos_row = game->map.player_state.pos_row + 1;
+		game->map.player_state.pos_row = game->map.player_state.pos_row - 1;
 		game->map.player_state.pos_col = game->map.player_state.pos_col;
 		get_player_state_standalone(game);
 	}
-}
-
-static void move_down(t_game *game)
-{
-	game->map.player_state.pos_row = game->map.player_state.pos_row - 1;
-	game->map.player_state.pos_col = game->map.player_state.pos_col;
-}
-
-static void move_left(t_game *game)
-{
-	game->map.player_state.pos_row = game->map.player_state.pos_row;
-	game->map.player_state.pos_col = game->map.player_state.pos_col - 1;
-}
-
-static void move_right(t_game *game)
-{
-	game->map.player_state.pos_row = game->map.player_state.pos_row;
-	game->map.player_state.pos_col = game->map.player_state.pos_col + 1;
+	else
+	{
+		printf("MOVEMENT NOT ALLOWED\n");
+	}
 }
 
 int	input(int key, t_game *game)
 {
-	if (key == KEY_LEFT)
-		move_left(game);
-	if (key == KEY_RIGHT)
-		move_right(game);
 	if (key == KEY_UP)
+	{
 		move_up(game);
-	if (key == KEY_DOWN)
-		move_down(game);
-	print_player_pos(game);
-	//print_player_state(game);
+	}
 }
 
 // MAAK 1 SUPER BEELD PRINTER FUNCTIE.
 // DIE ROEP JE 1x aan EN HIJ PARSED HEEL DE KAART EN TEKENT DE SPRITES
 
-
-
-
 // Functie leest ook werkelijk de inhoud van de kaart uit!
 // Dus kan worden gebruikt om de betekenis te parsen. 
 // Leest dus niet enkel de coordinaten uit van up/down/left/right, heb je ook niets aan!
-
-
 
 static void cell_looper(t_game *game)
 {
@@ -148,10 +146,10 @@ static void cell_looper(t_game *game)
 		while (col < game->map.ntiles_cols)
 		{
 			paint_bg(game, row, col);
-			paint_walls(game, row, col); // tekent de muren ook op de hoeken
-			paint_corners(game, row, col); // superimposed de hoeken
-			get_player_pos(game, row, col);
-			paint_player(game, row, col);
+			get_player_pos_ptr(game, row, col);
+			//paint_player(game, row, col);
+			//paint_walls(game, row, col); // tekent de muren ook op de hoeken
+			//paint_corners(game, row, col); // superimposed de hoeken
 			col++;
 		}
 		row++;
@@ -239,6 +237,20 @@ static void	check_map_rectangular(t_game *game)
 		ft_map_failure(game, "Map is not rectangular.");
 }
 
+
+static void count_chars_sub(t_game *game, int row, int col)
+{
+	if (game->map.map[row][col] == 'P')
+		(game->map.content.players)++;
+	else if (game->map.map[row][col] == 'C')
+		(game->map.content.collectables)++;
+	else if (game->map.map[row][col] == 'E')
+		(game->map.content.exits)++;
+	else if ((!(game->map.map[row][col] != '0')) && (!(game->map.map[row][col] != '1')))
+		(game->map.content.invalids)++;
+}
+
+/*
 static void	check_map_contents1(t_game *game)
 {
 	int	i;
@@ -264,6 +276,7 @@ static void	check_map_contents1(t_game *game)
 		i++;
 	}
 }
+*/
 
 static void	map_count(t_game *game, int i, int j)
 {
@@ -403,13 +416,7 @@ static void paint_corners(t_game *game, int row, int col)
 	}
 }
 
-static void paint_player(t_game *game, int x, int y)
-{
-	if (game->map.map[y][x] == 'P')
-	{
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[PLAYER].mlx_img, (x * TILE_WIDTH), (y * TILE_WIDTH));
-	}
-}
+
 
 static void paint_walls(t_game *game, int row, int col)
 {
@@ -438,9 +445,6 @@ static void print_map(t_game *game)
 	}
 	ft_putstr_fd("\n", 1);
 }
-
-
-
 
 static void cell_looper_ptr(t_game *game, void (*f)())
 {
