@@ -159,7 +159,7 @@ static void	ft_map_failure(t_game *game, char *s)
 	int	i;
 
 	i = 0;
-	while ((i < game->map.ntiles_rows) && (game->map.map[i]))
+	while ((i < game->map.ntiles_rows) && (game->map.map[i])) // SEG FAULT
 	{
 		free (game->map.map[i]);
 		i++;

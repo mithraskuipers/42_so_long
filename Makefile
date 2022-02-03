@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/01/27 17:18:52 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/02/03 18:34:52 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,12 +43,12 @@ SRC_BONUS_FULLPATH = $(addprefix $(SRCS_BONUS_DIR), $(SRC_BONUS))
 OBJ_BONUS_FULLPATH = $(SRC_BONUS_FULLMATH:.c=.o)
 
 .c.o:
-	$(CC) $(CFLAGS) -I $(DIR_INC) -o $@ -c $?
+	$(CC) -g $(CFLAGS) -I $(DIR_INC) -o $@ -c $?
 
 $(NAME): $(OBJ_FULLPATH)
 	make -C $(DIR_LIBFT) plusplus
 	make -C $(DIR_MLX)
-	$(CC) -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
+	$(CC) -g -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 
 bonus: $(NAME_BONUS)
 
@@ -71,4 +71,4 @@ fclean:
 
 re: fclean all
 
-PHONY: all clean fclean re bon
+PHONY: all clean fclean re bonus
