@@ -28,9 +28,15 @@ int	main(int argc, char **argv)
 	xpm_load_player(game);
 	draw_map_megaloop(game);
 	//print_map(game);
+	mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game->mlx); // 2 = key down, (1L<<0) KeyPressMask
 	mlx_loop(game->mlx.instance);
 	return (0);
+}
+
+int	exit_game(t_game *game)
+{
+	TODO!!!!
 }
 
 int	input(int key, t_game *game)
