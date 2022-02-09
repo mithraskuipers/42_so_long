@@ -84,8 +84,8 @@ typedef struct	s_img
 	char	*path;
 	void	*mlx_img;
 
-	int 	width[19];
-	int		height[19];
+	int 	width;
+	int		height;
 }				t_img;
 
 typedef	struct	s_game

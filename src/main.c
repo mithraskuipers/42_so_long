@@ -327,7 +327,7 @@ static void map_contents_init(t_game *game)
 
 static void xpm_init(t_game *game)
 {
-	game->img[BG].path = "./assets/bg.xpm";
+	game->img[BG].path = "./assets/BG.xpm";
 	game->img[WALL_L].path = "./assets/wall_l.xpm";
 	game->img[WALL_R].path = "./assets/wall_r.xpm";
 	game->img[WALL_U].path = "./assets/wall_u.xpm";
@@ -347,41 +347,52 @@ static void xpm_init(t_game *game)
 
 }
 
+static void looper2(t_game *game, int pic, int *height, int *width)
+{
+	game->img[pic].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, game->img[pic].path, height, width);
+}
+
 static void	load_xpm_sprites(t_game *game)
 {
 	int row; // hoe werkt dit?
 	int col; // hoe werkt dit??
 
-	game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[BG].path, (&row), &col);
-	game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_L].path, &row, &col);
-	game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_R].path, &row, &col);
-	game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_U].path, &row, &col);
-	game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[WALL_D].path, &row, &col);
-	game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_UL].path, &row, &col);
-	game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_UR].path, &row, &col);
-	game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_LL].path, &row, &col);
-	game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[CORNER_LR].path, &row, &col);
-	game->img[COLLECTABLE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
-	game->img[COLLECTABLE].path, &row, &col);
-	game->img[DOOR_C].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
-	game->img[DOOR_C].path, &row, &col);
-	game->img[DOOR_O].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
-	game->img[DOOR_O].path, &row, &col);
-	game->img[STONE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
-	game->img[STONE].path, &row, &col);
+	for (int i = 0; i < N_IMAGES; i++)
+	{
+		looper2(game, i, &game->img[i].height, &game->img[i].width);
+	}
+
+	// game->img[BG].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[BG].path, p[BG].height, p[BG].width;
+	// game->img[WALL_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[WALL_L].path, p[WALL_L].height, p[WALL_L].width;
+	// game->img[WALL_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[WALL_R].path, p[WALL_R].height, p[WALL_R].width;
+	// game->img[WALL_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[WALL_U].path, p[WALL_U].height, p[WALL_U].width;
+	// game->img[WALL_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[WALL_D].path, p[WALL_D].height, p[WALL_D].width;
+	// game->img[CORNER_UL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[CORNER_UL].path, p[CORNER_UL].height, p[CORNER_UL].width;
+	// game->img[CORNER_UR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[CORNER_UR].path, p[CORNER_UR].height, p[CORNER_UR].width;
+	// game->img[CORNER_LL].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[CORNER_LL].path, p[CORNER_LL].height, p[CORNER_LL].width;
+	// game->img[CORNER_LR].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+	// game->img[CORNER_LR].path, p[CORNER_LR].height, p[CORNER_LR].width;
+	// game->img[COLLECTABLE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
+	// game->img[COLLECTABLE].path, p[COLLECTABLE].height, p[COLLECTABLE].width;
+	// game->img[DOOR_C].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
+	// game->img[DOOR_C].path, p[DOOR_C].height, p[DOOR_C].width;
+	// game->img[DOOR_O].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
+	// game->img[DOOR_O].path, p[DOOR_O].height, p[DOOR_O].width;
+	// game->img[STONE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
+	// game->img[STONE].path, p[STONE].height, p[STONE].width;
 }
 
 static void	load_xpm_player(t_game *game)
 {
+	/*
 	int row; // hoe werkt dit?
 	int col; // hoe werkt dit??
 
@@ -395,6 +406,7 @@ static void	load_xpm_player(t_game *game)
 	game->img[PLAYER_U].path, &row, &col);
 	game->img[PLAYER_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[PLAYER_D].path, &row, &col);
+	*/
 }
 
 /* loop functions */
