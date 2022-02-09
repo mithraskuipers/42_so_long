@@ -6,11 +6,13 @@ int	main(int argc, char **argv)
 { 
 	t_game	*game;
 
-	game = malloc(sizeof(t_game));
+	//game = malloc(sizeof(t_game));
+	game = ft_calloc(1, sizeof(t_game));
 	if (!(game))
 		ft_exit_failure("Memory allocation issue.");
 	game->map.path = argv[1];
-	map_contents_init(game);
+	
+	//map_contents_init(game);
 	check_input_validity(argc, argv);
 	parse_map(game);
 	cell_looper(game, cell_count_map_chars);
