@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	cell_looper(game, map_presence_borders);
 	map_count_check(game);
 	game->mlx.instance = mlx_init();
-	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_row, game->px_col, "MITHRAS");
+	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, game->px_row, "MITHRAS");
 	if (!(game->mlx.win))
 		ft_exit_failure("Could not create window");
 	xpm_init(game);
@@ -28,16 +28,18 @@ int	main(int argc, char **argv)
 	xpm_load_player(game);
 	draw_map_megaloop(game);
 	//print_map(game);
-	mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
+	//mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game->mlx); // 2 = key down, (1L<<0) KeyPressMask
 	mlx_loop(game->mlx.instance);
 	return (0);
 }
 
+/*
 int	exit_game(t_game *game)
 {
 	TODO!!!!
 }
+*/
 
 int	input(int key, t_game *game)
 {
@@ -228,11 +230,13 @@ static void	get_map_height(t_game *game)
 	close(fd);
 }
 
+/*
 static void	check_map_rectangular(t_game *game)
 {
 	if (game->map.ntiles_cols != game->map.ntiles_rows)
 		ft_map_failure(game, "Map is not rectangular.");
 }
+*/
 
 static void cell_count_chars(t_game *game, int row, int col)
 {
@@ -249,9 +253,9 @@ static void cell_count_chars(t_game *game, int row, int col)
 static void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
-		ft_map_failure(game, "You map has more than 1 player spawnpoint.");
+		ft_map_failure(game, "Your map has more than 1 player spawnpoint.");
 	if (game->map.content.players < 1)
-		ft_map_failure(game, "You map does not have 1 player spawnpoint.");
+		ft_map_failure(game, "Your map does not have 1 player spawnpoint.");
 }
 
 static void	map_presence_borders(t_game *game, int i, int j)
@@ -295,7 +299,7 @@ static void	parse_map(t_game *game)
 	game->map.fd = open(game->map.path, O_RDONLY);
 	get_map_width(game);
 	get_map_height(game);
-	check_map_rectangular(game);
+	//check_map_rectangular(game);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_memory(game);

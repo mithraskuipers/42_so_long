@@ -97,7 +97,7 @@ static	void	ft_map_failure(t_game *game, char *s);
 static	void	check_input_validity(int argc, char **argv);
 static	void	get_map_width(t_game *game);
 static	void	get_map_height(t_game *game);
-static	void	check_map_rectangular(t_game *game);
+//static	void	check_map_rectangular(t_game *game);
 static	void	map_count_check(t_game *game);
 static	void	map_presence_borders(t_game *game, int i, int j);
 static	void	read_map_into_memory(t_game *game);
