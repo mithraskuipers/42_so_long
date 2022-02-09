@@ -1,9 +1,6 @@
 /* TODO: DIRECTION TRACKER */
 
-
-
 #include "so_long.h"
-
 
 int	main(int argc, char **argv)
 { 
@@ -388,25 +385,6 @@ static void	load_xpm_sprites(t_game *game)
 	// game->img[DOOR_O].path, p[DOOR_O].height, p[DOOR_O].width;
 	// game->img[STONE].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance,\
 	// game->img[STONE].path, p[STONE].height, p[STONE].width;
-}
-
-static void	load_xpm_player(t_game *game)
-{
-	/*
-	int row; // hoe werkt dit?
-	int col; // hoe werkt dit??
-
-	game->img[PLAYER].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER].path, &row, &col);
-	game->img[PLAYER_L].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER_L].path, &row, &col);
-	game->img[PLAYER_R].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER_R].path, &row, &col);
-	game->img[PLAYER_U].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER_U].path, &row, &col);
-	game->img[PLAYER_D].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[PLAYER_D].path, &row, &col);
-	*/
 }
 
 /* loop functions */

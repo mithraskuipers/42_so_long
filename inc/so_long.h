@@ -112,7 +112,6 @@ static	void	parse_map(t_game *game);
 static	void	map_contents_init(t_game *game);
 static	void	xpm_init(t_game *game);
 static	void	load_xpm_sprites(t_game *game);
-static	void	load_xpm_player(t_game *game);
 
 /* cell functions */
 static	void	cell_looper(t_game *game, void (*f)());
