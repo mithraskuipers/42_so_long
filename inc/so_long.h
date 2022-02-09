@@ -6,7 +6,7 @@
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 64
-#define N_IMAGES 16
+#define N_IMAGES 19
 
 #define W_KEY 13
 #define A_KEY 0
@@ -36,6 +36,9 @@
 #define CORNER_UR 13
 #define CORNER_LL 14
 #define CORNER_LR 15
+#define DOOR_C 16
+#define DOOR_O 17
+#define STONE 18
 
 
 typedef struct s_mlx
@@ -47,7 +50,8 @@ typedef struct s_mlx
 typedef struct	s_content
 {
 	int	players;
-	int	collectables;
+	int	ncollectables;
+	int	ncollected;
 	int	exits;
 	int	invalids;
 	int	nsteps;
@@ -79,6 +83,9 @@ typedef struct	s_img
 {
 	char	*path;
 	void	*mlx_img;
+
+	int 	width[19];
+	int		height[19];
 }				t_img;
 
 typedef	struct	s_game
@@ -97,31 +104,32 @@ static	void	ft_map_failure(t_game *game, char *s);
 static	void	check_input_validity(int argc, char **argv);
 static	void	get_map_width(t_game *game);
 static	void	get_map_height(t_game *game);
-static	void	check_map_rectangular(t_game *game);
+//static	void	check_map_rectangular(t_game *game);
 static	void	map_count_check(t_game *game);
 static	void	map_presence_borders(t_game *game, int i, int j);
 static	void	read_map_into_memory(t_game *game);
 static	void	parse_map(t_game *game);
 static	void	map_contents_init(t_game *game);
 static	void	xpm_init(t_game *game);
-static	void	xpm_loader(t_game *game);
-static	void	xpm_load_player(t_game *game);
+static	void	load_xpm_sprites(t_game *game);
+static	void	load_xpm_player(t_game *game);
 
 /* cell functions */
 static	void	cell_looper(t_game *game, void (*f)());
-static	void	draw_map_megaloop(t_game *game);
+static	void	draw_map(t_game *game);
 
 static	void	cell_draw_bg(t_game *game, int row, int col);
 static	void	cell_draw_corners(t_game *game, int row, int col);
-static	void	cell_draw_walls(t_game *game, int row, int col);
+static	void	cell_draw_obstacles(t_game *game, int row, int col);
+static void cell_draw_door(t_game *game, int row, int col);
 static	void	cell_draw_player(t_game *game, int x, int y);
 static	void	cell_player_data(t_game *game, int row, int col);
 static	void	cell_player_pos(t_game *game, int row, int col);
-static	void	cell_count_chars(t_game *game, int row, int col);
+static	void	cell_count_map_chars(t_game *game, int row, int col);
 
 /* standalone */
 static void draw_player(t_game *game);
-static void update_cross(t_game *game);
+static void update_awareness(t_game *game);
 static void update_tiles(t_game *game, int x, int y, char c);
 
 /* printer functions */
@@ -149,6 +157,15 @@ Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
 dan werk je met X en Y logica. Hierbij X = col; Y = row.
 col, row
 */
+
+
+
+
+
+// COUNT COLLECTED APPLES
+// IF THAT MATCHES THE COUNTED APPLES AT INIT, UPDATE DOOR
+
+
 
 
 /* All valid input keys */
