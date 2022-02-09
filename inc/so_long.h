@@ -40,7 +40,6 @@
 #define DOOR_O 17
 #define STONE 18
 
-
 typedef struct s_mlx
 {
 	void		*instance;

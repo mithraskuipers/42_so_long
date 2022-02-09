@@ -23,7 +23,6 @@ int	main(int argc, char **argv)
 
 	xpm_init(game);
 	load_xpm_sprites(game);
-	load_xpm_player(game);
 	draw_map(game);
 	//mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 2, (1L<<0), input, (void *)&game->mlx); // 2 = key down, (1L<<0) KeyPressMask
@@ -341,7 +340,6 @@ static void xpm_init(t_game *game)
 	game->img[COLLECTABLE].path = "./assets/collectable.xpm";
 	game->img[DOOR_C].path = "./assets/door_c.xpm";
 	game->img[DOOR_O].path = "./assets/door_o.xpm";
-
 }
 
 static void looper2(t_game *game, int pic, int *height, int *width)
