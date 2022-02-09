@@ -70,13 +70,13 @@ static void mover(t_game *game, int dirtile, int x, int y)
 {
 	if ((dirtile != '0') && (dirtile != 'C') && (dirtile != 'E'))
 		return ;
-	/*
+	
 	if ((game->map.content.ncollected == game->map.content.ncollectables) && dirtile == 'E')
 	{
 		printf("YOU HAVE WON!!!!!");
 		exit(1);
 	}
-	*/
+	
 	game->map.content.nsteps++;
 	printf("You moved %d times.\n", game->map.content.nsteps);
 	update_tiles(game, game->map.player.x, game->map.player.y, '0');
@@ -279,9 +279,8 @@ static void	map_presence_borders(t_game *game, int i, int j)
 	}
 }
 
-static void	read_map_into_memory(t_game *game)
+static void	read_map_into_memory(t_game *game, char *s, int row)
 {
-	int row;
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
@@ -294,7 +293,15 @@ static void	read_map_into_memory(t_game *game)
 		ft_exit_failure("Malloc error.");
 	while (row < game->map.ntiles_rows)
 	{
-		game->map.map[row] = get_next_line(game->map.fd); // eigenlijk zet die m op x
+		s = get_next_line(game->map.fd);
+		if (!s)
+		{
+			if (row > 0)
+				ft_exit_failure("malloc error");
+			if (row == 0)
+				ft_exit_failure("kaart is leeg");
+		}
+		game->map.map[row] = s; // eigenlijk zet die m op x
 		row++;
 	}
 	close(game->map.fd);
@@ -308,17 +315,7 @@ static void	parse_map(t_game *game)
 	//check_map_rectangular(game);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
-	read_map_into_memory(game);
-}
-
-static void map_contents_init(t_game *game)
-{
-	game->map.content.players = 0;
-	game->map.content.ncollectables = 0;
-	game->map.content.ncollected = 0;
-	game->map.content.exits = 0;
-	game->map.content.invalids = 0;
-	game->map.content.nsteps = 0;
+	read_map_into_memory(game, NULL, 0);
 }
 
 /* init functions */

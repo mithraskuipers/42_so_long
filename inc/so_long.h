@@ -106,9 +106,8 @@ static	void	get_map_height(t_game *game);
 //static	void	check_map_rectangular(t_game *game);
 static	void	map_count_check(t_game *game);
 static	void	map_presence_borders(t_game *game, int i, int j);
-static	void	read_map_into_memory(t_game *game);
+static	void	read_map_into_memory(t_game *game, char *s, int row);
 static	void	parse_map(t_game *game);
-static	void	map_contents_init(t_game *game);
 static	void	xpm_init(t_game *game);
 static	void	load_xpm_sprites(t_game *game);
 
