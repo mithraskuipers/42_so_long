@@ -32,10 +32,10 @@
 #define WALL_D 9
 #define WALL_L 10
 #define WALL_R 11
-#define CORNER_UL 12
-#define CORNER_UR 13
-#define CORNER_LL 14
-#define CORNER_LR 15
+#define WALL_UL 12
+#define WALL_UR 13
+#define WALL_LL 14
+#define WALL_LR 15
 #define DOOR_C 16
 #define DOOR_O 17
 #define STONE 18
@@ -60,10 +60,10 @@ typedef struct	s_state
 {
 	int	x;
 	int	y;
-	int up;
-	int down;
-	int left;
-	int right;
+	int u;
+	int d;
+	int l;
+	int r;
 	int dir;
 }				t_state;
 
@@ -118,15 +118,15 @@ static	void	draw_map(t_game *game);
 static	void	cell_draw_bg(t_game *game, int row, int col);
 static	void	cell_draw_corners(t_game *game, int row, int col);
 static	void	cell_draw_obstacles(t_game *game, int row, int col);
-static void cell_draw_door(t_game *game, int row, int col);
+static	void 	cell_draw_door(t_game *game, int row, int col);
 static	void	cell_draw_player(t_game *game, int x, int y);
-static	void	cell_player_data(t_game *game, int row, int col);
+static	void	cell_player(t_game *game, int row, int col, t_state *player);
 static	void	cell_player_pos(t_game *game, int row, int col);
 static	void	cell_count_map_chars(t_game *game, int row, int col);
 
 /* standalone */
 static void draw_player(t_game *game);
-static void update_awareness(t_game *game);
+static void update_awareness(t_game *game, t_state *player);
 static void update_tiles(t_game *game, int x, int y, char c);
 
 /* printer functions */
