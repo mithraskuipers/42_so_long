@@ -2,16 +2,26 @@
 
 #include "so_long.h"
 
+int close_win(t_game *game)
+{
+	mlx_destroy_window(game->mlx.instance, game->mlx.win);
+	exit(EXIT_SUCCESS);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 { 
 	t_game	*game;
 
 	game = ft_calloc(1, sizeof(t_game));
+
+
 	if (!(game))
 		ft_exit_failure("Memory allocation issue.");
 	game->map.path = argv[1];
 	check_input_validity(argc, argv);
 	parse_map(game);
+
 	cell_looper(game, cell_count_map_chars);
 	cell_looper(game, map_presence_borders);
 	map_count_check(game);
@@ -25,6 +35,7 @@ int	main(int argc, char **argv)
 	draw_map(game);
 	//mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
 	mlx_key_hook(game->mlx.win, input, (void *)&game->mlx);
+	mlx_hook(game->mlx.win, 17, 0L, close_win, game);
 	mlx_loop(game->mlx.instance);
 	return (0);
 }
@@ -95,6 +106,8 @@ int	input(int key, t_game *game)
 		game->img[PLAYER].mlx_img = game->img[PLAYER_R].mlx_img;
 		mover(game, game->map.player.r, 1, 0);
 	}
+	else if (key == 53)
+		close_win(game);
 	mlx_clear_window(game->mlx.instance, game->mlx.win);
 	draw_map(game);
 	return (0);
@@ -411,9 +424,6 @@ static void cell_draw_obstacles(t_game *game, int row, int col)
 		else if (row == (TILE_WIDTH * (game->map.ntiles_rows-1)))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_D].mlx_img, col, row);
-		else
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[STONE].mlx_img, col, row);
 	}
 }
 
@@ -461,8 +471,7 @@ static void cell_draw_door(t_game *game, int row, int col)
 
 static void cell_draw_bg(t_game *game, int row, int col)
 {
-	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-	game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 }
 
 static void cell_draw_corners(t_game *game, int row, int col)

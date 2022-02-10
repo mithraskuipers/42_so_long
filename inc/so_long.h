@@ -38,7 +38,7 @@
 #define WALL_LR 15
 #define DOOR_C 16
 #define DOOR_O 17
-#define STONE 18
+#define FOOT 18
 
 typedef struct s_mlx
 {
@@ -94,6 +94,7 @@ typedef	struct	s_game
 	t_img		img[N_IMAGES];
 	int			px_row;
 	int			px_col;
+	int			**walked_map;
 }				t_game;
 
 /* Prototypes */
@@ -112,6 +113,7 @@ static	void	xpm_init(t_game *game);
 static	void	load_xpm_sprites(t_game *game);
 
 /* cell functions */
+
 static	void	cell_looper(t_game *game, void (*f)());
 static	void	draw_map(t_game *game);
 
