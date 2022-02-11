@@ -290,25 +290,20 @@ static void map_count_check(t_game *game)
 		ft_map_failure(game, "Your map does not have 1 player spawnpoint.");
 }
 
+// TODO
 static void	map_presence_borders(t_game *game, int i, int j)
 {
-	// if ((i == 0) || (i == (game->map.ntiles_rows)-1))
-	// {
-	// 	if (game->map.map[i][j] != '1')
-	// 		ft_map_failure(game, "Your map is not enclosed in borders");
-	// }
-}
-
-
-/*
+	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
+	{
+		if (game->map.map[i][j] != '1')
+			ft_map_failure(game, "Your map is not enclosed in borders");
+	}
 	else
 	{
 		if ((game->map.map[i][0] != '1') || \
 		(game->map.map[i][game->map.ntiles_cols-1] != '1'))
 				ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-*/
-
 
 static void	read_map_into_memory(t_game *game, char *s, int row)
 {
