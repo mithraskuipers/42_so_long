@@ -1,4 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/11 19:13:10 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/02/11 19:20:020 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 /* TODO: DIRECTION TRACKER */
+
+// TODO: CHECK FOR E (EXIT)
+// TODO CHECK FOR EXACTLY 1 P (PLAYER)
+
 
 #include "so_long.h"
 
@@ -14,13 +30,11 @@ int	main(int argc, char **argv)
 	t_game	*game;
 
 	game = ft_calloc(1, sizeof(t_game));
-
-
 	if (!(game))
 		ft_exit_failure("Memory allocation issue.");
 	game->map.path = argv[1];
 	check_input_validity(argc, argv);
-	parse_map(game);
+	parse_map(argc, argv, game);
 
 	cell_looper(game, cell_count_map_chars);
 	cell_looper(game, map_presence_borders);
@@ -230,51 +244,30 @@ static void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-static void	get_map_width(t_game *game)
+static void get_dim(t_game *game, int fd, char *tmp, int ret)
 {
-	char	buff[1];
-	int		len;
-	int		nbytes;
-
-	buff[0] = '\0';
-	nbytes = 1;
-	len = 0;
-	while (nbytes)
+	ret = get_next_line(fd, &tmp);
+	if (ret > 0)
+		game->map.ntiles_cols = ft_strlen(tmp);
+	else if (ret == 0)
+		ft_exit_failure("Map is empty.");
+	while (ret)
 	{
-		nbytes = read(game->map.fd, buff, 1);
-		if (buff[0] != '\n')
-			len++;
-		else
-			break ;
+		if ((ft_strlen(tmp)) != game->map.ntiles_cols)
+		{
+			free(tmp);
+			ft_exit_failure("Map is not Rectangle.");
+		}
+		ret = get_next_line(fd, &tmp);
+		if (ret == -1)
+			break;
+		game->map.ntiles_rows++;
 	}
-	game->map.ntiles_cols = len;
-}
-
-static void	get_map_height(t_game *game)
-{
-	int fd;
-	int i;
-
-	fd = open(game->map.path, O_RDONLY);
-	if (fd < 0)
-	{
-		close(fd);
-		ft_exit_failure("File could not be opened.");
-	}
-	i = 1;
-	while (get_next_line(game->map.fd))
-		i++;
-	game->map.ntiles_rows = i;
+	game->map.ntiles_rows++;
 	close(fd);
+	if (ret < 0)
+		ft_exit_failure("File could not be read.");
 }
-
-/*
-static void	check_map_rectangular(t_game *game)
-{
-	if (game->map.ntiles_cols != game->map.ntiles_rows)
-		ft_map_failure(game, "Map is not rectangular.");
-}
-*/
 
 static void cell_count_map_chars(t_game *game, int row, int col)
 {
@@ -299,18 +292,23 @@ static void map_count_check(t_game *game)
 
 static void	map_presence_borders(t_game *game, int i, int j)
 {
-	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
-	{
-		if (game->map.map[i][j] != '1')
-			ft_map_failure(game, "Your map is not enclosed in borders");
-	}
+	// if ((i == 0) || (i == (game->map.ntiles_rows)-1))
+	// {
+	// 	if (game->map.map[i][j] != '1')
+	// 		ft_map_failure(game, "Your map is not enclosed in borders");
+	// }
+}
+
+
+/*
 	else
 	{
 		if ((game->map.map[i][0] != '1') || \
 		(game->map.map[i][game->map.ntiles_cols-1] != '1'))
 				ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-}
+*/
+
 
 static void	read_map_into_memory(t_game *game, char *s, int row)
 {
@@ -326,26 +324,27 @@ static void	read_map_into_memory(t_game *game, char *s, int row)
 		ft_exit_failure("Malloc error.");
 	while (row < game->map.ntiles_rows)
 	{
-		s = get_next_line(game->map.fd);
-		if (!s)
-		{
-			if (row > 0)
-				ft_exit_failure("malloc error");
-			if (row == 0)
-				ft_exit_failure("kaart is leeg");
-		}
-		game->map.map[row] = s; // eigenlijk zet die m op x
+		int ret = get_next_line(game->map.fd, &game->map.map[row]);
+		if (ret < 0)
+			ft_exit_failure("Failing to read the map.");
 		row++;
 	}
 	close(game->map.fd);
 }
 
-static void	parse_map(t_game *game)
+static void	parse_map(int argc, char **argv, t_game *game)
 {
+	if (argc < 2)
+		ft_exit_failure("Please provide a map.");
+	if (ft_strrchr(argv[1], '.') == 0 || ft_strncmp(ft_strrchr(argv[1], '.'), ".ber", 5))
+		ft_exit_failure("Please provide a map with .ber extension.");
 	game->map.fd = open(game->map.path, O_RDONLY);
-	get_map_width(game);
-	get_map_height(game);
-	//check_map_rectangular(game);
+	if (game->map.fd < 0)
+	{
+		close(game->map.fd);
+		ft_exit_failure("Error while reading the map. fd < 0");
+	}
+	get_dim(game, game->map.fd, 0, 0);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_memory(game, NULL, 0);
@@ -424,6 +423,9 @@ static void cell_draw_obstacles(t_game *game, int row, int col)
 		else if (row == (TILE_WIDTH * (game->map.ntiles_rows-1)))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_D].mlx_img, col, row);
+		else
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
+			game->img[WALL_U].mlx_img, col, row);
 	}
 }
 

@@ -5,111 +5,107 @@
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/12/02 22:31:07 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/01/25 22:36:01 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/02/11 18:33:47 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/02/11 19:27:17 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static char	*buff_reader(char *buff_merged, int fd)
+char	*ft_strjoin_endline(char *s1, char *s2, int i, int j)
 {
-	int		nbytes;
-	char	*buff_tmp;
+	char	*str;
 
-	buff_tmp = malloc((sizeof(char) * (BUFFER_SIZE + 1)));
-	if (!(buff_tmp))
+	if (!s1 || !s2)
 		return (NULL);
-	while (!(ft_strchr(buff_merged, '\n')))
+	str = malloc(sizeof(char) * (find_endnull(s1) + find_endnull(s2) + 1));
+	if (!str)
 	{
-		nbytes = read(fd, buff_tmp, BUFFER_SIZE);
-		if (nbytes <= 0)
+		free(s1);
+		return (NULL);
+	}
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0' && s2[j] != '\n')
+	{
+		str[i + j] = s2[j];
+		j++;
+	}
+	free(s1);
+	str[i + j] = '\0';
+	return (str);
+}
+
+int		find_endnull(const char *s)
+{
+	size_t i;
+
+	i = 0;
+	while (s[i] != '\n' && s[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	*buf_move(char *src)
+{
+	size_t i;
+	size_t j;
+
+	i = 0;
+	j = 0;
+	while (src[j] != '\n')
+		j++;
+	j++;
+	while (src[j - 1] != '\0')
+	{
+		src[i] = src[j];
+		i++;
+		j++;
+	}
+	return (src);
+}
+static int		createline(char *buf, char **line, int ret, int fd)
+{
+	if (buf[0] == '\0')
+	{
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret < 0)
 		{
-			free (buff_tmp);
-			if (nbytes == 0)
-				return (buff_merged);
-			return (NULL);
+			free(*line);
+			return (-1);
 		}
-		buff_tmp[nbytes] = '\0';
-		buff_merged = ft_strjoin_gnl(buff_merged, buff_tmp, 0, 0);
+		else if (ret == 0)
+			return (0);
+		buf[ret] = '\0';
 	}
-	free (buff_tmp);
-	return (buff_merged);
+	*line = ft_strjoin_endline(*line, buf, 0, 0);
+	if (!*line)
+		return (-1);
+	if (buf[find_endnull(buf)] == '\n')
+	{
+		buf_move(buf);
+		return (1);
+	}
+	buf[0] = '\0';
+	return (createline(buf, line, ret, fd));
 }
 
-static char	*obtain_line(char *buff_merged)
+int				get_next_line(int fd, char **line)
 {
-	char	*leftside;
-	int		i;
-	int		len;
+	static char	buf[OPEN_MAX][BUFFER_SIZE + 1];
+	int			ret;
 
-	if (!buff_merged)
-		return (NULL);
-	len = ft_strlen_char(buff_merged, '\n');
-	leftside = malloc(sizeof(char) * (len + 2));
-	if (!leftside)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		leftside[i] = buff_merged[i];
-		i++;
-	}
-	if (buff_merged[i] == '\n')
-	{
-		leftside[i] = buff_merged[i];
-		i++;
-	}
-	leftside[i] = '\0';
-	return (leftside);
-}
-
-static char	*buff_remainder(char *buff_merged)
-{
-	char	*remainder;
-	int		start;
-	int		i;
-
-	start = ft_strlen_char(buff_merged, '\n');
-	if (buff_merged[start] == '\0')
-	{
-		free(buff_merged);
-		return (NULL);
-	}
-	remainder = malloc(((ft_strlen_char(buff_merged, '\0') - start) + 1));
-	if (!remainder)
-		return (NULL);
-	start++;
-	i = 0;
-	while (buff_merged[start])
-	{
-		remainder[i] = buff_merged[start];
-		start++;
-		i++;
-	}
-	remainder[i] = '\0';
-	free(buff_merged);
-	return (remainder);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*buff_merged[OPEN_MAX];
-	char		*left;
-
-	if ((fd < 0) || (BUFFER_SIZE <= 0) || (fd > OPEN_MAX))
-		return (NULL);
-	if (!ft_strchr(buff_merged[fd], '\n'))
-		buff_merged[fd] = buff_reader(buff_merged[fd], fd);
-	left = obtain_line(buff_merged[fd]);
-	if (!left)
-		return (NULL);
-	if (buff_merged[fd][0] == '\0')
-	{
-		free(buff_merged[fd]);
-		free(left);
-		return (NULL);
-	}
-	buff_merged[fd] = buff_remainder(buff_merged[fd]);
-	return (left);
+	if (!line || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd < 0)
+		return (-1);
+	*line = malloc(sizeof(char));
+	if (!*line)
+		return (-1);
+	*line[0] = '\0';
+	ret = 0;
+	ret = createline(buf[fd], line, ret, fd);
+	if (ret == -1)
+		*line = NULL;
+	return (ret);
 }

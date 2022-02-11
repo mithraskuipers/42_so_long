@@ -108,7 +108,8 @@ static	void	get_map_height(t_game *game);
 static	void	map_count_check(t_game *game);
 static	void	map_presence_borders(t_game *game, int i, int j);
 static	void	read_map_into_memory(t_game *game, char *s, int row);
-static	void	parse_map(t_game *game);
+//static	void	parse_map(t_game *game);
+static void		parse_map(int argc, char **argv, t_game *game);
 static	void	xpm_init(t_game *game);
 static	void	load_xpm_sprites(t_game *game);
 
@@ -143,6 +144,7 @@ static void		mover(t_game *game, int dirtile, int x, int y);
 static void print_status(char *s, int n);
 
 static void cell_draw_collectable(t_game *game, int row, int col);
+static void get_dim(t_game *game, int fd, char *tmp, int ret);
 
 /*
 clear && make re && clear && ./so_long map1_5x5.ber
