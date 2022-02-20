@@ -11,9 +11,7 @@
 /* ************************************************************************** */
 
 // TODO: CHECK FOR E (EXIT)
-// TODO CHECK FOR EXACTLY 1 P (PLAYER)
-// Wat als laatste regel niet evenveel columns heeft? Fix dit
-// neemt newline mee als kaart tile
+// Todo teken stenen als 1 aan binnenkant
 
 #include "so_long.h"
 
@@ -47,7 +45,7 @@ int	main(int argc, char **argv)
 	cell_looper(game, cell_count_map_chars);
 	map_count_check(game);
 	//print_map(game);
-	//cell_looper(game, map_presence_borders);
+	cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
 	game->px_row, "MITHRAS");
@@ -190,12 +188,12 @@ static void draw_map(t_game *game)
 		while (col < game->map.ntiles_cols)
 		{
 			cell_player(game, row, col, &game->map.player);
-			//cell_draw_bg(game, row, col);
-			//cell_draw_collectable(game, row, col);
-			//cell_draw_door(game, row, col);
+			cell_draw_bg(game, row, col);
+			cell_draw_collectable(game, row, col);
+			cell_draw_door(game, row, col);
 			cell_draw_walls(game, row, col);
-			//cell_draw_corners(game, row, col);
-			//cell_player_pos(game, row, col);
+			cell_draw_corners(game, row, col);
+			cell_player_pos(game, row, col);
 			col++;
 		}
 		row++;
@@ -291,9 +289,19 @@ static void map_count_check(t_game *game)
 		ft_exit_failure("Your map has more than 1 player spawnpoint.");
 		exit(2);
 	}
-	if (game->map.content.players < 1)
+	else if (game->map.content.players < 1)
 	{
 		ft_exit_failure("Your map does not have 1 player spawnpoint.");
+		exit(2);
+	}
+	if (game->map.content.exits > 1)
+	{
+		ft_exit_failure("Your map has more than 1 exit.");
+		exit(2);
+	}
+	else if (game->map.content.exits < 1)
+	{
+		ft_exit_failure("Your map does not have 1 exit.");
 		exit(2);
 	}
 }
@@ -301,22 +309,16 @@ static void map_count_check(t_game *game)
 // TODO
 static void	map_presence_borders(t_game *game, int i, int j)
 {
-	if (game->map.map[0][j] != '1')
-		printf("OK");
-	/*
 	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
 	{
 		if (game->map.map[i][j] != '1')
 			ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-	*/
-	/*
 	if ((j == 0) || (j == (game->map.ntiles_cols)-1))
 	{
 		if (game->map.map[i][j] != '1')
 			ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-	*/
 }
 
 static void	read_map_into_memory(t_game *game, char *s, int row)
@@ -418,16 +420,21 @@ static void cell_draw_walls(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
-		/*
 		if (row == 0)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if (col == 2)
+		else if (row == (game->map.ntiles_rows-1))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		*/
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+			game->img[WALL_D].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+		else if (col == 0)
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
+			game->img[WALL_L].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+		else if (col == (game->map.ntiles_cols-1))
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
+			game->img[WALL_R].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+		else
+			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
+			game->img[WALL_R].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 	}
 }
 
