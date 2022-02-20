@@ -187,10 +187,11 @@ static void draw_map(t_game *game)
 		{
 			cell_player(game, row, col, &game->map.player);
 			cell_draw_bg(game, row, col);
-			cell_draw_obstacles(game, row, col);
-			cell_draw_corners(game, row, col);
 			cell_draw_collectable(game, row, col);
 			cell_draw_door(game, row, col);
+			cell_draw_walls(game, row, col);
+			cell_draw_corners(game, row, col);
+
 			cell_player_pos(game, row, col);
 			col++;
 		}
@@ -410,7 +411,7 @@ static void cell_looper(t_game *game, void (*f)())
 	}
 }
 
-static void cell_draw_obstacles(t_game *game, int row, int col)
+static void cell_draw_walls(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{

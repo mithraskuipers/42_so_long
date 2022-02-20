@@ -118,7 +118,7 @@ static	void	draw_map(t_game *game);
 
 static	void	cell_draw_bg(t_game *game, int row, int col);
 static	void	cell_draw_corners(t_game *game, int row, int col);
-static	void	cell_draw_obstacles(t_game *game, int row, int col);
+static	void	cell_draw_walls(t_game *game, int row, int col);
 static	void 	cell_draw_door(t_game *game, int row, int col);
 static	void	cell_draw_player(t_game *game, int x, int y);
 static	void	cell_player(t_game *game, int row, int col, t_state *player);
