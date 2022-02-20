@@ -12,6 +12,9 @@
 
 // TODO: CHECK FOR E (EXIT)
 // TODO CHECK FOR EXACTLY 1 P (PLAYER)
+// Wat als laatste regel niet evenveel columns heeft? Fix dit
+// neemt newline mee als kaart tile
+
 #include "so_long.h"
 
 
@@ -43,6 +46,7 @@ int	main(int argc, char **argv)
 	parse_map(argc, argv, game);
 	cell_looper(game, cell_count_map_chars);
 	map_count_check(game);
+	//print_map(game);
 	//cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
@@ -186,13 +190,12 @@ static void draw_map(t_game *game)
 		while (col < game->map.ntiles_cols)
 		{
 			cell_player(game, row, col, &game->map.player);
-			cell_draw_bg(game, row, col);
-			cell_draw_collectable(game, row, col);
-			cell_draw_door(game, row, col);
+			//cell_draw_bg(game, row, col);
+			//cell_draw_collectable(game, row, col);
+			//cell_draw_door(game, row, col);
 			cell_draw_walls(game, row, col);
-			cell_draw_corners(game, row, col);
-
-			cell_player_pos(game, row, col);
+			//cell_draw_corners(game, row, col);
+			//cell_player_pos(game, row, col);
 			col++;
 		}
 		row++;
@@ -252,14 +255,14 @@ static void get_dim(t_game *game, int fd, char *tmp, int ret)
 		ft_exit_failure("Map is empty.");
 	while (ret)
 	{
+		ret = get_next_line(fd, &tmp);
+		if (ret == -1)
+			break;
 		if ((ft_strlen(tmp)) != game->map.ntiles_cols)
 		{
 			free(tmp);
 			ft_exit_failure("Map is not Rectangle.");
 		}
-		ret = get_next_line(fd, &tmp);
-		if (ret == -1)
-			break;
 		game->map.ntiles_rows++;
 	}
 	game->map.ntiles_rows++;
@@ -415,14 +418,16 @@ static void cell_draw_walls(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
-		row = (row * TILE_WIDTH);
-		col = (col * TILE_WIDTH);
+		/*
 		if (row == 0)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_U].mlx_img, col, row);
-		else if (row == (TILE_WIDTH * (game->map.ntiles_rows)))
+			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+		else if (col == 2)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_R].mlx_img, col, row);
+			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+		*/
+		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
+			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 	}
 }
 
@@ -516,7 +521,7 @@ static void print_map(t_game *game)
 	while (row < game->map.ntiles_rows)
 	{
 		ft_putstr_fd(game->map.map[row], 1);
+		ft_putstr_fd("\n", 1);
 		row++;
 	}
-	ft_putstr_fd("\n", 1);
 }
