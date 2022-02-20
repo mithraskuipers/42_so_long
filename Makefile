@@ -22,7 +22,7 @@ RM			= rm -f
 
 DIR_INC		= ./inc/
 DIR_SRC		= ./src/
-DIR_LIBFT	= ./libftplusplus/
+DIR_LIBFT	= ./libft/
 DIR_MLX		= ./mlx/
 
 DIR_INC_BONUS = ./include_bonus/
@@ -33,8 +33,8 @@ INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
 SRC =	main.c \
-		get_next_line.c \
-		get_next_line_utils.c
+		get_next_line.c 
+
 SRC_BONUS = main_bonus.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
@@ -48,14 +48,14 @@ OBJ_BONUS_FULLPATH = $(SRC_BONUS_FULLMATH:.c=.o)
 	$(CC) $(CFLAGS) -I $(DIR_INC) -o $@ -c $?
 
 $(NAME): $(OBJ_FULLPATH)
-	make -C $(DIR_LIBFT) plusplus
+	make -C $(DIR_LIBFT) 
 	make -C $(DIR_MLX)
 	$(CC) -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 
 bonus: $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS_FULLPATH)
-	make -C $(DIR_LIBFT) plusplus
+	make -C $(DIR_LIBFT) 
 	make -C $(DIR_MLX)
 	$(CC) -o $(NAME_BONUS) $(OBJ_BONUS_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 

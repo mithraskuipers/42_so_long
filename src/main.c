@@ -10,13 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* TODO: DIRECTION TRACKER */
-
 // TODO: CHECK FOR E (EXIT)
 // TODO CHECK FOR EXACTLY 1 P (PLAYER)
-
-
 #include "so_long.h"
+
+
+static int	ft_exit_failure(char *s)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(s, 2);
+	exit (0);
+	//return (0);
+}
+
 
 int close_win(t_game *game)
 {
@@ -35,10 +41,9 @@ int	main(int argc, char **argv)
 	game->map.path = argv[1];
 	check_input_validity(argc, argv);
 	parse_map(argc, argv, game);
-
 	cell_looper(game, cell_count_map_chars);
-	cell_looper(game, map_presence_borders);
 	map_count_check(game);
+	//cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
 	game->px_row, "MITHRAS");
@@ -207,13 +212,6 @@ static void cell_player(t_game *game, int row, int col, t_state *player)
 	}
 }
 
-static void	ft_exit_failure(char *s)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(s, 2);
-	exit (EXIT_FAIL);
-}
-
 static void	ft_map_failure(t_game *game, char *s)
 {
 	int	i;
@@ -285,25 +283,37 @@ static void cell_count_map_chars(t_game *game, int row, int col)
 static void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
-		ft_map_failure(game, "Your map has more than 1 player spawnpoint.");
+	{
+		ft_exit_failure("Your map has more than 1 player spawnpoint.");
+		exit(2);
+	}
 	if (game->map.content.players < 1)
-		ft_map_failure(game, "Your map does not have 1 player spawnpoint.");
+	{
+		ft_exit_failure("Your map does not have 1 player spawnpoint.");
+		exit(2);
+	}
 }
 
 // TODO
 static void	map_presence_borders(t_game *game, int i, int j)
 {
+	if (game->map.map[0][j] != '1')
+		printf("OK");
+	/*
 	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
 	{
 		if (game->map.map[i][j] != '1')
 			ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-	else
+	*/
+	/*
+	if ((j == 0) || (j == (game->map.ntiles_cols)-1))
 	{
-		if ((game->map.map[i][0] != '1') || \
-		(game->map.map[i][game->map.ntiles_cols-1] != '1'))
-				ft_map_failure(game, "Your map is not enclosed in borders");
+		if (game->map.map[i][j] != '1')
+			ft_map_failure(game, "Your map is not enclosed in borders");
 	}
+	*/
+}
 
 static void	read_map_into_memory(t_game *game, char *s, int row)
 {
@@ -406,21 +416,12 @@ static void cell_draw_obstacles(t_game *game, int row, int col)
 	{
 		row = (row * TILE_WIDTH);
 		col = (col * TILE_WIDTH);
-		if (col == 0)
+		if (row == 0)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_L].mlx_img, col, row);
-		else if (col == (TILE_WIDTH * (game->map.ntiles_cols-1)))
+			game->img[WALL_U].mlx_img, col, row);
+		else if (row == (TILE_WIDTH * (game->map.ntiles_rows)))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_R].mlx_img, col, row);
-		else if (row == 0)
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_U].mlx_img, col, row);
-		else if (row == (TILE_WIDTH * (game->map.ntiles_rows-1)))
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_D].mlx_img, col, row);
-		else
-			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_U].mlx_img, col, row);
 	}
 }
 
