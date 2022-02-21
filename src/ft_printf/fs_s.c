@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.h                                    :+:    :+:            */
+/*   fs_s.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/02/21 14:20:38 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/02/21 14:46:34 by mikuiper      ########   odam.nl         */
+/*   Created: 2021/11/19 15:32:34 by mikuiper      #+#    #+#                 */
+/*   Updated: 2021/11/21 14:19:38 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "./ft_printf.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+int	fs_s(va_list arg_list)
+{
+	char	*arg;
 
-#include <unistd.h>
-#include <limits.h>
-#include <stdlib.h>
-
-int		get_next_line(int fd, char **line);
-int		pos_nl(const char *s);
-void	*buff_mover(char *src);
-char	*gnl_strjoin(char *s1, char *s2, int i, int j);
-
-#endif
+	arg = va_arg(arg_list, char *);
+	if (!(arg))
+		return (write (1, "(null)", 6));
+	ft_putstr_fd(arg, 1);
+	return (ft_strlen(arg));
+}

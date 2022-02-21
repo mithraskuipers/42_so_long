@@ -15,17 +15,16 @@
 
 #include "so_long.h"
 
-
 static int	ft_exit_failure(char *s)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(s, 2);
-	exit (0);
-	//return (0);
+	exit (EXIT_FAIL);
 }
 
 
-int close_win(t_game *game)
+
+static int close_win(t_game *game)
 {
 	mlx_destroy_window(game->mlx.instance, game->mlx.win);
 	exit(EXIT_SUCCESS);
@@ -44,7 +43,6 @@ int	main(int argc, char **argv)
 	parse_map(argc, argv, game);
 	cell_looper(game, cell_count_map_chars);
 	map_count_check(game);
-	//print_map(game);
 	cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
@@ -54,75 +52,30 @@ int	main(int argc, char **argv)
 	xpm_init(game);
 	load_xpm_sprites(game);
 	draw_map(game);
-	//mlx_hook(game->mlx.win, 33, 1L << 17, exit_game, (void *)&game->mlx);
 	mlx_key_hook(game->mlx.win, input, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 17, 0L, close_win, game);
 	mlx_loop(game->mlx.instance);
 	return (0);
 }
 
-// 2 = key down, (1L<<0) KeyPressMask
-//mlx_hook(data->mlx.win, 17, 1L << 17, close_window, data);
-//mlx_key_hook(data->mlx.win, handle_input, data);
-
-/*
-void	free_map(t_game *game)
+static int	input(int key, t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < game->height)
-	{
-		sl_free(map[i]);
-		++i;
-	}
-	map = sl_free(map);
-}
-
-int	exit_game(t_game *game)
-{
-	if (game->map.map)
-		free_map(game, game->map);
-	if (game->buffer_bkgd)
-		sl_free_buffer(game->buffer_bkgd, game->height * BLOC_LEN);
-	if (game->win_ptr)
-		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
-	sl_destroy_all_images(game);
-	if (game->mlx_ptr)
-	{
-		mlx_loop_end(game->mlx_ptr);
-		mlx_destroy_display(game->mlx_ptr);
-		sl_free(game->mlx_ptr);
-	}
-	exit(EXIT_SUCCESS);
-}
-*/
-
-/*
-int	exit_game(t_game *game)
-{
-	TODO!!!!
-}
-*/
-
-int	input(int key, t_game *game)
-{
-	if (key == KEY_W)
+	if (key == KEY_UP)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_U].mlx_img;
 		mover(game, game->map.player.u, 0, -1);
 	}
-	else if (key == KEY_S)
+	else if (key == KEY_DOWN)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_D].mlx_img;
 		mover(game, game->map.player.d, 0, 1);
 	}
-	else if (key == KEY_A)
+	else if (key == KEY_LEFT)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_L].mlx_img;
 		mover(game, game->map.player.l, -1, 0);
 	}
-	else if (key == KEY_D)
+	else if (key == KEY_RIGHT)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_R].mlx_img;
 		mover(game, game->map.player.r, 1, 0);
@@ -146,7 +99,7 @@ static void mover(t_game *game, int dirtile, int x, int y)
 			return ;
 	}
 	game->map.content.nsteps++;
-	printf("You moved %d times.\n", game->map.content.nsteps);
+	ft_printf("You moved %d times.\n", game->map.content.nsteps); // MAAK DIT FT_PRINTF
 	update_tiles(game, game->map.player.x, game->map.player.y, '0');
 	update_tiles(game, (game->map.player.x+x), (game->map.player.y+y), 'P');
 	game->map.player.y = game->map.player.y+y;
@@ -256,7 +209,7 @@ static void get_dim(t_game *game, int fd, char *tmp, int ret)
 		ret = get_next_line(fd, &tmp);
 		if (ret == -1)
 			break;
-		if ((ft_strlen(tmp)) != game->map.ntiles_cols)
+		if ((ft_strlen(tmp)) != (size_t)game->map.ntiles_cols)
 		{
 			free(tmp);
 			ft_exit_failure("Map is not Rectangle.");
@@ -306,7 +259,6 @@ static void map_count_check(t_game *game)
 	}
 }
 
-// TODO
 static void	map_presence_borders(t_game *game, int i, int j)
 {
 	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
@@ -459,15 +411,6 @@ static void cell_player_pos(t_game *game, int row, int col)
 	}
 }
 
-static void cell_draw_player(t_game *game, int row, int col)
-{
-	if (game->map.map[row][col] == 'P')
-	{
-		mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-		game->img[PLAYER].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-	}
-}
-
 static void cell_draw_door(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'E')
@@ -507,7 +450,7 @@ static void cell_draw_corners(t_game *game, int row, int col)
 }
 
 /* DEBUGGING FUNCTIONS */
-
+/*
 static void print_player_data(t_game *game)
 {
 	printf("Player position:\n");
@@ -533,3 +476,4 @@ static void print_map(t_game *game)
 		row++;
 	}
 }
+*/

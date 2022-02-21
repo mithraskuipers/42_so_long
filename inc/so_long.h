@@ -1,3 +1,28 @@
+/*
+Als het gaat om de [][] coordinaten van een kaart hanteer je:
+[row][col]
+
+Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
+dan werk je met X en Y logica. Hierbij X = col; Y = row.
+col, row
+*/
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   so_long.h                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/02/21 13:13:33 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SO_LONG
+
+# define SO_LONG
+
 #include <stdio.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
@@ -13,7 +38,6 @@
 #define S_KEY 1
 #define D_KEY 2
 #define ESC_KEY 53
-
 
 #define UP 1
 #define DOWN 2
@@ -97,75 +121,33 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-/* Prototypes */
-/* generic */
 static	int	ft_exit_failure(char *s);
-static	void	ft_map_failure(t_game *game, char *s);
-static	void	check_input_validity(int argc, char **argv);
-//static	void	check_map_rectangular(t_game *game);
-static	void	map_count_check(t_game *game);
-static	void	map_presence_borders(t_game *game, int i, int j);
-static	void	read_map_into_memory(t_game *game, char *s, int row);
-//static	void	parse_map(t_game *game);
-static void		parse_map(int argc, char **argv, t_game *game);
-static	void	xpm_init(t_game *game);
-static	void	load_xpm_sprites(t_game *game);
-
-/* cell functions */
-
-static	void	cell_looper(t_game *game, void (*f)());
-static	void	draw_map(t_game *game);
-
-static	void	cell_draw_bg(t_game *game, int row, int col);
-static	void	cell_draw_corners(t_game *game, int row, int col);
-static	void	cell_draw_walls(t_game *game, int row, int col);
-static	void 	cell_draw_door(t_game *game, int row, int col);
-static	void	cell_draw_player(t_game *game, int x, int y);
-static	void	cell_player(t_game *game, int row, int col, t_state *player);
-static	void	cell_player_pos(t_game *game, int row, int col);
-static	void	cell_count_map_chars(t_game *game, int row, int col);
-
-/* standalone */
-static void draw_player(t_game *game);
-static void update_awareness(t_game *game, t_state *player);
+static	int	close_win(t_game *game);
+static	int	input(int key, t_game *game);
+static void mover(t_game *game, int dirtile, int x, int y);
 static void update_tiles(t_game *game, int x, int y, char c);
-
-/* printer functions */
-static	void	print_player_cross(t_game *game);
-//static	void	print_player_pos(t_game *game);
-//static	void	print_player_state(t_game *game);
-static	void	print_map(t_game *game);
-
-/* controller */
-int				input(int key, t_game *game);
-static void		mover(t_game *game, int dirtile, int x, int y);
-static void print_status(char *s, int n);
-
-static void cell_draw_collectable(t_game *game, int row, int col);
+static void update_awareness(t_game *game, t_state *player);
+static void draw_player(t_game *game);
+static void draw_map(t_game *game);
+static void cell_player(t_game *game, int row, int col, t_state *player);
+static void	ft_map_failure(t_game *game, char *s);
+static void	check_input_validity(int argc, char **argv);
 static void get_dim(t_game *game, int fd, char *tmp, int ret);
-
-/*
-clear && make re && clear && ./so_long map1_5x5.ber
-*/
-
-/*
-Als het gaat om de [][] coordinaten van een kaart hanteer je:
-[row][col]
-
-Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
-dan werk je met X en Y logica. Hierbij X = col; Y = row.
-col, row
-*/
-
-
-
-
-
-// COUNT COLLECTED APPLES
-// IF THAT MATCHES THE COUNTED APPLES AT INIT, UPDATE DOOR
-
-
-
+static void cell_count_map_chars(t_game *game, int row, int col);
+static void map_count_check(t_game *game);
+static void	map_presence_borders(t_game *game, int i, int j);
+static void	read_map_into_memory(t_game *game, char *s, int row);
+static void	parse_map(int argc, char **argv, t_game *game);
+static void xpm_init(t_game *game);
+static void looper(t_game *game, int pic, int *height, int *width);
+static void	load_xpm_sprites(t_game *game);
+static void cell_looper(t_game *game, void (*f)());
+static void cell_draw_walls(t_game *game, int row, int col);
+static void cell_draw_collectable(t_game *game, int row, int col);
+static void cell_player_pos(t_game *game, int row, int col);
+static void cell_draw_door(t_game *game, int row, int col);
+static void cell_draw_bg(t_game *game, int row, int col);
+static void cell_draw_corners(t_game *game, int row, int col);
 
 /* All valid input keys */
 enum e_keycode
@@ -176,79 +158,6 @@ enum e_keycode
 	KEY_RIGHT = 2,
 	RESET = 15,
 	ESC = 53
-};
-
-
-#ifndef KEYS_H
-# define KEYS_H
-
-enum
-{
-	KEY_A = 0x00,
-	KEY_S = 0x01,
-	KEY_D = 0x02,
-	KEY_F = 0x03,
-	KEY_H = 0x04,
-	KEY_G = 0x05,
-	KEY_Z = 0x06,
-	KEY_X = 0x07,
-	KEY_C = 0x08,
-	KEY_V = 0x09,
-	KEY_B = 0x0B,
-	KEY_Q = 0x0C,
-	KEY_W = 0x0D,
-	KEY_E = 0x0E,
-	KEY_R = 0x0F,
-	KEY_Y = 0x10,
-	KEY_T = 0x11,
-	KEY_1 = 0x12,
-	KEY_2 = 0x13,
-	KEY_3 = 0x14,
-	KEY_4 = 0x15,
-	KEY_6 = 0x16,
-	KEY_5 = 0x17,
-	KEY_EQUAL = 0x18,
-	KEY_9 = 0x19,
-	KEY_7 = 0x1A,
-	KEY_MINUS = 0x1B,
-	KEY_8 = 0x1C,
-	KEY_0 = 0x1D,
-	KEY_RIGHTBRACKET = 0x1E,
-	KEY_O = 0x1F,
-	KEY_U = 0x20,
-	KEY_LEFTBRACKET = 0x21,
-	KEY_I = 0x22,
-	KEY_P = 0x23,
-	KEY_L = 0x25,
-	KEY_J = 0x26,
-	KEY_QUOTE = 0x27,
-	KEY_K = 0x28,
-	KEY_SEMICOLON = 0x29,
-	KEY_BACKSLASH = 0x2A,
-	KEY_COMMA = 0x2B,
-	KEY_SLASH = 0x2C,
-	KEY_N = 0x2D,
-	KEY_M = 0x2E,
-	KEY_PERIOD = 0x2F,
-	KEY_GRAVE = 0x32,
-	KEY_KEYPADDECIMAL = 0x41,
-	KEY_KEYPADMULTIPLY = 0x43,
-	KEY_KEYPADPLUS = 0x45,
-	KEY_KEYPADCLEAR = 0x47,
-	KEY_KEYPADDIVIDE = 0x4B,
-	KEY_KEYPADENTER = 0x4C,
-	KEY_KEYPADMINUS = 0x4E,
-	KEY_KEYPADEQUALS = 0x51,
-	KEY_KEYPAD0 = 0x52,
-	KEY_KEYPAD1 = 0x53,
-	KEY_KEYPAD2 = 0x54,
-	KEY_KEYPAD3 = 0x55,
-	KEY_KEYPAD4 = 0x56,
-	KEY_KEYPAD5 = 0x57,
-	KEY_KEYPAD6 = 0x58,
-	KEY_KEYPAD7 = 0x59,
-	KEY_KEYPAD8 = 0x5B,
-	KEY_KEYPAD9 = 0x5C
 };
 
 /* keycodes for keys that are independent of keyboard layout*/
