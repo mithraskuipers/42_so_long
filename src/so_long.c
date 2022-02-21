@@ -15,22 +15,6 @@
 
 #include "so_long.h"
 
-static int	ft_exit_failure(char *s)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(s, 2);
-	exit (EXIT_FAIL);
-}
-
-
-
-static int close_win(t_game *game)
-{
-	mlx_destroy_window(game->mlx.instance, game->mlx.win);
-	exit(EXIT_SUCCESS);
-	return (1);
-}
-
 int	main(int argc, char **argv)
 { 
 	t_game	*game;
@@ -58,7 +42,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-static int	input(int key, t_game *game)
+int	input(int key, t_game *game)
 {
 	if (key == KEY_UP)
 	{
@@ -87,7 +71,7 @@ static int	input(int key, t_game *game)
 	return (0);
 }
 
-static void mover(t_game *game, int dirtile, int x, int y)
+void mover(t_game *game, int dirtile, int x, int y)
 {
 	if ((dirtile != '0') && (dirtile != 'C') && (dirtile != 'E'))
 		return ;
@@ -107,14 +91,14 @@ static void mover(t_game *game, int dirtile, int x, int y)
 	update_awareness(game, &game->map.player);
 }
 
-static void update_tiles(t_game *game, int x, int y, char c)
+void update_tiles(t_game *game, int x, int y, char c)
 {
 	if (game->map.map[y][x] == 'C')
 		game->map.content.ncollected++;
 	game->map.map[y][x] = c;
 }
 
-static void update_awareness(t_game *game, t_state *player)
+void update_awareness(t_game *game, t_state *player)
 {
 	player->u = game->map.map[player->y-1][player->x];
 	player->d = game->map.map[player->y+1][player->x];
@@ -122,14 +106,14 @@ static void update_awareness(t_game *game, t_state *player)
 	player->r = game->map.map[player->y][player->x+1];
 }
 
-static void draw_player(t_game *game)
+void draw_player(t_game *game)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 	game->img[PLAYER].mlx_img, (game->map.player.x * TILE_WIDTH), \
 	(game->map.player.y * TILE_WIDTH));
 }
 
-static void draw_map(t_game *game)
+void draw_map(t_game *game)
 {
 	int	row;
 	int	col;
@@ -154,7 +138,7 @@ static void draw_map(t_game *game)
 	draw_player(game);
 }
 
-static void cell_player(t_game *game, int row, int col, t_state *player)
+void cell_player(t_game *game, int row, int col, t_state *player)
 {
 	if (game->map.map[row][col] == 'P')
 	{
@@ -167,7 +151,7 @@ static void cell_player(t_game *game, int row, int col, t_state *player)
 	}
 }
 
-static void	ft_map_failure(t_game *game, char *s)
+void	ft_map_failure(t_game *game, char *s)
 {
 	int	i;
 
@@ -181,7 +165,7 @@ static void	ft_map_failure(t_game *game, char *s)
 	ft_exit_failure(s);
 }
 
-static void	check_input_validity(int argc, char **argv)
+void	check_input_validity(int argc, char **argv)
 {
 	int	fd;
 	if (argc < 2)
@@ -197,7 +181,7 @@ static void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-static void get_dim(t_game *game, int fd, char *tmp, int ret)
+void get_dim(t_game *game, int fd, char *tmp, int ret)
 {
 	ret = get_next_line(fd, &tmp);
 	if (ret > 0)
@@ -222,7 +206,7 @@ static void get_dim(t_game *game, int fd, char *tmp, int ret)
 		ft_exit_failure("File could not be read.");
 }
 
-static void cell_count_map_chars(t_game *game, int row, int col)
+void cell_count_map_chars(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 		(game->map.content.players)++;
@@ -235,7 +219,7 @@ static void cell_count_map_chars(t_game *game, int row, int col)
 		(game->map.content.invalids)++;
 }
 
-static void map_count_check(t_game *game)
+void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
 	{
@@ -259,7 +243,7 @@ static void map_count_check(t_game *game)
 	}
 }
 
-static void	map_presence_borders(t_game *game, int i, int j)
+void	map_presence_borders(t_game *game, int i, int j)
 {
 	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
 	{
@@ -273,7 +257,7 @@ static void	map_presence_borders(t_game *game, int i, int j)
 	}
 }
 
-static void	read_map_into_memory(t_game *game, int row)
+void	read_map_into_memory(t_game *game, int row)
 {
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
@@ -295,7 +279,7 @@ static void	read_map_into_memory(t_game *game, int row)
 	close(game->map.fd);
 }
 
-static void	parse_map(int argc, char **argv, t_game *game)
+void	parse_map(int argc, char **argv, t_game *game)
 {
 	if (argc < 2)
 		ft_exit_failure("Please provide a map.");
@@ -315,7 +299,7 @@ static void	parse_map(int argc, char **argv, t_game *game)
 
 /* init functions */
 
-static void xpm_init(t_game *game)
+void xpm_init(t_game *game)
 {
 	game->img[BG].path = "./assets/BG.xpm";
 	game->img[WALL_L].path = "./assets/wall_l.xpm";
@@ -337,13 +321,13 @@ static void xpm_init(t_game *game)
 	game->img[STONE].path = "./assets/stone.xpm";
 }
 
-static void looper(t_game *game, int pic, int *height, int *width)
+void looper(t_game *game, int pic, int *height, int *width)
 {
 	game->img[pic].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
 	game->img[pic].path, height, width);
 }
 
-static void	load_xpm_sprites(t_game *game)
+void	load_xpm_sprites(t_game *game)
 {
 	for (int i = 0; i < N_IMAGES; i++)
 	{
@@ -351,7 +335,7 @@ static void	load_xpm_sprites(t_game *game)
 	}
 }
 
-static void cell_looper(t_game *game, void (*f)())
+void cell_looper(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;
@@ -369,7 +353,7 @@ static void cell_looper(t_game *game, void (*f)())
 	}
 }
 
-static void cell_draw_walls(t_game *game, int row, int col)
+void cell_draw_walls(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
@@ -391,7 +375,7 @@ static void cell_draw_walls(t_game *game, int row, int col)
 	}
 }
 
-static void cell_draw_collectable(t_game *game, int row, int col)
+void cell_draw_collectable(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'C')
 	{
@@ -402,7 +386,7 @@ static void cell_draw_collectable(t_game *game, int row, int col)
 	}
 }
 
-static void cell_player_pos(t_game *game, int row, int col)
+void cell_player_pos(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 	{
@@ -411,7 +395,7 @@ static void cell_player_pos(t_game *game, int row, int col)
 	}
 }
 
-static void cell_draw_door(t_game *game, int row, int col)
+void cell_draw_door(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'E')
 	{
@@ -424,12 +408,12 @@ static void cell_draw_door(t_game *game, int row, int col)
 	}
 }
 
-static void cell_draw_bg(t_game *game, int row, int col)
+void cell_draw_bg(t_game *game, int row, int col)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 }
 
-static void cell_draw_corners(t_game *game, int row, int col)
+void cell_draw_corners(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
@@ -448,32 +432,3 @@ static void cell_draw_corners(t_game *game, int row, int col)
 			game->img[WALL_LR].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 	}
 }
-
-/* DEBUGGING FUNCTIONS */
-/*
-static void print_player_data(t_game *game)
-{
-	printf("Player position:\n");
-	printf("row: %d\n", game->map.player.y);
-	printf("col: %d\n", game->map.player.x);
-	printf("Player state:\n");
-	printf("up: %d\n", game->map.player.u);
-	printf("down: %d\n", game->map.player.d);
-	printf("left: %d\n", game->map.player.l);
-	printf("right: %d\n", game->map.player.r);
-}
-
-static void print_map(t_game *game)
-{
-	int row;
-
-	row = 0;
-	ft_putstr_fd("\r", 1);
-	while (row < game->map.ntiles_rows)
-	{
-		ft_putstr_fd(game->map.map[row], 1);
-		ft_putstr_fd("\n", 1);
-		row++;
-	}
-}
-*/

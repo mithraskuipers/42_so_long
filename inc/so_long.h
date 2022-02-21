@@ -20,7 +20,6 @@ col, row
 /* ************************************************************************** */
 
 #ifndef SO_LONG
-
 # define SO_LONG
 
 #include <stdio.h>
@@ -120,33 +119,33 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-static	int	ft_exit_failure(char *s);
-static	int	close_win(t_game *game);
-static	int	input(int key, t_game *game);
-static void mover(t_game *game, int dirtile, int x, int y);
-static void update_tiles(t_game *game, int x, int y, char c);
-static void update_awareness(t_game *game, t_state *player);
-static void draw_player(t_game *game);
-static void draw_map(t_game *game);
-static void cell_player(t_game *game, int row, int col, t_state *player);
-static void	ft_map_failure(t_game *game, char *s);
-static void	check_input_validity(int argc, char **argv);
-static void get_dim(t_game *game, int fd, char *tmp, int ret);
-static void cell_count_map_chars(t_game *game, int row, int col);
-static void map_count_check(t_game *game);
-static void	map_presence_borders(t_game *game, int i, int j);
-static void	read_map_into_memory(t_game *game, int row);
-static void	parse_map(int argc, char **argv, t_game *game);
-static void xpm_init(t_game *game);
-static void looper(t_game *game, int pic, int *height, int *width);
-static void	load_xpm_sprites(t_game *game);
-static void cell_looper(t_game *game, void (*f)());
-static void cell_draw_walls(t_game *game, int row, int col);
-static void cell_draw_collectable(t_game *game, int row, int col);
-static void cell_player_pos(t_game *game, int row, int col);
-static void cell_draw_door(t_game *game, int row, int col);
-static void cell_draw_bg(t_game *game, int row, int col);
-static void cell_draw_corners(t_game *game, int row, int col);
+int	ft_exit_failure(char *s);
+int	close_win(t_game *game);
+int	input(int key, t_game *game);
+void mover(t_game *game, int dirtile, int x, int y);
+void update_tiles(t_game *game, int x, int y, char c);
+void update_awareness(t_game *game, t_state *player);
+void draw_player(t_game *game);
+void draw_map(t_game *game);
+void cell_player(t_game *game, int row, int col, t_state *player);
+void	ft_map_failure(t_game *game, char *s);
+void	check_input_validity(int argc, char **argv);
+void get_dim(t_game *game, int fd, char *tmp, int ret);
+void cell_count_map_chars(t_game *game, int row, int col);
+void map_count_check(t_game *game);
+void	map_presence_borders(t_game *game, int i, int j);
+void	read_map_into_memory(t_game *game, int row);
+void	parse_map(int argc, char **argv, t_game *game);
+void xpm_init(t_game *game);
+void looper(t_game *game, int pic, int *height, int *width);
+void	load_xpm_sprites(t_game *game);
+void cell_looper(t_game *game, void (*f)());
+void cell_draw_walls(t_game *game, int row, int col);
+void cell_draw_collectable(t_game *game, int row, int col);
+void cell_player_pos(t_game *game, int row, int col);
+void cell_draw_door(t_game *game, int row, int col);
+void cell_draw_bg(t_game *game, int row, int col);
+void cell_draw_corners(t_game *game, int row, int col);
 
 /* All valid input keys */
 enum e_keycode
