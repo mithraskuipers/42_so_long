@@ -38,7 +38,7 @@
 #define WALL_LR 15
 #define DOOR_C 16
 #define DOOR_O 17
-#define FOOT 18
+#define STONE 18
 
 typedef struct s_mlx
 {

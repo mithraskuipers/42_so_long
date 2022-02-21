@@ -382,6 +382,7 @@ static void xpm_init(t_game *game)
 	game->img[COLLECTABLE].path = "./assets/collectable.xpm";
 	game->img[DOOR_C].path = "./assets/door_c.xpm";
 	game->img[DOOR_O].path = "./assets/door_o.xpm";
+	game->img[STONE].path = "./assets/stone.xpm";
 }
 
 static void looper(t_game *game, int pic, int *height, int *width)
@@ -434,7 +435,7 @@ static void cell_draw_walls(t_game *game, int row, int col)
 			game->img[WALL_R].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 		else
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
-			game->img[WALL_R].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
+			game->img[STONE].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 	}
 }
 
