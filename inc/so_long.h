@@ -27,7 +27,6 @@ col, row
 #include <fcntl.h>
 #include "../libft/libft.h"
 #include "../mlx/mlx.h"
-#include "get_next_line.h"
 
 #define EXIT_FAIL 1
 #define TILE_WIDTH 64
@@ -136,7 +135,7 @@ static void get_dim(t_game *game, int fd, char *tmp, int ret);
 static void cell_count_map_chars(t_game *game, int row, int col);
 static void map_count_check(t_game *game);
 static void	map_presence_borders(t_game *game, int i, int j);
-static void	read_map_into_memory(t_game *game, char *s, int row);
+static void	read_map_into_memory(t_game *game, int row);
 static void	parse_map(int argc, char **argv, t_game *game);
 static void xpm_init(t_game *game);
 static void looper(t_game *game, int pic, int *height, int *width);

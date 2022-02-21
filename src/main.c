@@ -273,7 +273,7 @@ static void	map_presence_borders(t_game *game, int i, int j)
 	}
 }
 
-static void	read_map_into_memory(t_game *game, char *s, int row)
+static void	read_map_into_memory(t_game *game, int row)
 {
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
@@ -310,7 +310,7 @@ static void	parse_map(int argc, char **argv, t_game *game)
 	get_dim(game, game->map.fd, 0, 0);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
-	read_map_into_memory(game, NULL, 0);
+	read_map_into_memory(game, 0);
 }
 
 /* init functions */

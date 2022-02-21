@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/02/21 15:13:50 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/02/21 15:31:30 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,7 @@ LIBFT_NAME = libft.a
 INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-SRC =	main.c \
-		get_next_line/get_next_line.c \
-		ft_printf/ft_printf.c
+SRC =	main.c
 
 SRC_BONUS = main_bonus.c
 
@@ -43,7 +41,7 @@ LIBFT_FULLPATH = $(addprefix $(DIR_LIBFT), $(LIBFT_NAME))
 OBJ_FULLPATH = $(SRC_FULLPATH:.c=.o)
 
 SRC_BONUS_FULLPATH = $(addprefix $(SRCS_BONUS_DIR), $(SRC_BONUS))
-OBJ_BONUS_FULLPATH = $(SRC_BONUS_FULLMATH:.c=.o)
+OBJ_BONUS_FULLPATH = $(SRC_BONUS_FULLPATH:.c=.o)
 
 .c.o:
 	$(CC) $(CFLAGS) -I $(DIR_INC) -o $@ -c $?
