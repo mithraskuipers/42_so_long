@@ -44,29 +44,29 @@ int	main(int argc, char **argv)
 
 int	input(int key, t_game *game)
 {
-	if (key == KEY_UP)
+	if (key == KEY_UP || key == KEY_UPARROW)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_U].mlx_img;
 		mover(game, game->map.player.u, 0, -1);
 	}
-	else if (key == KEY_DOWN)
+	else if (key == KEY_DOWN || key == KEY_DOWNARROW)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_D].mlx_img;
 		mover(game, game->map.player.d, 0, 1);
 	}
-	else if (key == KEY_LEFT)
+	else if (key == KEY_LEFT || key == KEY_LEFTARROW)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_L].mlx_img;
 		mover(game, game->map.player.l, -1, 0);
 	}
-	else if (key == KEY_RIGHT)
+	else if (key == KEY_RIGHT || key == KEY_RIGHTARROW)
 	{
 		game->img[PLAYER].mlx_img = game->img[PLAYER_R].mlx_img;
 		mover(game, game->map.player.r, 1, 0);
 	}
-	else if (key == 53)
+	else if (key == ESC)
 		close_win(game);
-	mlx_clear_window(game->mlx.instance, game->mlx.win);
+	// mlx_clear_window(game->mlx.instance, game->mlx.win);
 	draw_map(game);
 	return (0);
 }
@@ -83,11 +83,11 @@ void mover(t_game *game, int dirtile, int x, int y)
 			return ;
 	}
 	game->map.content.nsteps++;
-	ft_printf("You moved %d times.\n", game->map.content.nsteps); // MAAK DIT FT_PRINTF
+	ft_printf("You moved %d times.\n", game->map.content.nsteps);
 	update_tiles(game, game->map.player.x, game->map.player.y, '0');
-	update_tiles(game, (game->map.player.x+x), (game->map.player.y+y), 'P');
-	game->map.player.y = game->map.player.y+y;
-	game->map.player.x = game->map.player.x+x;
+	update_tiles(game, (game->map.player.x + x), (game->map.player.y + y), 'P');
+	game->map.player.y = game->map.player.y + y;
+	game->map.player.x = game->map.player.x + x;
 	update_awareness(game, &game->map.player);
 }
 
@@ -222,25 +222,13 @@ void cell_count_map_chars(t_game *game, int row, int col)
 void map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
-	{
 		ft_exit_failure("Your map has more than 1 player spawnpoint.");
-		exit(2);
-	}
 	else if (game->map.content.players < 1)
-	{
 		ft_exit_failure("Your map does not have 1 player spawnpoint.");
-		exit(2);
-	}
 	if (game->map.content.exits > 1)
-	{
 		ft_exit_failure("Your map has more than 1 exit.");
-		exit(2);
-	}
 	else if (game->map.content.exits < 1)
-	{
 		ft_exit_failure("Your map does not have 1 exit.");
-		exit(2);
-	}
 }
 
 void	map_presence_borders(t_game *game, int i, int j)

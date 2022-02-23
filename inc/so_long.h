@@ -22,45 +22,45 @@ col, row
 #ifndef SO_LONG
 # define SO_LONG
 
-#include <stdio.h>
-#include <fcntl.h>
-#include "../libft/libft.h"
-#include "../mlx/mlx.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include "../mlx/mlx.h"
 
-#define EXIT_FAIL 1
-#define TILE_WIDTH 64
-#define N_IMAGES 19
+# define EXIT_FAIL 1
+# define TILE_WIDTH 64
+# define N_IMAGES 19
 
-#define W_KEY 13
-#define A_KEY 0
-#define S_KEY 1
-#define D_KEY 2
-#define ESC_KEY 53
+# define W_KEY 13
+# define A_KEY 0
+# define S_KEY 1
+# define D_KEY 2
+# define ESC_KEY 53
 
-#define UP 1
-#define DOWN 2
-#define LEFT 3
-#define RIGHT 4
+# define UP 1
+# define DOWN 2
+# define LEFT 3
+# define RIGHT 4
 
-#define BG 0
-#define PLAYER 1
-#define PLAYER_L 2
-#define PLAYER_R 3
-#define PLAYER_U 4
-#define PLAYER_D 5
-#define COLLECTABLE 6
-#define EXIT 7
-#define WALL_U 8
-#define WALL_D 9
-#define WALL_L 10
-#define WALL_R 11
-#define WALL_UL 12
-#define WALL_UR 13
-#define WALL_LL 14
-#define WALL_LR 15
-#define DOOR_C 16
-#define DOOR_O 17
-#define STONE 18
+# define BG 0
+# define PLAYER 1
+# define PLAYER_L 2
+# define PLAYER_R 3
+# define PLAYER_U 4
+# define PLAYER_D 5
+# define COLLECTABLE 6
+# define EXIT 7
+# define WALL_U 8
+# define WALL_D 9
+# define WALL_L 10
+# define WALL_R 11
+# define WALL_UL 12
+# define WALL_UR 13
+# define WALL_LL 14
+# define WALL_LR 15
+# define DOOR_C 16
+# define DOOR_O 17
+# define STONE 18
 
 typedef struct s_mlx
 {
@@ -119,35 +119,34 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-int	ft_exit_failure(char *s);
-int	close_win(t_game *game);
-int	input(int key, t_game *game);
-void mover(t_game *game, int dirtile, int x, int y);
-void update_tiles(t_game *game, int x, int y, char c);
-void update_awareness(t_game *game, t_state *player);
-void draw_player(t_game *game);
-void draw_map(t_game *game);
-void cell_player(t_game *game, int row, int col, t_state *player);
+int		ft_exit_failure(char *s);
+int		close_win(t_game *game);
+int		input(int key, t_game *game);
+void	mover(t_game *game, int dirtile, int x, int y);
+void	update_tiles(t_game *game, int x, int y, char c);
+void	update_awareness(t_game *game, t_state *player);
+void	draw_player(t_game *game);
+void	draw_map(t_game *game);
+void	cell_player(t_game *game, int row, int col, t_state *player);
 void	ft_map_failure(t_game *game, char *s);
 void	check_input_validity(int argc, char **argv);
-void get_dim(t_game *game, int fd, char *tmp, int ret);
-void cell_count_map_chars(t_game *game, int row, int col);
-void map_count_check(t_game *game);
+void	get_dim(t_game *game, int fd, char *tmp, int ret);
+void	cell_count_map_chars(t_game *game, int row, int col);
+void	map_count_check(t_game *game);
 void	map_presence_borders(t_game *game, int i, int j);
 void	read_map_into_memory(t_game *game, int row);
 void	parse_map(int argc, char **argv, t_game *game);
-void xpm_init(t_game *game);
-void looper(t_game *game, int pic, int *height, int *width);
+void	xpm_init(t_game *game);
+void	looper(t_game *game, int pic, int *height, int *width);
 void	load_xpm_sprites(t_game *game);
-void cell_looper(t_game *game, void (*f)());
-void cell_draw_walls(t_game *game, int row, int col);
-void cell_draw_collectable(t_game *game, int row, int col);
-void cell_player_pos(t_game *game, int row, int col);
-void cell_draw_door(t_game *game, int row, int col);
-void cell_draw_bg(t_game *game, int row, int col);
-void cell_draw_corners(t_game *game, int row, int col);
+void	cell_looper(t_game *game, void (*f)());
+void	cell_draw_walls(t_game *game, int row, int col);
+void	cell_draw_collectable(t_game *game, int row, int col);
+void	cell_player_pos(t_game *game, int row, int col);
+void	cell_draw_door(t_game *game, int row, int col);
+void	cell_draw_bg(t_game *game, int row, int col);
+void	cell_draw_corners(t_game *game, int row, int col);
 
-/* All valid input keys */
 enum e_keycode
 {
 	KEY_UP = 13,
@@ -155,59 +154,11 @@ enum e_keycode
 	KEY_LEFT = 0,
 	KEY_RIGHT = 2,
 	RESET = 15,
-	ESC = 53
-};
-
-/* keycodes for keys that are independent of keyboard layout*/
-enum
-{
-	KEY_RETURN = 0x24,
-	KEY_TAB = 0x30,
-	KEY_SPACE = 0x31,
-	KEY_DELETE = 0x33,
-	KEY_ESCAPE = 0x35,
-	KEY_COMMAND = 0x37,
-	KEY_SHIFT = 0x38,
-	KEY_CAPSLOCK = 0x39,
-	KEY_OPTION = 0x3A,
-	KEY_CONTROL = 0x3B,
-	KEY_RIGHTSHIFT = 0x3C,
-	KEY_RIGHTOPTION = 0x3D,
-	KEY_RIGHTCONTROL = 0x3E,
-	KEY_FUNCTION = 0x3F,
-	KEY_F17 = 0x40,
-	KEY_VOLUMEUP = 0x48,
-	KEY_VOLUMEDOWN = 0x49,
-	KEY_MUTE = 0x4A,
-	KEY_F18 = 0x4F,
-	KEY_F19 = 0x50,
-	KEY_F20 = 0x5A,
-	KEY_F5 = 0x60,
-	KEY_F6 = 0x61,
-	KEY_F7 = 0x62,
-	KEY_F3 = 0x63,
-	KEY_F8 = 0x64,
-	KEY_F9 = 0x65,
-	KEY_F11 = 0x67,
-	KEY_F13 = 0x69,
-	KEY_F16 = 0x6A,
-	KEY_F14 = 0x6B,
-	KEY_F10 = 0x6D,
-	KEY_F12 = 0x6F,
-	KEY_F15 = 0x71,
-	KEY_HELP = 0x72,
-	KEY_HOME = 0x73,
-	KEY_PAGEUP = 0x74,
-	KEY_FORWARDDELETE = 0x75,
-	KEY_F4 = 0x76,
-	KEY_END = 0x77,
-	KEY_F2 = 0x78,
-	KEY_PAGEDOWN = 0x79,
-	KEY_F1 = 0x7A,
+	ESC = 53,
 	KEY_LEFTARROW = 0x7B,
 	KEY_RIGHTARROW = 0x7C,
 	KEY_DOWNARROW = 0x7D,
-	KEY_UPARROW = 0x7E
+	KEY_UPARROW = 0x7E,
 };
 
 #endif
