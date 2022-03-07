@@ -1,0 +1,8 @@
+/*
+Als het gaat om de [][] coordinaten van een kaart hanteer je:
+[row][col]
+
+Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
+dan werk je met X en Y logica. Hierbij X = col; Y = row.
+col, row
+*/

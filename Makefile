@@ -6,10 +6,9 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/02/21 17:58:45 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/03/07 14:11:54 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
-
 
 NAME		= so_long
 
@@ -28,7 +27,11 @@ INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
 SRC =	so_long.c \
-		so_long_close.c
+		close.c \
+		draw_dynamics.c \
+		draw_statics.c \
+		cell.c \
+		parse_map.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
 LIBFT_FULLPATH = $(addprefix $(DIR_LIBFT), $(LIBFT_NAME))
@@ -40,7 +43,8 @@ OBJ_FULLPATH = $(SRC_FULLPATH:.c=.o)
 $(NAME): $(OBJ_FULLPATH)
 	make -C $(DIR_LIBFT)
 	make -C $(DIR_MLX)
-	$(CC) -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L $(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
+	$(CC) -o $(NAME) $(OBJ_FULLPATH) -I $(DIR_INC) -L $(DIR_LIBFT) -lft -L \
+	$(DIR_MLX) -lmlx -framework OpenGL -framework Appkit
 
 all: $(NAME)
 

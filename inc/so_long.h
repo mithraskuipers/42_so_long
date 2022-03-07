@@ -1,12 +1,3 @@
-/*
-Als het gaat om de [][] coordinaten van een kaart hanteer je:
-[row][col]
-
-Als het gaat om de X and Y coordinaten (voor bijv. het printen van de tile),
-dan werk je met X en Y logica. Hierbij X = col; Y = row.
-col, row
-*/
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
@@ -15,7 +6,7 @@ col, row
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/02/21 13:13:33 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/07 13:20:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +22,12 @@ col, row
 # define TILE_WIDTH 64
 # define N_IMAGES 19
 
-# define W_KEY 13
-# define A_KEY 0
-# define S_KEY 1
-# define D_KEY 2
-# define ESC_KEY 53
-
-# define UP 1
-# define DOWN 2
-# define LEFT 3
-# define RIGHT 4
+# define KEY_UP 13
+# define KEY_DOWN 1
+# define KEY_LEFT 0
+# define KEY_RIGHT 2
+# define RESET 15
+# define ESC 53
 
 # define BG 0
 # define PLAYER 1
@@ -146,19 +133,5 @@ void	cell_player_pos(t_game *game, int row, int col);
 void	cell_draw_door(t_game *game, int row, int col);
 void	cell_draw_bg(t_game *game, int row, int col);
 void	cell_draw_corners(t_game *game, int row, int col);
-
-enum e_keycode
-{
-	KEY_UP = 13,
-	KEY_DOWN = 1,
-	KEY_LEFT = 0,
-	KEY_RIGHT = 2,
-	RESET = 15,
-	ESC = 53,
-	KEY_LEFTARROW = 0x7B,
-	KEY_RIGHTARROW = 0x7C,
-	KEY_DOWNARROW = 0x7D,
-	KEY_UPARROW = 0x7E,
-};
 
 #endif
