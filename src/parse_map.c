@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 14:02:24 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 14:03:19 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:38:06 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	parse_map(int argc, char **argv, t_game *game)
 
 void	read_map_into_memory(t_game *game, int row)
 {
+	int ret;
+	
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
@@ -45,7 +47,7 @@ void	read_map_into_memory(t_game *game, int row)
 		ft_exit_failure("Malloc error.");
 	while (row < game->map.ntiles_rows)
 	{
-		int ret = get_next_line(game->map.fd, &game->map.map[row]);
+		ret = get_next_line(game->map.fd, &game->map.map[row]);
 		if (ret < 0)
 			ft_exit_failure("Failing to read the map.");
 		row++;
@@ -60,6 +62,7 @@ void get_dim(t_game *game, int fd, char *tmp, int ret)
 		game->map.ntiles_cols = ft_strlen(tmp);
 	else if (ret == 0)
 		ft_exit_failure("Map is empty.");
+	free (tmp);
 	while (ret)
 	{
 		ret = get_next_line(fd, &tmp);
@@ -68,9 +71,10 @@ void get_dim(t_game *game, int fd, char *tmp, int ret)
 		if ((ft_strlen(tmp)) != (size_t)game->map.ntiles_cols)
 		{
 			free(tmp);
-			ft_exit_failure("Map is not Rectangle.");
+			ft_exit_failure("Map is not rectangle.");
 		}
 		game->map.ntiles_rows++;
+		free (tmp);
 	}
 	game->map.ntiles_rows++;
 	close(fd);

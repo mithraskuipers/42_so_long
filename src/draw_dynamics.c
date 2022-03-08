@@ -6,13 +6,13 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 13:31:51 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:41:33 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void mover(t_game *game, int dirtile, int x, int y)
+void	mover(t_game *game, int dirtile, int x, int y)
 {
 	if ((dirtile != '0') && (dirtile != 'C') && (dirtile != 'E'))
 		return ;
@@ -32,29 +32,29 @@ void mover(t_game *game, int dirtile, int x, int y)
 	update_awareness(game, &game->map.player);
 }
 
-void update_tiles(t_game *game, int x, int y, char c)
+void	update_tiles(t_game *game, int x, int y, char c)
 {
 	if (game->map.map[y][x] == 'C')
 		game->map.content.ncollected++;
 	game->map.map[y][x] = c;
 }
 
-void update_awareness(t_game *game, t_state *player)
+void	update_awareness(t_game *game, t_state *player)
 {
-	player->u = game->map.map[player->y-1][player->x];
-	player->d = game->map.map[player->y+1][player->x];
-	player->l = game->map.map[player->y][player->x-1];
-	player->r = game->map.map[player->y][player->x+1];
+	player->u = game->map.map[player->y - 1][player->x];
+	player->d = game->map.map[player->y + 1][player->x];
+	player->l = game->map.map[player->y][player->x - 1];
+	player->r = game->map.map[player->y][player->x + 1];
 }
 
-void draw_player(t_game *game)
+void	draw_player(t_game *game)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 	game->img[PLAYER].mlx_img, (game->map.player.x * TILE_WIDTH), \
 	(game->map.player.y * TILE_WIDTH));
 }
 
-void cell_draw_collectable(t_game *game, int row, int col)
+void	cell_draw_collectable(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'C')
 	{

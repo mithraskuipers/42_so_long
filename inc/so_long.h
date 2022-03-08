@@ -6,48 +6,48 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 13:20:25 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:49:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG
-# define SO_LONG
+#define SO_LONG
 
 # include <stdio.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
 
-# define EXIT_FAIL 1
-# define TILE_WIDTH 64
-# define N_IMAGES 19
+#define EXIT_FAIL 1
+#define TILE_WIDTH 64
+#define N_IMAGES 19
 
-# define KEY_UP 13
-# define KEY_DOWN 1
-# define KEY_LEFT 0
-# define KEY_RIGHT 2
-# define RESET 15
-# define ESC 53
+#define KEY_UP 13
+#define KEY_DOWN 1
+#define KEY_LEFT 0
+#define KEY_RIGHT 2
+#define RESET 15
+#define ESC 53
 
-# define BG 0
-# define PLAYER 1
-# define PLAYER_L 2
-# define PLAYER_R 3
-# define PLAYER_U 4
-# define PLAYER_D 5
-# define COLLECTABLE 6
-# define EXIT 7
-# define WALL_U 8
-# define WALL_D 9
-# define WALL_L 10
-# define WALL_R 11
-# define WALL_UL 12
-# define WALL_UR 13
-# define WALL_LL 14
-# define WALL_LR 15
-# define DOOR_C 16
-# define DOOR_O 17
-# define STONE 18
+#define BG 0
+#define PLAYER 1
+#define PLAYER_L 2
+#define PLAYER_R 3
+#define PLAYER_U 4
+#define PLAYER_D 5
+#define COLLECTABLE 6
+#define EXIT 7
+#define WALL_U 8
+#define WALL_D 9
+#define WALL_L 10
+#define WALL_R 11
+#define WALL_UL 12
+#define WALL_UR 13
+#define WALL_LL 14
+#define WALL_LR 15
+#define DOOR_C 16
+#define DOOR_O 17
+#define STONE 18
 
 typedef struct s_mlx
 {
@@ -124,7 +124,6 @@ void	map_presence_borders(t_game *game, int i, int j);
 void	read_map_into_memory(t_game *game, int row);
 void	parse_map(int argc, char **argv, t_game *game);
 void	xpm_init(t_game *game);
-void	looper(t_game *game, int pic, int *height, int *width);
 void	load_xpm_sprites(t_game *game);
 void	cell_looper(t_game *game, void (*f)());
 void	cell_draw_walls(t_game *game, int row, int col);

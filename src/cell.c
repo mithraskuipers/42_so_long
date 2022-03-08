@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Untitled-2                                         :+:    :+:            */
+/*   cell.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:59:17 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 12:59:30 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:39:54 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void cell_looper(t_game *game, void (*f)())
+void	cell_looper(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;
@@ -30,7 +30,7 @@ void cell_looper(t_game *game, void (*f)())
 	}
 }
 
-void cell_player_pos(t_game *game, int row, int col)
+void	cell_player_pos(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 	{
@@ -39,7 +39,7 @@ void cell_player_pos(t_game *game, int row, int col)
 	}
 }
 
-void cell_count_map_chars(t_game *game, int row, int col)
+void	cell_count_map_chars(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 		(game->map.content.players)++;
@@ -52,15 +52,15 @@ void cell_count_map_chars(t_game *game, int row, int col)
 		(game->map.content.invalids)++;
 }
 
-void cell_player(t_game *game, int row, int col, t_state *player)
+void	cell_player(t_game *game, int row, int col, t_state *player)
 {
 	if (game->map.map[row][col] == 'P')
 	{
 		player->x = col;
 		player->y = row;
-		player->u = game->map.map[player->y-1][player->x];
-		player->d = game->map.map[player->y+1][player->x];
-		player->l = game->map.map[player->y][player->x-1];
-		player->r = game->map.map[player->y][player->x+1];
+		player->u = game->map.map[player->y - 1][player->x];
+		player->d = game->map.map[player->y + 1][player->x];
+		player->l = game->map.map[player->y][player->x - 1];
+		player->r = game->map.map[player->y][player->x + 1];
 	}
 }

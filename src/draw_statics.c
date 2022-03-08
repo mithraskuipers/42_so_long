@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw.c                                             :+:    :+:            */
+/*   draw_statics.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:02:43 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 12:39:44 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:42:56 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void cell_draw_walls(t_game *game, int row, int col)
+void	cell_draw_walls(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
 		if (row == 0)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_U].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if (row == (game->map.ntiles_rows-1))
+		else if (row == (game->map.ntiles_rows - 1))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_D].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 		else if (col == 0)
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_L].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if (col == (game->map.ntiles_cols-1))
+		else if (col == (game->map.ntiles_cols - 1))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_R].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 		else
@@ -34,7 +34,7 @@ void cell_draw_walls(t_game *game, int row, int col)
 	}
 }
 
-void cell_draw_door(t_game *game, int row, int col)
+void	cell_draw_door(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'E')
 	{
@@ -47,33 +47,33 @@ void cell_draw_door(t_game *game, int row, int col)
 	}
 }
 
-void cell_draw_bg(t_game *game, int row, int col)
+void	cell_draw_bg(t_game *game, int row, int col)
 {
 	mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 	game->img[BG].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 }
 
-void cell_draw_corners(t_game *game, int row, int col)
+void	cell_draw_corners(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == '1')
 	{
 		if ((col == 0) && (row == 0))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_UL].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if ((col == 0) && (row == (game->map.ntiles_rows-1)))
+		else if ((col == 0) && (row == (game->map.ntiles_rows - 1)))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_LL].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if ((col == (game->map.ntiles_cols-1)) && (row == 0))
+		else if ((col == (game->map.ntiles_cols - 1)) && (row == 0))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_UR].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
-		else if ((col == (game->map.ntiles_cols-1)) && \
-		(row == (game->map.ntiles_rows-1)))
+		else if ((col == (game->map.ntiles_cols - 1)) && \
+		(row == (game->map.ntiles_rows - 1)))
 			mlx_put_image_to_window(game->mlx.instance, game->mlx.win, \
 			game->img[WALL_LR].mlx_img, (col * TILE_WIDTH), (row * TILE_WIDTH));
 	}
 }
 
-void draw_map(t_game *game)
+void	draw_map(t_game *game)
 {
 	int	row;
 	int	col;

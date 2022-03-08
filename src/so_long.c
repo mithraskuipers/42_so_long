@@ -6,16 +6,14 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/07 14:11:27 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 11:48:57 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-// TODO: CHECK FOR E (EXIT)
 
 #include "so_long.h"
 
 int	main(int argc, char **argv)
-{ 
+{
 	t_game	*game;
 
 	game = ft_calloc(1, sizeof(t_game));
@@ -87,6 +85,7 @@ void	ft_map_failure(t_game *game, char *s)
 void	check_input_validity(int argc, char **argv)
 {
 	int	fd;
+
 	if (argc < 2)
 		ft_exit_failure("Please provide a map.");
 	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
@@ -100,7 +99,7 @@ void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-void map_count_check(t_game *game)
+void	map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
 		ft_exit_failure("Your map has more than 1 player spawnpoint.");
@@ -126,7 +125,7 @@ void	map_presence_borders(t_game *game, int i, int j)
 	}
 }
 
-void xpm_init(t_game *game)
+void	xpm_init(t_game *game)
 {
 	game->img[BG].path = "./assets/BG.xpm";
 	game->img[WALL_L].path = "./assets/wall_l.xpm";
@@ -148,16 +147,15 @@ void xpm_init(t_game *game)
 	game->img[STONE].path = "./assets/stone.xpm";
 }
 
-void looper(t_game *game, int pic, int *height, int *width)
-{
-	game->img[pic].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-	game->img[pic].path, height, width);
-}
-
 void	load_xpm_sprites(t_game *game)
 {
-	for (int i = 0; i < N_IMAGES; i++)
+	int	i;
+
+	i = 0;
+	while (i < N_IMAGES)
 	{
-		looper(game, i, &game->img[i].height, &game->img[i].width);
+		game->img[i].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
+		game->img[i].path, &game->img[i].height, &game->img[i].width);
+		i++;
 	}
 }
