@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 14:02:24 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 11:38:06 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:15:05 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	parse_map(int argc, char **argv, t_game *game)
 
 void	read_map_into_memory(t_game *game, int row)
 {
-	int ret;
-	
+	int	ret;
+
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
@@ -42,7 +42,7 @@ void	read_map_into_memory(t_game *game, int row)
 		ft_exit_failure("Failing to read the map.");
 	}
 	row = 0;
-	game->map.map = (char **)malloc(sizeof(char *) * (game->map.ntiles_rows+1));
+	game->map.map = malloc(sizeof(char *) * (game->map.ntiles_rows + 1));
 	if (!(game->map.map))
 		ft_exit_failure("Malloc error.");
 	while (row < game->map.ntiles_rows)
@@ -55,7 +55,7 @@ void	read_map_into_memory(t_game *game, int row)
 	close(game->map.fd);
 }
 
-void get_dim(t_game *game, int fd, char *tmp, int ret)
+void	get_dim(t_game *game, int fd, char *tmp, int ret)
 {
 	ret = get_next_line(fd, &tmp);
 	if (ret > 0)
@@ -67,7 +67,7 @@ void get_dim(t_game *game, int fd, char *tmp, int ret)
 	{
 		ret = get_next_line(fd, &tmp);
 		if (ret == -1)
-			break;
+			break ;
 		if ((ft_strlen(tmp)) != (size_t)game->map.ntiles_cols)
 		{
 			free(tmp);

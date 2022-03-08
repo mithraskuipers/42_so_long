@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/03/08 09:50:40 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/03/08 13:16:59 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC =	so_long.c \
 		draw_dynamics.c \
 		draw_statics.c \
 		cell.c \
-		parse_map.c
+		parse_map.c \
+		xpm.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
 LIBFT_FULLPATH = $(addprefix $(DIR_LIBFT), $(LIBFT_NAME))

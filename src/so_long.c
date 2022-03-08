@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 12:27:17 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:06:17 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,6 @@ int	input(int key, t_game *game)
 	return (0);
 }
 
-void	ft_map_failure(t_game *game, char *s)
-{
-	int	i;
-
-	i = 0;
-	while ((i < game->map.ntiles_rows) && (game->map.map[i]))
-	{
-		free (game->map.map[i]);
-		i++;
-	}
-	free (game->map.map);
-	ft_exit_failure(s);
-}
-
 void	check_input_validity(int argc, char **argv)
 {
 	int	fd;
@@ -113,49 +99,14 @@ void	map_count_check(t_game *game)
 
 void	map_presence_borders(t_game *game, int i, int j)
 {
-	if ((i == 0) || (i == (game->map.ntiles_rows)-1))
+	if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
 	{
 		if (game->map.map[i][j] != '1')
 			ft_map_failure(game, "Your map is not enclosed in borders");
 	}
-	if ((j == 0) || (j == (game->map.ntiles_cols)-1))
+	if ((j == 0) || (j == (game->map.ntiles_cols) - 1))
 	{
 		if (game->map.map[i][j] != '1')
 			ft_map_failure(game, "Your map is not enclosed in borders");
-	}
-}
-
-void	xpm_init(t_game *game)
-{
-	game->img[BG].path = "./assets/BG.xpm";
-	game->img[WALL_L].path = "./assets/wall_l.xpm";
-	game->img[WALL_R].path = "./assets/wall_r.xpm";
-	game->img[WALL_U].path = "./assets/wall_u.xpm";
-	game->img[WALL_D].path = "./assets/wall_d.xpm";
-	game->img[PLAYER].path = "./assets/player_front.xpm";
-	game->img[PLAYER_L].path = "./assets/player_left.xpm";
-	game->img[PLAYER_R].path = "./assets/player_right.xpm";
-	game->img[PLAYER_U].path = "./assets/player_back.xpm";
-	game->img[PLAYER_D].path = "./assets/player_front.xpm";
-	game->img[WALL_UL].path = "./assets/WALL_ul.xpm";
-	game->img[WALL_UR].path = "./assets/WALL_ur.xpm";
-	game->img[WALL_LL].path = "./assets/WALL_ll.xpm";
-	game->img[WALL_LR].path = "./assets/WALL_lr.xpm";
-	game->img[COLLECTABLE].path = "./assets/collectable.xpm";
-	game->img[DOOR_C].path = "./assets/door_c.xpm";
-	game->img[DOOR_O].path = "./assets/door_o.xpm";
-	game->img[STONE].path = "./assets/stone.xpm";
-}
-
-void	load_xpm_sprites(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < N_IMAGES)
-	{
-		game->img[i].mlx_img =  mlx_xpm_file_to_image(game->mlx.instance, \
-		game->img[i].path, &game->img[i].height, &game->img[i].width);
-		i++;
 	}
 }
