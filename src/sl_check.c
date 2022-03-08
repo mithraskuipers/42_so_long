@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/08 14:35:57 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:08:58 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:10:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	map_presence_borders(t_game *game, int i, int j)
 	if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
 	{
 		if (game->map.map[i][j] != '1')
-			ft_map_failure(game, "Your map is not enclosed in borders");
+			map_failure(game, "Your map is not enclosed in borders");
 	}
 	if ((j == 0) || (j == (game->map.ntiles_cols) - 1))
 	{
 		if (game->map.map[i][j] != '1')
-			ft_map_failure(game, "Your map is not enclosed in borders");
+			map_failure(game, "Your map is not enclosed in borders");
 	}
 }

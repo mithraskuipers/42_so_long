@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 17:56:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:09:10 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:10:09 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	stop_game(t_game *game)
 	return (1);
 }
 
-void	ft_map_failure(t_game *game, char *s)
+void	map_failure(t_game *game, char *s)
 {
 	int	i;
 

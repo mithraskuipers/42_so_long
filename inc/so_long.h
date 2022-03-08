@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:08:37 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:10:07 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	update_awareness(t_game *game, t_state *player);
 void	draw_player(t_game *game);
 void	draw_map(t_game *game);
 void	cell_player(t_game *game, int row, int col, t_state *player);
-void	ft_map_failure(t_game *game, char *s);
+void	map_failure(t_game *game, char *s);
 void	check_input_validity(int argc, char **argv);
 void	get_dim(t_game *game, int fd, char *tmp, int ret);
 void	cell_count_map_chars(t_game *game, int row, int col);
