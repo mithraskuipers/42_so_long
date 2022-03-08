@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	input(int key, t_game *game)
+int	parse_input(int key, t_game *game)
 {
 	if (key == KEY_UP)
 	{

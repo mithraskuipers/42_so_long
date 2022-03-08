@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	xpm_init(t_game *game)
+void	store_xpm_paths(t_game *game)
 {
 	game->img[BG].path = "./assets/BG.xpm";
 	game->img[WALL_L].path = "./assets/wall_l.xpm";
@@ -34,7 +34,7 @@ void	xpm_init(t_game *game)
 	game->img[STONE].path = "./assets/stone.xpm";
 }
 
-void	load_xpm_sprites(t_game *game)
+void	load_xpm(t_game *game)
 {
 	int	i;
 

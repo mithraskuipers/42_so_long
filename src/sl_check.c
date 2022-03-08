@@ -22,6 +22,9 @@ void	check_input_validity(int argc, char **argv)
 		exit_failure("Please provide a single map.");
 	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
 		exit_failure("Please provide a map with .ber extension.");
+	if (ft_strrchr(argv[1], '.') == 0 || ft_strncmp(ft_strrchr(argv[1], '.'), \
+	".ber", 5))
+		exit_failure("Please provide a map with .ber extension.");
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
@@ -31,7 +34,7 @@ void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-void	map_check_elements(t_game *game)
+void	check_char_count(t_game *game)
 {
 	if (game->map.content.players > 1)
 		exit_failure("Your map requires 1 player spawnpoint.");
@@ -43,7 +46,7 @@ void	map_check_elements(t_game *game)
 		exit_failure("Your map requires at least 1 collectable.");
 }
 
-void	map_presence_borders(t_game *game, int i, int j)
+void	check_borders(t_game *game, int i, int j)
 {
 	if ((i == 0) || (i == (game->map.ntiles_rows) - 1))
 	{
@@ -54,5 +57,15 @@ void	map_presence_borders(t_game *game, int i, int j)
 	{
 		if (game->map.map[i][j] != '1')
 			map_failure(game, "Your map is not enclosed in borders");
+	}
+}
+
+void	check_char_validity(t_game *game, int row, int col)
+{
+	if ((game->map.map[row][col] != '0') && (game->map.map[row][col] != '1') \
+	&& (game->map.map[row][col] != 'C') && (game->map.map[row][col] != 'E') \
+	&& (game->map.map[row][col] != 'P'))
+	{
+		exit_failure("Your map contains characters other than 0/1/C/E/P.");
 	}
 }

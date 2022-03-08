@@ -39,7 +39,7 @@ void	cell_player_pos(t_game *game, int row, int col)
 	}
 }
 
-void	cell_count_map_chars(t_game *game, int row, int col)
+void	count_chars(t_game *game, int row, int col)
 {
 	if (game->map.map[row][col] == 'P')
 		(game->map.content.players)++;

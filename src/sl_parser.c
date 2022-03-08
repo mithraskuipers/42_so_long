@@ -39,9 +39,10 @@ static void	get_dim(t_game *game, int fd, char *tmp, int ret)
 		exit_failure("File could not be read.");
 }
 
-static void	read_map_into_mem(t_game *game, int row)
+static void	read_map_into_mem(t_game *game)
 {
 	int	ret;
+	int	row;
 
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
@@ -63,13 +64,8 @@ static void	read_map_into_mem(t_game *game, int row)
 	close(game->map.fd);
 }
 
-void	parse_map(int argc, char **argv, t_game *game)
+void	parse_map(t_game *game)
 {
-	if (argc < 2)
-		exit_failure("Please provide a map.");
-	if (ft_strrchr(argv[1], '.') == 0 || ft_strncmp(ft_strrchr(argv[1], '.'), \
-	".ber", 5))
-		exit_failure("Please provide a map with .ber extension.");
 	game->map.fd = open(game->map.path, O_RDONLY);
 	if (game->map.fd < 0)
 	{
@@ -79,5 +75,9 @@ void	parse_map(int argc, char **argv, t_game *game)
 	get_dim(game, game->map.fd, 0, 0);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
-	read_map_into_mem(game, 0);
+	read_map_into_mem(game);
+	cell_looper(game, check_char_validity);
+	cell_looper(game, count_chars);
+	check_char_count(game);
+	cell_looper(game, check_borders);
 }

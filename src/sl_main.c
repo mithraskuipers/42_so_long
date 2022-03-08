@@ -18,22 +18,19 @@ int	main(int argc, char **argv)
 
 	game = ft_calloc(1, sizeof(t_game));
 	if (!(game))
-		exit_failure("Memory allocation issue.");
+		exit_failure("Could not allocate memory for the game struct.");
 	game->map.path = argv[1];
 	check_input_validity(argc, argv);
-	parse_map(argc, argv, game);
-	cell_looper(game, cell_count_map_chars);
-	map_check_elements(game);
-	cell_looper(game, map_presence_borders);
+	parse_map(game);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
 	game->px_row, "Tamagotcha");
 	if (!(game->mlx.win))
 		exit_failure("Could not create window");
-	xpm_init(game);
-	load_xpm_sprites(game);
+	store_xpm_paths(game);
+	load_xpm(game);
 	draw_map(game);
-	mlx_key_hook(game->mlx.win, input, (void *)&game->mlx);
+	mlx_key_hook(game->mlx.win, parse_input, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 17, 0L, stop_game, game);
 	mlx_loop(game->mlx.instance);
 	return (0);
