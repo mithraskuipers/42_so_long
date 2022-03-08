@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/08 14:35:57 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:10:25 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:12:39 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-void	map_count_check(t_game *game)
+void	map_count_elements(t_game *game)
 {
 	if (game->map.content.players > 1)
 		exit_failure("Your map has more than 1 player spawnpoint.");

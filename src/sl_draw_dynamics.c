@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_dynamics.c                                    :+:    :+:            */
+/*   sl_draw_dynamics.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 11:41:33 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:20:02 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@ void	mover(t_game *game, int dirtile, int x, int y)
 	update_tiles(game, (game->map.player.x + x), (game->map.player.y + y), 'P');
 	game->map.player.y = game->map.player.y + y;
 	game->map.player.x = game->map.player.x + x;
-	update_awareness(game, &game->map.player);
+	update_surrounding(game, &game->map.player);
 }
 
-void	update_tiles(t_game *game, int x, int y, char c)
+static void	update_tiles(t_game *game, int x, int y, char c)
 {
 	if (game->map.map[y][x] == 'C')
 		game->map.content.ncollected++;
 	game->map.map[y][x] = c;
 }
 
-void	update_awareness(t_game *game, t_state *player)
+void	update_surrounding(t_game *game, t_state *player)
 {
 	player->u = game->map.map[player->y - 1][player->x];
 	player->d = game->map.map[player->y + 1][player->x];

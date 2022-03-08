@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 14:02:24 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:09:25 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:22:40 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	parse_map(int argc, char **argv, t_game *game)
 	get_dim(game, game->map.fd, 0, 0);
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
-	read_map_into_memory(game, 0);
+	read_map_into_mem(game, 0);
 }
 
-void	read_map_into_memory(t_game *game, int row)
+static void	read_map_into_mem(t_game *game, int row)
 {
 	int	ret;
 
@@ -55,7 +55,7 @@ void	read_map_into_memory(t_game *game, int row)
 	close(game->map.fd);
 }
 
-void	get_dim(t_game *game, int fd, char *tmp, int ret)
+static void	get_dim(t_game *game, int fd, char *tmp, int ret)
 {
 	ret = get_next_line(fd, &tmp);
 	if (ret > 0)

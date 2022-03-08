@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:09:21 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:11:59 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	check_input_validity(argc, argv);
 	parse_map(argc, argv, game);
 	cell_looper(game, cell_count_map_chars);
-	map_count_check(game);
+	map_count_elements(game);
 	cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
