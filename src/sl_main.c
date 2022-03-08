@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   so_long.c                                          :+:    :+:            */
+/*   sl_main.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 14:36:56 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:09:21 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	game = ft_calloc(1, sizeof(t_game));
 	if (!(game))
-		ft_exit_failure("Memory allocation issue.");
+		exit_failure("Memory allocation issue.");
 	game->map.path = argv[1];
 	check_input_validity(argc, argv);
 	parse_map(argc, argv, game);
@@ -29,12 +29,12 @@ int	main(int argc, char **argv)
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
 	game->px_row, "Tamagotcha");
 	if (!(game->mlx.win))
-		ft_exit_failure("Could not create window");
+		exit_failure("Could not create window");
 	xpm_init(game);
 	load_xpm_sprites(game);
 	draw_map(game);
 	mlx_key_hook(game->mlx.win, input, (void *)&game->mlx);
-	mlx_hook(game->mlx.win, 17, 0L, close_win, game);
+	mlx_hook(game->mlx.win, 17, 0L, stop_game, game);
 	mlx_loop(game->mlx.instance);
 	return (0);
 }

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   close.c                                            :+:    :+:            */
+/*   sl_exit.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 17:56:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 13:03:37 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:09:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_exit_failure(char *s)
+int	exit_failure(char *s)
 {
 	write(2, s, ft_strlen(s));
-	exit (EXIT_FAIL);
+	exit (EXIT_FAILURE);
 }
 
-int	close_win(t_game *game)
+int	stop_game(t_game *game)
 {
 	mlx_destroy_window(game->mlx.instance, game->mlx.win);
 	exit(EXIT_SUCCESS);
@@ -36,5 +36,5 @@ void	ft_map_failure(t_game *game, char *s)
 		i++;
 	}
 	free (game->map.map);
-	ft_exit_failure(s);
+	exit_failure(s);
 }

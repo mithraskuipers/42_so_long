@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_calloc.c                                        :+:    :+:            */
+/*   ft_calloc2.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*   By: mkuipers <mkuipers@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/10/06 12:01:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2021/10/26 17:16:31 by mikuiper      ########   odam.nl         */
+/*   Created: 2021/11/17 17:50:27 by mkuipers      #+#    #+#                 */
+/*   Updated: 2021/11/17 17:50:42 by mkuipers      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*ptr;
+	void			*ptr;
+	size_t			i;
+	size_t			len;
+	unsigned char	*b_uc;
+	unsigned char	c;
 
 	ptr = malloc(count * size);
 	if (!(ptr))
 		return (NULL);
-	ft_bzero(ptr, count * size);
+	i = 0;
+	len = count * size;
+	b_uc = (unsigned char *)ptr;
+	c = 0;
+	while (i < len)
+	{
+		b_uc[i] = c;
+		i++;
+	}
 	return (ptr);
 }
-
-/*
-ft_calloc() allocates enough space for the 'count' objects that are of 'size'
-bytes of memory. If allocation fails, it returns NULL. Using ft_bzero(), it
-filles the newly allocated memory with null terminators. Finally it returns
-a pointer to the newly allocated memory.
-*/

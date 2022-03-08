@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/08 14:36:59 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 14:37:13 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:07:10 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	input(int key, t_game *game)
 		mover(game, game->map.player.r, 1, 0);
 	}
 	else if (key == ESC)
-		close_win(game);
+		stop_game(game);
 	mlx_clear_window(game->mlx.instance, game->mlx.win);
 	draw_map(game);
 	return (0);

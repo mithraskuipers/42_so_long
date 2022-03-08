@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/08 14:35:57 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 14:36:13 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:08:58 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	check_input_validity(int argc, char **argv)
 	int	fd;
 
 	if (argc < 2)
-		ft_exit_failure("Please provide a map.");
+		exit_failure("Please provide a map.");
 	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
-		ft_exit_failure("Please provide a map with .ber extension.");
+		exit_failure("Please provide a map with .ber extension.");
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 	{
 		close(fd);
-		ft_exit_failure("Error while reading the map. fd < 0");
+		exit_failure("Error while reading the map. fd < 0");
 	}
 	close(fd);
 }
@@ -32,13 +32,13 @@ void	check_input_validity(int argc, char **argv)
 void	map_count_check(t_game *game)
 {
 	if (game->map.content.players > 1)
-		ft_exit_failure("Your map has more than 1 player spawnpoint.");
+		exit_failure("Your map has more than 1 player spawnpoint.");
 	else if (game->map.content.players < 1)
-		ft_exit_failure("Your map does not have 1 player spawnpoint.");
+		exit_failure("Your map does not have 1 player spawnpoint.");
 	if (game->map.content.exits > 1)
-		ft_exit_failure("Your map has more than 1 exit.");
+		exit_failure("Your map has more than 1 exit.");
 	else if (game->map.content.exits < 1)
-		ft_exit_failure("Your map does not have 1 exit.");
+		exit_failure("Your map does not have 1 exit.");
 }
 
 void	map_presence_borders(t_game *game, int i, int j)

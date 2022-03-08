@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 11:49:10 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:08:37 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "../libft/libft.h"
 # include "../mlx/mlx.h"
 
-#define EXIT_FAIL 1
 #define TILE_WIDTH 64
 #define N_IMAGES 19
 
@@ -106,8 +105,8 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-int		ft_exit_failure(char *s);
-int		close_win(t_game *game);
+int		exit_failure(char *s);
+int		stop_game(t_game *game);
 int		input(int key, t_game *game);
 void	mover(t_game *game, int dirtile, int x, int y);
 void	update_tiles(t_game *game, int x, int y, char c);
