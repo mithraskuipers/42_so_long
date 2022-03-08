@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/03/08 14:40:10 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/03/08 15:30:23 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME		= so_long
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
-#CFLAGS		= -Wall -fsanitize=address
 RM			= rm -f
 
 DIR_INC		= ./inc/
@@ -31,6 +30,7 @@ SRC =	sl_main.c \
 		sl_parser.c \
 		sl_check.c \
 		sl_sprites.c \
+		sl_draw.c \
 		sl_draw_statics.c \
 		sl_draw_dynamics.c \
 		sl_input.c \
@@ -57,8 +57,8 @@ clean:
 	$(RM) $(OBJ_FULLPATH)
 
 fclean:
-	#make -C $(DIR_LIBFT) fclean
-	#make -C $(DIR_MLX) fclean
+	make -C $(DIR_LIBFT) fclean
+	make -C $(DIR_MLX) fclean
 	$(RM) $(NAME) $(OBJ_FULLPATH)
 
 re: fclean all

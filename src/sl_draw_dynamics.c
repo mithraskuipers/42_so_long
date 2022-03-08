@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:20:02 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:28:56 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	mover(t_game *game, int dirtile, int x, int y)
 	update_surrounding(game, &game->map.player);
 }
 
-static void	update_tiles(t_game *game, int x, int y, char c)
+void	update_tiles(t_game *game, int x, int y, char c)
 {
 	if (game->map.map[y][x] == 'C')
 		game->map.content.ncollected++;

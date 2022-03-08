@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:10:07 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 15:28:34 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,31 +105,29 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-int		exit_failure(char *s);
-int		stop_game(t_game *game);
-int		input(int key, t_game *game);
-void	mover(t_game *game, int dirtile, int x, int y);
-void	update_tiles(t_game *game, int x, int y, char c);
-void	update_awareness(t_game *game, t_state *player);
-void	draw_player(t_game *game);
-void	draw_map(t_game *game);
-void	cell_player(t_game *game, int row, int col, t_state *player);
-void	map_failure(t_game *game, char *s);
-void	check_input_validity(int argc, char **argv);
-void	get_dim(t_game *game, int fd, char *tmp, int ret);
-void	cell_count_map_chars(t_game *game, int row, int col);
-void	map_count_check(t_game *game);
-void	map_presence_borders(t_game *game, int i, int j);
-void	read_map_into_memory(t_game *game, int row);
-void	parse_map(int argc, char **argv, t_game *game);
-void	xpm_init(t_game *game);
-void	load_xpm_sprites(t_game *game);
-void	cell_looper(t_game *game, void (*f)());
-void	cell_draw_walls(t_game *game, int row, int col);
-void	cell_draw_collectable(t_game *game, int row, int col);
-void	cell_player_pos(t_game *game, int row, int col);
-void	cell_draw_door(t_game *game, int row, int col);
-void	cell_draw_bg(t_game *game, int row, int col);
-void	cell_draw_corners(t_game *game, int row, int col);
+int			exit_failure(char *s);
+int			stop_game(t_game *game);
+int			input(int key, t_game *game);
+void		mover(t_game *game, int dirtile, int x, int y);
+void		update_surrounding(t_game *game, t_state *player);
+void		draw_player(t_game *game);
+void		draw_map(t_game *game);
+void		cell_player(t_game *game, int row, int col, t_state *player);
+void		map_failure(t_game *game, char *s);
+void		check_input_validity(int argc, char **argv);
+void		cell_count_map_chars(t_game *game, int row, int col);
+void		map_count_elements(t_game *game);
+void		map_presence_borders(t_game *game, int i, int j);
+void		parse_map(int argc, char **argv, t_game *game);
+void		xpm_init(t_game *game);
+void		load_xpm_sprites(t_game *game);
+void		cell_looper(t_game *game, void (*f)());
+void		cell_draw_walls(t_game *game, int row, int col);
+void		cell_draw_collectable(t_game *game, int row, int col);
+void		cell_player_pos(t_game *game, int row, int col);
+void		cell_draw_door(t_game *game, int row, int col);
+void		cell_draw_bg(t_game *game, int row, int col);
+void		cell_draw_corners(t_game *game, int row, int col);
+void		update_tiles(t_game *game, int x, int y, char c);
 
 #endif
