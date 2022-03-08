@@ -94,7 +94,7 @@ clean:
 	@/bin/rm -f a.out
 	@echo "$(GREEN)[libft] - Removed All Object Files.$(NOCOLOR)"
 
-fclean:    clean
+fclean: clean
 	@/bin/rm -f $(NAME)
 	@echo "$(GREEN)[libft] - Removed .a file and all .o files.$(NOCOLOR)"
 

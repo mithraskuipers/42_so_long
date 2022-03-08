@@ -116,7 +116,7 @@ void		cell_player(t_game *game, int row, int col, t_state *player);
 void		map_failure(t_game *game, char *s);
 void		check_input_validity(int argc, char **argv);
 void		cell_count_map_chars(t_game *game, int row, int col);
-void		map_count_elements(t_game *game);
+void		map_check_elements(t_game *game);
 void		map_presence_borders(t_game *game, int i, int j);
 void		parse_map(int argc, char **argv, t_game *game);
 void		xpm_init(t_game *game);

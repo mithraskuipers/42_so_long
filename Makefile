@@ -56,9 +56,9 @@ clean:
 	make -C $(DIR_MLX) clean
 	$(RM) $(OBJ_FULLPATH)
 
-fclean:
+fclean:	clean
 	make -C $(DIR_LIBFT) fclean
-	make -C $(DIR_MLX) fclean
+	make -C $(DIR_MLX) clean
 	$(RM) $(NAME) $(OBJ_FULLPATH)
 
 re: fclean all

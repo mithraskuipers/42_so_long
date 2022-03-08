@@ -18,6 +18,8 @@ void	check_input_validity(int argc, char **argv)
 
 	if (argc < 2)
 		exit_failure("Please provide a map.");
+	if (argc > 2)
+		exit_failure("Please provide a single map.");
 	if (!(ft_strnstr(argv[1], ".ber", ft_strlen(argv[1]))))
 		exit_failure("Please provide a map with .ber extension.");
 	fd = open(argv[1], O_RDONLY);
@@ -29,16 +31,16 @@ void	check_input_validity(int argc, char **argv)
 	close(fd);
 }
 
-void	map_count_elements(t_game *game)
+void	map_check_elements(t_game *game)
 {
 	if (game->map.content.players > 1)
-		exit_failure("Your map has more than 1 player spawnpoint.");
+		exit_failure("Your map requires 1 player spawnpoint.");
 	else if (game->map.content.players < 1)
-		exit_failure("Your map does not have 1 player spawnpoint.");
-	if (game->map.content.exits > 1)
-		exit_failure("Your map has more than 1 exit.");
-	else if (game->map.content.exits < 1)
-		exit_failure("Your map does not have 1 exit.");
+		exit_failure("Your map requires 1 player spawnpoint.");
+	if (game->map.content.exits < 1)
+		exit_failure("Your map requires at least 1 exit.");
+	if (game->map.content.ncollectables < 1)
+		exit_failure("Your map requires at least 1 collectable.");
 }
 
 void	map_presence_borders(t_game *game, int i, int j)

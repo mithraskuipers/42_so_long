@@ -14,6 +14,7 @@
 
 int	exit_failure(char *s)
 {
+	write(2, "Error\n", 6);
 	write(2, s, ft_strlen(s));
 	exit (EXIT_FAILURE);
 }

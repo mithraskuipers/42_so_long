@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	check_input_validity(argc, argv);
 	parse_map(argc, argv, game);
 	cell_looper(game, cell_count_map_chars);
-	map_count_elements(game);
+	map_check_elements(game);
 	cell_looper(game, map_presence_borders);
 	game->mlx.instance = mlx_init();
 	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
