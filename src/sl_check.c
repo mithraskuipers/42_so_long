@@ -1,72 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   so_long.c                                          :+:    :+:            */
+/*   sl_check.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 13:06:17 by mikuiper      ########   odam.nl         */
+/*   Created: 2022/03/08 14:35:57 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/03/08 14:36:13 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	main(int argc, char **argv)
-{
-	t_game	*game;
-
-	game = ft_calloc(1, sizeof(t_game));
-	if (!(game))
-		ft_exit_failure("Memory allocation issue.");
-	game->map.path = argv[1];
-	check_input_validity(argc, argv);
-	parse_map(argc, argv, game);
-	cell_looper(game, cell_count_map_chars);
-	map_count_check(game);
-	cell_looper(game, map_presence_borders);
-	game->mlx.instance = mlx_init();
-	game->mlx.win = mlx_new_window(game->mlx.instance, game->px_col, \
-	game->px_row, "Tamagotcha");
-	if (!(game->mlx.win))
-		ft_exit_failure("Could not create window");
-	xpm_init(game);
-	load_xpm_sprites(game);
-	draw_map(game);
-	mlx_key_hook(game->mlx.win, input, (void *)&game->mlx);
-	mlx_hook(game->mlx.win, 17, 0L, close_win, game);
-	mlx_loop(game->mlx.instance);
-	return (0);
-}
-
-int	input(int key, t_game *game)
-{
-	if (key == KEY_UP)
-	{
-		game->img[PLAYER].mlx_img = game->img[PLAYER_U].mlx_img;
-		mover(game, game->map.player.u, 0, -1);
-	}
-	else if (key == KEY_DOWN)
-	{
-		game->img[PLAYER].mlx_img = game->img[PLAYER_D].mlx_img;
-		mover(game, game->map.player.d, 0, 1);
-	}
-	else if (key == KEY_LEFT)
-	{
-		game->img[PLAYER].mlx_img = game->img[PLAYER_L].mlx_img;
-		mover(game, game->map.player.l, -1, 0);
-	}
-	else if (key == KEY_RIGHT)
-	{
-		game->img[PLAYER].mlx_img = game->img[PLAYER_R].mlx_img;
-		mover(game, game->map.player.r, 1, 0);
-	}
-	else if (key == ESC)
-		close_win(game);
-	mlx_clear_window(game->mlx.instance, game->mlx.win);
-	draw_map(game);
-	return (0);
-}
 
 void	check_input_validity(int argc, char **argv)
 {

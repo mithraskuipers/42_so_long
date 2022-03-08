@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/10 10:22:54 by mikuiper      #+#    #+#                 */
-/*   Updated: 2021/11/21 14:25:47 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:41:46 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	parse_format(char fs_char, va_list arg_list)
 	else if (fs_char == 'x')
 		nchars = (nchars + fs_x(arg_list));
 	else if (fs_char == 'X')
-		nchars = (nchars + fs_X(arg_list));
+		nchars = (nchars + fs_x_upper(arg_list));
 	else if (fs_char == '%')
 		nchars = (nchars + write(1, "%", 1));
 	else if (fs_char != '\0')

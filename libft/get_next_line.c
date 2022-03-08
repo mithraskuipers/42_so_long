@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 14:20:34 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/02/23 19:16:37 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:45:45 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char	*gnl_strjoin(char *s1, char *s2, int i, int j)
 	return (str);
 }
 
-int		pos_nl(const char *s)
+int	pos_nl(const char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\n' && s[i] != '\0')
@@ -51,8 +51,8 @@ int		pos_nl(const char *s)
 
 void	*buff_mover(char *src)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -67,6 +67,7 @@ void	*buff_mover(char *src)
 	}
 	return (src);
 }
+
 static int	buff_merge(char *buf, char **line, int ret, int fd)
 {
 	if (buf[0] == '\0')
@@ -93,7 +94,7 @@ static int	buff_merge(char *buf, char **line, int ret, int fd)
 	return (buff_merge(buf, line, ret, fd));
 }
 
-int		get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	static char	buf[OPEN_MAX][BUFFER_SIZE + 1];
 	int			ret;

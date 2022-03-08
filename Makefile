@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/14 17:20:22 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/03/08 13:16:59 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/03/08 14:40:10 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,15 @@ LIBFT_NAME = libft.a
 INC = -I include
 MLX_FLAGS = -L./mlx -lmlx -framework OpenGL -framework Appkit
 
-SRC =	so_long.c \
-		close.c \
-		draw_dynamics.c \
-		draw_statics.c \
-		cell.c \
-		parse_map.c \
-		xpm.c
+SRC =	sl_main.c \
+		sl_cell.c \
+		sl_parser.c \
+		sl_check.c \
+		sl_sprites.c \
+		sl_draw_statics.c \
+		sl_draw_dynamics.c \
+		sl_input.c \
+		sl_exit.c
 
 SRC_FULLPATH = $(addprefix $(DIR_SRC), $(SRC))
 LIBFT_FULLPATH = $(addprefix $(DIR_LIBFT), $(LIBFT_NAME))

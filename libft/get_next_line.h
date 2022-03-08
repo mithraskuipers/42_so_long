@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 14:20:38 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/02/21 14:46:34 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:46:06 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #  define BUFFER_SIZE 42
 # endif
 
-#include <unistd.h>
-#include <limits.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <limits.h>
+# include <stdlib.h>
 
 int		get_next_line(int fd, char **line);
 int		pos_nl(const char *s);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_printf.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/03/08 13:42:43 by mikuiper      #+#    #+#                 */
+/*   Updated: 2022/03/08 13:43:44 by mikuiper      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
@@ -16,7 +28,7 @@ int		fs_p(va_list arg_list);
 int		fs_di(va_list arg_list);
 int		fs_u(va_list arg_list);
 int		fs_x(va_list arg_list);
-int		fs_X(va_list arg_list);
+int		fs_x_upper(va_list arg_list);
 
 /* libft */
 size_t	ft_strlen(const char *s);

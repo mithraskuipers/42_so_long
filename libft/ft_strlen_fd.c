@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/16 12:25:17 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/01/16 12:28:54 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:44:40 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strlen_fd(int fd)
 	buff[0] = '\0';
 	nbytes = 1;
 	len = 0;
-	while(nbytes)
+	while (nbytes)
 	{
 		nbytes = read(fd, buff, 1);
 		if (buff[0] != '\n')
@@ -30,7 +30,7 @@ int	ft_strlen_fd(int fd)
 		}
 		else
 		{
-			break;
+			break ;
 		}
 	}
 	return (len);

@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/11/19 15:17:02 by mikuiper      #+#    #+#                 */
-/*   Updated: 2021/11/21 14:20:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/08 13:41:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	fs_x(va_list arg_list)
 	return (len);
 }
 
-int	fs_X(va_list arg_list)
+int	fs_x_upper(va_list arg_list)
 {
 	unsigned int	arg;
 	char			*s;
