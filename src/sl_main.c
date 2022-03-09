@@ -33,5 +33,6 @@ int	main(int argc, char **argv)
 	mlx_key_hook(game->mlx.win, parse_input, (void *)&game->mlx);
 	mlx_hook(game->mlx.win, 17, 0L, stop_game, game);
 	mlx_loop(game->mlx.instance);
+
 	return (0);
 }
