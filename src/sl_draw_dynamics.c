@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 21:37:08 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 21:41:29 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	mover(t_game *game, int dirtile, int x, int y)
 			game->map.content.nsteps++;
 			ft_printf("You moved %d times.\n", game->map.content.nsteps);
 			ft_printf("You won the game!\n");
-			exit(1);
+			exit(EXIT_SUCCESS);
 		}
 		else
 			return ;
