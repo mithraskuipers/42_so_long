@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 11:38:46 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:11:59 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 21:23:14 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int	main(int argc, char **argv)
 	mlx_hook(game->mlx.win, 17, 0L, stop_game, game);
 	mlx_loop(game->mlx.instance);
 
+	system("leaks so_long");
 	return (0);
 }

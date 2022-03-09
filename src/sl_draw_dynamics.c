@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:28:56 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 21:28:46 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,12 @@ void	mover(t_game *game, int dirtile, int x, int y)
 	if (dirtile == 'E')
 	{
 		if (game->map.content.ncollected == game->map.content.ncollectables)
+		{
+			game->map.content.nsteps++;
+			ft_printf("You moved %d times.\n", game->map.content.nsteps);
+			ft_printf("You won the game!\n");
 			exit(1);
+		}
 		else
 			return ;
 	}

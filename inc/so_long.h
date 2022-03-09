@@ -6,17 +6,17 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 12:38:40 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 21:22:25 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG
 #define SO_LONG
 
-# include <stdio.h>
-# include <fcntl.h>
-# include "../libft/libft.h"
-# include "../mlx/mlx.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include "../libft/libft.h"
+#include "../mlx/mlx.h"
 
 #define TILE_WIDTH 64
 #define N_IMAGES 19
