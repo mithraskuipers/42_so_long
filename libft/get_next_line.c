@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 14:20:34 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 13:45:45 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 22:43:04 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 char	*gnl_strjoin(char *s1, char *s2, int i, int j)
 {
-	char	*str;
+	char	*s_new;
 
 	if ((!(s1)) || (!(s2)))
 		return (NULL);
-	str = malloc(sizeof(char) * (pos_nl(s1) + pos_nl(s2) + 1));
-	if (!str)
+	s_new = malloc(sizeof(char) * (pos_nl(s1) + pos_nl(s2) + 1));
+	if (!s_new)
 	{
 		free(s1);
 		return (NULL);
 	}
 	while (s1[i] != '\0')
 	{
-		str[i] = s1[i];
+		s_new[i] = s1[i];
 		i++;
 	}
 	while (s2[j] != '\0' && s2[j] != '\n')
 	{
-		str[i + j] = s2[j];
+		s_new[i + j] = s2[j];
 		j++;
 	}
 	free(s1);
-	str[i + j] = '\0';
-	return (str);
+	s_new[i + j] = '\0';
+	return (s_new);
 }
 
 int	pos_nl(const char *s)
@@ -68,46 +68,46 @@ void	*buff_mover(char *src)
 	return (src);
 }
 
-static int	buff_merge(char *buf, char **line, int ret, int fd)
+static int	buff_merge(char *buff, char **dp, int ret, int fd)
 {
-	if (buf[0] == '\0')
+	if (buff[0] == '\0')
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
+		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret < 0)
 		{
-			free(*line);
+			free(*dp);
 			return (-1);
 		}
 		else if (ret == 0)
 			return (0);
-		buf[ret] = '\0';
+		buff[ret] = '\0';
 	}
-	*line = gnl_strjoin(*line, buf, 0, 0);
-	if (!*line)
+	*dp = gnl_strjoin(*dp, buff, 0, 0);
+	if (!(*dp))
 		return (-1);
-	if (buf[pos_nl(buf)] == '\n')
+	if (buff[pos_nl(buff)] == '\n')
 	{
-		buff_mover(buf);
+		buff_mover(buff);
 		return (1);
 	}
-	buf[0] = '\0';
-	return (buff_merge(buf, line, ret, fd));
+	buff[0] = '\0';
+	return (buff_merge(buff, dp, ret, fd));
 }
 
-int	get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **dp)
 {
-	static char	buf[OPEN_MAX][BUFFER_SIZE + 1];
+	static char	buff[OPEN_MAX][BUFFER_SIZE + 1];
 	int			ret;
 
-	if ((!line) || (fd < 0) || (BUFFER_SIZE <= 0) || (read(fd, 0, 0) < 0))
+	if ((!dp) || (fd < 0) || (BUFFER_SIZE <= 0) || (read(fd, 0, 0) < 0))
 		return (-1);
-	*line = malloc(sizeof(char));
-	if (!*line)
+	*dp = malloc(sizeof(char));
+	if (!*dp)
 		return (-1);
-	*line[0] = '\0';
+	*dp[0] = '\0';
 	ret = 0;
-	ret = buff_merge(buf[fd], line, ret, fd);
+	ret = buff_merge(buff[fd], dp, ret, fd);
 	if (ret == -1)
-		*line = NULL;
+		*dp = NULL;
 	return (ret);
 }
