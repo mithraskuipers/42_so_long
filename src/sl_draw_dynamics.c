@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:37:50 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 21:28:46 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 21:37:08 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	mover(t_game *game, int dirtile, int x, int y)
 	game->map.content.nsteps++;
 	ft_printf("You moved %d times.\n", game->map.content.nsteps);
 	update_tiles(game, game->map.player.x, game->map.player.y, '0');
-	update_tiles(game, (game->map.player.x + x), (game->map.player.y + y), 'P');
 	game->map.player.y = game->map.player.y + y;
 	game->map.player.x = game->map.player.x + x;
 	update_surrounding(game, &game->map.player);
