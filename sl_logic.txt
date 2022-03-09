@@ -31,14 +31,25 @@ read_map_into_mem()
 	For each row, run get_next_line() to read the map data.
 	Close the map fd.
 
-cell_check()
+cell_loop()
+	Function that loops over each cell in the map. Inside, it calls another
+	function that has been passed as an argument.
+
+	It is used to check the contents of the map.
 
 store_xpm_paths()
+	Simple function to store the paths to the .xpm files.
 
 load_xpm()
+	Simple function that prepares the mlx to work with the .xpm files
+	with mlx_xpm_file_to_image(). Later images are drawn with mlx_put_image_to_window().
 
 draw_map()
+	Function iterates over each cell in the map, and then calls separate drawing
+	functions. The drawing functions check for specific characters and act accordingly.
 
 parse_input()
+	Checks the user input and acts accordingly with mover().
 
 stop_game()
+	Calls mlx_destroy_window() and runs exit().

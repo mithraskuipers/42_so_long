@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 14:02:24 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:28:06 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 11:08:55 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	parse_map(t_game *game)
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_mem(game);
-	cell_check(game, check_char_validity);
-	cell_check(game, count_chars);
+	cell_loop(game, check_char_validity);
+	cell_loop(game, count_chars);
 	check_char_count(game);
-	cell_check(game, check_borders);
+	cell_loop(game, check_borders);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cell.c                                             :+:    :+:            */
+/*   sl_cell.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/07 12:59:17 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 11:39:54 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 11:08:55 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	cell_check(t_game *game, void (*f)())
+void	cell_loop(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;

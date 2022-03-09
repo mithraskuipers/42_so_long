@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:28:34 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 11:08:55 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	check_borders(t_game *game, int i, int j);
 void	parse_map(t_game *game);
 void	store_xpm_paths(t_game *game);
 void	load_xpm(t_game *game);
-void	cell_check(t_game *game, void (*f)());
+void	cell_loop(t_game *game, void (*f)());
 void	cell_draw_walls(t_game *game, int row, int col);
 void	cell_draw_collectable(t_game *game, int row, int col);
 void	cell_player_pos(t_game *game, int row, int col);
