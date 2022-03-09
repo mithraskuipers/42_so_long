@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 11:08:55 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 12:38:40 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ typedef	struct	s_game
 	int			**walked_map;
 }				t_game;
 
-int		exit_failure(char *s);
 int		stop_game(t_game *game);
 int		parse_input(int key, t_game *game);
+void	exit_failure(char *s);
 void	mover(t_game *game, int dirtile, int x, int y);
 void	update_surrounding(t_game *game, t_state *player);
 void	draw_player(t_game *game);

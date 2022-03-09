@@ -6,13 +6,13 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 17:56:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/08 15:10:09 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/09 12:37:19 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	exit_failure(char *s)
+void	exit_failure(char *s)
 {
 	write(2, "Error\n", 6);
 	write(2, s, ft_strlen(s));
