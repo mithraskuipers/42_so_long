@@ -1,0 +1,44 @@
+main()
+	I created a struct that contains all game data.
+		E.g. map, number of collectables, player position
+	Initialize all variables in this struct using ft_calloc().
+	Get the map path.
+	Check arg input validity with check_input_validity().
+	Read in the map with parse_map().
+	Initialize the graphics library and create a Window with mlx_init().
+	Store the paths to the game images with store_xpm_paths().
+	Per image configure its data using mlx_xpm_file_to_image() and store in struct with load_xpm().
+	Draw the map with draw_map().
+	Check for user input using mlx_key_hook(). If found, parse using input().
+	Check whether user closed the Window using red button. If so, stop game using stop_game().
+	Put game stuck in a loop using mlx_loop().
+
+check_input_validity()
+	Checks whether right amount of arguments were provided.
+	Checks whether the filename includes ".ber" somewhere.
+	Checks whether the file ends with .ber extension.
+	Checks whether the inputted map can be opened.
+
+parse_map()
+	Opens the map with open().
+	Obtains the map dimensions with get_dim().
+	Calculates the pixel lengths for the width and height of the Window.
+	Reads map into memory with read_map_into_mem().
+
+read_map_into_mem()
+	Opens the map with open().
+	Allocates memory for a new char * for each row in the map.
+	For each row, run get_next_line() to read the map data.
+	Close the map fd.
+
+cell_check()
+
+store_xpm_paths()
+
+load_xpm()
+
+draw_map()
+
+parse_input()
+
+stop_game()

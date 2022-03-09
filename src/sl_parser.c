@@ -76,8 +76,8 @@ void	parse_map(t_game *game)
 	game->px_row = game->map.ntiles_rows * TILE_WIDTH;
 	game->px_col = game->map.ntiles_cols * TILE_WIDTH;
 	read_map_into_mem(game);
-	cell_looper(game, check_char_validity);
-	cell_looper(game, count_chars);
+	cell_check(game, check_char_validity);
+	cell_check(game, count_chars);
 	check_char_count(game);
-	cell_looper(game, check_borders);
+	cell_check(game, check_borders);
 }

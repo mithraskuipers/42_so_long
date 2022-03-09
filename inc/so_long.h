@@ -121,7 +121,7 @@ void	check_borders(t_game *game, int i, int j);
 void	parse_map(t_game *game);
 void	store_xpm_paths(t_game *game);
 void	load_xpm(t_game *game);
-void	cell_looper(t_game *game, void (*f)());
+void	cell_check(t_game *game, void (*f)());
 void	cell_draw_walls(t_game *game, int row, int col);
 void	cell_draw_collectable(t_game *game, int row, int col);
 void	cell_player_pos(t_game *game, int row, int col);

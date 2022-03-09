@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-void	cell_looper(t_game *game, void (*f)())
+void	cell_check(t_game *game, void (*f)())
 {
 	int	row;
 	int	col;
