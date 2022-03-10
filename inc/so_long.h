@@ -6,47 +6,47 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 13:13:32 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 21:22:25 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/10 11:39:47 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG
-#define SO_LONG
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
-#include <stdio.h>
-#include <fcntl.h>
-#include "../libft/libft.h"
-#include "../mlx/mlx.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+# include "../mlx/mlx.h"
 
-#define TILE_WIDTH 64
-#define N_IMAGES 19
+# define TILE_WIDTH 64
+# define N_IMAGES 19
 
-#define KEY_UP 13
-#define KEY_DOWN 1
-#define KEY_LEFT 0
-#define KEY_RIGHT 2
-#define RESET 15
-#define ESC 53
+# define KEY_UP 13
+# define KEY_DOWN 1
+# define KEY_LEFT 0
+# define KEY_RIGHT 2
+# define RESET 15
+# define ESC 53
 
-#define BG 0
-#define PLAYER 1
-#define PLAYER_L 2
-#define PLAYER_R 3
-#define PLAYER_U 4
-#define PLAYER_D 5
-#define COLLECTABLE 6
-#define EXIT 7
-#define WALL_U 8
-#define WALL_D 9
-#define WALL_L 10
-#define WALL_R 11
-#define WALL_UL 12
-#define WALL_UR 13
-#define WALL_LL 14
-#define WALL_LR 15
-#define DOOR_C 16
-#define DOOR_O 17
-#define STONE 18
+# define BG 0
+# define PLAYER 1
+# define PLAYER_L 2
+# define PLAYER_R 3
+# define PLAYER_U 4
+# define PLAYER_D 5
+# define COLLECTABLE 6
+# define EXIT 7
+# define WALL_U 8
+# define WALL_D 9
+# define WALL_L 10
+# define WALL_R 11
+# define WALL_UL 12
+# define WALL_UR 13
+# define WALL_LL 14
+# define WALL_LR 15
+# define DOOR_C 16
+# define DOOR_O 17
+# define STONE 18
 
 typedef struct s_mlx
 {
@@ -54,7 +54,7 @@ typedef struct s_mlx
 	void		*win;
 }				t_mlx;
 
-typedef struct	s_content
+typedef struct s_content
 {
 	int	players;
 	int	ncollectables;
@@ -64,18 +64,18 @@ typedef struct	s_content
 	int	nsteps;
 }				t_content;
 
-typedef struct	s_state
+typedef struct s_state
 {
 	int	x;
 	int	y;
-	int u;
-	int d;
-	int l;
-	int r;
-	int dir;
+	int	u;
+	int	d;
+	int	l;
+	int	r;
+	int	dir;
 }				t_state;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	t_content	content;
 	char		*path;
@@ -86,16 +86,15 @@ typedef struct	s_map
 	int			ntiles_rows;
 }				t_map;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	char	*path;
 	void	*mlx_img;
-
-	int 	width;
+	int		width;
 	int		height;
 }				t_img;
 
-typedef	struct	s_game
+typedef struct s_game
 {
 	t_mlx		mlx;
 	t_map		map;

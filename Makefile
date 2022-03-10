@@ -6,7 +6,7 @@
 #    By: mikuiper <mikuiper@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/03/09 19:49:21 by mikuiper      #+#    #+#                  #
-#    Updated: 2022/03/09 21:52:52 by mikuiper      ########   odam.nl          #
+#    Updated: 2022/03/10 11:42:11 by mikuiper      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,8 +47,6 @@ SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LST))
 DIR_OBJ = obj/
 LST_OBJ = $(patsubst %.c, %.o, $(SRCS_LST))
 OBJ_PATHS = $(addprefix $(DIR_OBJ), $(LST_OBJ))
-
-# COLORS
 
 GREEN = \033[0;32m
 RED = \033[0;31m
