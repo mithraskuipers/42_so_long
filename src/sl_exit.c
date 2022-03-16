@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/21 17:56:01 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/09 21:50:04 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/10 12:48:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ void	exit_failure(char *s)
 {
 	write(2, "Error\n", 6);
 	write(2, s, ft_strlen(s));
+	system("leaks so_long");
 	exit (EXIT_FAILURE);
 }
 
 int	stop_game(t_game *game)
 {
+	system("leaks so_long");
 	mlx_destroy_window(game->mlx.instance, game->mlx.win);
 	exit(EXIT_SUCCESS);
 	return (1);
