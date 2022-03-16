@@ -6,7 +6,7 @@
 /*   By: mikuiper <mikuiper@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/03/08 15:15:57 by mikuiper      #+#    #+#                 */
-/*   Updated: 2022/03/10 14:22:53 by mikuiper      ########   odam.nl         */
+/*   Updated: 2022/03/16 13:39:01 by mikuiper      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	draw_map(t_game *game)
 			cell_draw_door(game, row, col);
 			cell_draw_walls(game, row, col);
 			cell_draw_corners(game, row, col);
-			//cell_player_pos(game, row, col);
+			cell_player_pos(game, row, col);
 			col++;
 		}
 		row++;
