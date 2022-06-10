@@ -31,11 +31,16 @@
 <tr>
 <td>External functs.</td>
 <td>
-* open, close, read, write, malloc, free, perror, strerror, exit
-* All functions of the math library (-lm compiler option, man man 3 math)
-* All functions of the MiniLibX
-* ft_printf and any equivalent YOU coded
-  </td>
+open, close, read, write, malloc, free, perror, strerror, exit
+All functions of the math library (-lm compiler option, man man 3 math)
+All functions of the MiniLibX
+ft_printf and any equivalent YOU coded
+<ul style=“list-style-type:square”>
+<li>First Item</li>
+<li>Second Item</li>
+<li>Third Item</li>
+</ul>
+</td>
 </tr>
 <tr>
 <td>Libft authorized</td>
