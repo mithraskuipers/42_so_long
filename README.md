@@ -18,7 +18,7 @@
 <tbody>
 <tr>
 <td>Program name</td>
-<td>so_longa</td>
+<td>so_long</td>
 </tr>
 <tr>
 <td>Turn in files</td>
@@ -26,7 +26,7 @@
 </tr>
 <tr>
 <td>Makefile</td>
-<td>NAME, all, clean, fclean, re</td>
+  <td><code>NAME, all, clean, fclean, re</code></td>
 </tr>
 <tr>
 <td>External functs.</td>
