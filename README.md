@@ -35,7 +35,7 @@
 <li><code>open, close, read, write, malloc, free, perror, strerror, exit</code></li>
 <li>All functions of the <code>math</code> library (-lm compiler option, man man 3 math)</li>
 <li>All functions of the <code>MiniLibX</code></li>
-<li>ft_printf and any equivalent YOU coded
+<li><code>ft_printf</code> and any equivalent YOU coded
 </li>
 </ul>
 </td>
