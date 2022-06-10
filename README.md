@@ -32,9 +32,9 @@
 <td>External functs.</td>
 <td>
 <ul style=“list-style-type:square”>
-<li>open, close, read, write, malloc, free, perror, strerror, exit</li>
-<li>All functions of the math library (-lm compiler option, man man 3 math)</li>
-<li>All functions of the MiniLibX</li>
+<li><code>open, close, read, write, malloc, free, perror, strerror, exit</code></li>
+<li>All functions of the <code>math</code> library (-lm compiler option, man man 3 math)</li>
+<li>All functions of the <code>MiniLibX</code></li>
 <li>ft_printf and any equivalent YOU coded
 </li>
 </ul>
