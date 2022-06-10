@@ -46,7 +46,7 @@
 </tr>
 <tr>
 <td>Description</td>
-<td>Write a library that contains ft_printf(), a function that will mimic the original printf()</td>
+<td>You must create a basic 2D game in which a dolphin escapes Earth after eating some fish. Instead of a dolphin, fish, and the Earth, you can use any character, any collectible and any place you want.</td>
 </tr>
 </tbody>
 </table>
