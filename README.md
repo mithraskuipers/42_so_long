@@ -18,11 +18,11 @@
 <tbody>
 <tr>
 <td>Program name</td>
-<td>so_long</td>
+<td><code>so_long</code></td>
 </tr>
 <tr>
 <td>Turn in files</td>
-<td>Makefile, *.h, *.c, maps</td>
+<td><code>Makefile, *.h, *.c, maps</code></td>
 </tr>
 <tr>
 <td>Makefile</td>
